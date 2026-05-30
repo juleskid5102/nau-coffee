@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Liên Hệ - Nâu Coffee</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&amp;family=Playfair+Display:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        background: "#1A1208",
+                        surface: "#2D2418",
+                        primary: "#F5ECD7",
+                        secondary: "#8A7E6E",
+                        accent: "#C4903D",
+                        error: "#C44D3D",
+                        success: "#6B8C42"
+                    },
+                    fontFamily: {
+                        headline: ["Playfair Display", "serif"],
+                        body: ["Outfit", "sans-serif"],
+                        label: ["Outfit", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #1A1208;
+            color: #F5ECD7;
+            font-family: 'Outfit', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6, .font-headline {
+            font-family: 'Playfair Display', serif;
+        }
+    </style>
+</head>
+<body class="bg-background text-primary antialiased min-h-screen flex flex-col pt-[72px]">
+<!-- TopNavBar -->
+<nav class="bg-[#1A1208] dark:bg-[#1A1208] border-b border-[#2D2418] shadow-sm fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 max-w-7xl mx-auto h-[72px] right-0">
+<div class="font-['Playfair_Display'] text-2xl font-bold text-[#F5ECD7]">
+            Nâu Coffee
+        </div>
+<div class="hidden md:flex space-x-8">
+<a class="text-[#F5ECD7] font-medium font-['Outfit'] uppercase tracking-[0.1em] hover:text-[#C4903D] transition-colors duration-300" href="#">Trang Chủ</a>
+<a class="text-[#F5ECD7] font-medium font-['Outfit'] uppercase tracking-[0.1em] hover:text-[#C4903D] transition-colors duration-300" href="#">Menu</a>
+<a class="text-[#F5ECD7] font-medium font-['Outfit'] uppercase tracking-[0.1em] hover:text-[#C4903D] transition-colors duration-300" href="#">Giới Thiệu</a>
+<a class="text-[#F5ECD7] font-medium font-['Outfit'] uppercase tracking-[0.1em] hover:text-[#C4903D] transition-colors duration-300" href="#">Không Gian</a>
+<a class="text-[#C4903D] font-semibold border-b-2 border-[#C4903D] pb-1 font-['Outfit'] uppercase tracking-[0.1em] hover:text-[#C4903D] transition-colors duration-300" href="#">Liên Hệ</a>
+</div>
+<button class="bg-accent text-background px-6 py-2 rounded-lg font-['Outfit'] font-medium hover:-translate-y-[2px] transition-transform duration-200 hover:bg-opacity-90">
+            Đặt Món
+        </button>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-7xl mx-auto px-4 md:px-8 py-16 lg:py-24">
+<!-- Split Section -->
+<div class="flex flex-col lg:flex-row gap-16 lg:gap-24 mb-24">
+<!-- Left Side: Contact Info & Form -->
+<div class="lg:w-[45%] flex flex-col justify-center">
+<h1 class="font-headline text-5xl lg:text-6xl text-primary mb-4 font-bold tracking-tight">Liên Hệ</h1>
+<p class="font-body text-secondary text-lg mb-10 font-light">Chúng tôi luôn sẵn lòng lắng nghe bạn.</p>
+<!-- Contact Details -->
+<div class="space-y-6 mb-12">
+<div class="flex items-start gap-4 group">
+<span class="material-symbols-outlined text-secondary group-hover:text-accent transition-colors mt-1">location_on</span>
+<div>
+<p class="font-label text-xs uppercase tracking-widest text-secondary mb-1">Địa chỉ</p>
+<p class="font-body text-primary font-light">123 Nguyễn Huệ, Quận 1, TP.HCM</p>
+</div>
+</div>
+<div class="flex items-start gap-4 group">
+<span class="material-symbols-outlined text-secondary group-hover:text-accent transition-colors mt-1">call</span>
+<div>
+<p class="font-label text-xs uppercase tracking-widest text-secondary mb-1">Điện thoại</p>
+<p class="font-body text-primary font-light">090 123 45 67</p>
+</div>
+</div>
+<div class="flex items-start gap-4 group">
+<span class="material-symbols-outlined text-secondary group-hover:text-accent transition-colors mt-1">mail</span>
+<div>
+<p class="font-label text-xs uppercase tracking-widest text-secondary mb-1">Email</p>
+<p class="font-body text-primary font-light">hello@naucoffee.vn</p>
+</div>
+</div>
+<div class="flex items-start gap-4 group">
+<span class="material-symbols-outlined text-secondary group-hover:text-accent transition-colors mt-1">schedule</span>
+<div>
+<p class="font-label text-xs uppercase tracking-widest text-secondary mb-1">Giờ mở cửa</p>
+<p class="font-body text-primary font-light">7:00 — 22:00, Tất cả các ngày</p>
+</div>
+</div>
+</div>
+<!-- Contact Form -->
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-label text-xs uppercase tracking-widest text-secondary mb-2" for="name">Họ &amp; Tên</label>
+<input class="w-full bg-surface border border-secondary text-primary rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all font-body font-light placeholder-secondary/50" id="name" placeholder="Nguyễn Văn A" type="text"/>
+</div>
+<div>
+<label class="block font-label text-xs uppercase tracking-widest text-secondary mb-2" for="email">Email</label>
+<input class="w-full bg-surface border border-secondary text-primary rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all font-body font-light placeholder-secondary/50" id="email" placeholder="email@example.com" type="email"/>
+</div>
+</div>
+<div>
+<label class="block font-label text-xs uppercase tracking-widest text-secondary mb-2" for="subject">Chủ Đề</label>
+<select class="w-full bg-surface border border-secondary text-primary rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all font-body font-light appearance-none" id="subject">
+<option value="gop_y">Góp ý</option>
+<option value="hop_tac">Hợp tác</option>
+<option value="dat_cho">Đặt chỗ</option>
+<option value="khac">Khác</option>
+</select>
+</div>
+<div>
+<label class="block font-label text-xs uppercase tracking-widest text-secondary mb-2" for="message">Nội Dung</label>
+<textarea class="w-full bg-surface border border-secondary text-primary rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all font-body font-light placeholder-secondary/50 resize-none" id="message" placeholder="Hãy viết tin nhắn của bạn ở đây..." rows="4"></textarea>
+</div>
+<button class="w-full md:w-auto px-8 py-4 bg-accent text-background font-label font-semibold rounded-lg hover:-translate-y-1 hover:bg-opacity-90 transition-all duration-300 shadow-[0_4px_14px_0_rgba(196,144,61,0.39)] uppercase tracking-wider" type="button">
+                        Gửi Liên Hệ
+                    </button>
+</form>
+</div>
+<!-- Right Side: Image -->
+<div class="lg:w-[55%] h-[500px] lg:h-auto rounded-2xl overflow-hidden relative group">
+<img alt="Nâu Coffee Interior" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida/ADBb0uiywoSOE1n7y0fCMCxaCUjoYl6oSRlw2AdesuHWbXh1tBOQOuJWHb1XFPswp5_WPbq8lnWfv_HgcJ_P0U6itAzAz7uGkyc0HLEyzLiAlmM5pE49BNTJ72oOyo50WGmXSjo3eB2eA2cyuXv62IPw0Mlu3XAUkEvnQ8ZI-4YzGgcbXFpd4RpkjJB_egGOeRHhG8XzPYb9l0l8XY7xDE1e7Pr9XjrAwMOFAtqBAZbFl7mnppjcPaNIVArQdi8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"></div>
+</div>
+</div>
+<!-- Social Media Row -->
+<div class="flex justify-center items-center gap-8 mb-16">
+<a aria-label="Facebook" class="text-secondary hover:text-accent transition-colors duration-300" href="#">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">public</span>
+</a>
+<a aria-label="Instagram" class="text-secondary hover:text-accent transition-colors duration-300" href="#">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">photo_camera</span>
+</a>
+<a aria-label="TikTok" class="text-secondary hover:text-accent transition-colors duration-300" href="#">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+</a>
+</div>
+<!-- Map Section -->
+<div class="w-full h-[400px] rounded-2xl overflow-hidden relative border border-surface bg-surface flex items-center justify-center">
+<div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=2000&amp;q=80')] bg-cover bg-center opacity-30 grayscale" data-alt="A dark, moody, minimalist map view of Ho Chi Minh City, Vietnam. The map features a deep espresso dark color palette with subtle warm stone streets and caramel gold highlights indicating main roads. A glowing, stylized location pin marks a spot in District 1, casting a soft glow on the surrounding map surface, emphasizing a premium, sophisticated aesthetic." data-location="Ho Chi Minh City, Vietnam" style=""></div>
+<div class="relative z-10 flex flex-col items-center">
+<span class="material-symbols-outlined text-5xl text-accent drop-shadow-lg mb-2 animate-bounce" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<p class="font-headline text-xl text-primary drop-shadow-md">Nâu Coffee</p>
+<p class="font-body text-sm text-secondary font-light">123 Nguyễn Huệ, Quận 1</p>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#1A1208] dark:bg-[#1A1208] border-t border-[#2D2418] full-width py-12 flex flex-col md:flex-row justify-between items-center px-8 max-w-7xl mx-auto w-full mt-auto">
+<div class="font-['Playfair_Display'] text-xl text-[#F5ECD7] mb-6 md:mb-0">
+            Nâu Coffee
+        </div>
+<div class="flex flex-col md:flex-row gap-4 md:gap-8 mb-6 md:mb-0 items-center text-center">
+<a class="font-['Outfit'] uppercase tracking-widest text-xs text-[#8A7E6E] hover:text-[#F5ECD7] transition-all" href="#">Chính sách bảo mật</a>
+<a class="font-['Outfit'] uppercase tracking-widest text-xs text-[#8A7E6E] hover:text-[#F5ECD7] transition-all" href="#">Điều khoản sử dụng</a>
+<a class="font-['Outfit'] uppercase tracking-widest text-xs text-[#8A7E6E] hover:text-[#F5ECD7] transition-all" href="#">Tuyển dụng</a>
+</div>
+<div class="font-['Outfit'] text-sm font-light text-[#8A7E6E]">
+            © 2024 Nâu Coffee. All rights reserved.
+        </div>
+</footer>
+</body></html>

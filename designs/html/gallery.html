@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Không Gian Nâu - Nâu Coffee</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#1A1208',
+                        surface: '#2D2418',
+                        primary: '#F5ECD7',
+                        secondary: '#8A7E6E',
+                        accent: '#C4903D',
+                        error: '#C44D3D',
+                        success: '#6B8C42'
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Playfair Display", "serif"],
+                        display: ["Playfair Display", "serif"],
+                        body: ["Outfit", "sans-serif"],
+                        label: ["Outfit", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #1A1208;
+            color: #F5ECD7;
+            font-family: 'Outfit', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6, .font-headline {
+            font-family: 'Playfair Display', serif;
+        }
+        .masonry-grid {
+            column-count: 1;
+            column-gap: 1.5rem;
+        }
+        @media (min-width: 768px) {
+            .masonry-grid {
+                column-count: 2;
+            }
+        }
+        @media (min-width: 1024px) {
+            .masonry-grid {
+                column-count: 3;
+            }
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1.5rem;
+        }
+        .gallery-overlay {
+            background: linear-gradient(to top, rgba(26, 18, 8, 0.9) 0%, rgba(26, 18, 8, 0) 100%);
+        }
+    </style>
+</head>
+<body class="bg-background text-primary antialiased pt-[72px]">
+<!-- TopNavBar -->
+<nav aria-label="Main Navigation" class="bg-[#1A1208] dark:bg-[#1A1208] border-b border-[#2D2418] shadow-sm fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 max-w-7xl mx-auto docked full-width top-0 h-[72px]">
+<div class="font-['Playfair_Display'] text-2xl font-bold text-[#F5ECD7]">
+            Nâu Coffee
+        </div>
+<div class="hidden md:flex space-x-8">
+<a class="text-[#F5ECD7] font-medium font-['Outfit'] uppercase tracking-[0.1em] hover:text-[#C4903D] transition-colors duration-300" href="#">Trang Chủ</a>
+<a class="text-[#F5ECD7] font-medium font-['Outfit'] uppercase tracking-[0.1em] hover:text-[#C4903D] transition-colors duration-300" href="#">Menu</a>
+<a class="text-[#F5ECD7] font-medium font-['Outfit'] uppercase tracking-[0.1em] hover:text-[#C4903D] transition-colors duration-300" href="#">Giới Thiệu</a>
+<a class="text-[#C4903D] font-semibold border-b-2 border-[#C4903D] pb-1 font-['Outfit'] uppercase tracking-[0.1em] translate-y-[-2px] transition-transform duration-200" href="#">Không Gian</a>
+<a class="text-[#F5ECD7] font-medium font-['Outfit'] uppercase tracking-[0.1em] hover:text-[#C4903D] transition-colors duration-300" href="#">Liên Hệ</a>
+</div>
+<div>
+<a class="bg-accent text-background px-6 py-2 rounded-lg font-['Outfit'] font-medium uppercase tracking-[0.1em] hover:bg-opacity-90 hover:-translate-y-[2px] transition-all duration-300" href="#">Đặt Món</a>
+</div>
+</nav>
+<!-- Page Header -->
+<header class="h-[30vh] min-h-[300px] flex flex-col justify-center px-8 max-w-7xl mx-auto w-full pt-16">
+<h1 class="font-headline text-5xl md:text-7xl font-bold mb-4 tracking-tight">Không Gian Nâu</h1>
+<p class="font-body font-light text-xl text-secondary max-w-2xl">Nơi mỗi góc đều kể câu chuyện riêng.</p>
+</header>
+<!-- Gallery Grid -->
+<main class="px-8 max-w-7xl mx-auto w-full py-16">
+<div class="masonry-grid">
+<!-- Item 1: Barista at work -->
+<div class="masonry-item relative group overflow-hidden rounded-2xl cursor-pointer">
+<img alt="Barista at work" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida/ADBb0uiywoSOE1n7y0fCMCxaCUjoYl6oSRlw2AdesuHWbXh1tBOQOuJWHb1XFPswp5_WPbq8lnWfv_HgcJ_P0U6itAzAz7uGkyc0HLEyzLiAlmM5pE49BNTJ72oOyo50WGmXSjo3eB2eA2cyuXv62IPw0Mlu3XAUkEvnQ8ZI-4YzGgcbXFpd4RpkjJB_egGOeRHhG8XzPYb9l0l8XY7xDE1e7Pr9XjrAwMOFAtqBAZbFl7mnppjcPaNIVArQdi8"/>
+<div class="absolute inset-0 gallery-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+<span class="font-label uppercase tracking-widest text-sm text-primary">Quầy Pha Chế</span>
+</div>
+</div>
+<!-- Item 2: Roasting process -->
+<div class="masonry-item relative group overflow-hidden rounded-2xl cursor-pointer">
+<img alt="Roasting process" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida/ADBb0uir5vGQF24IwfoqisQ89edfv8Qtmk1bOf6GCifa7c4uAjAUaLlv9NLrOUoGU7Lh6vu5CbF-l6GzL2DziouGQyYivPqoUCBLUDpqWiHTlVR6bTgeF33f_1C5xDa3NEVJaJLDs9WzOUMwLOxLULVX0IywJQt3KkvTltCYAOXNuJVJvnZ4SZLu-axVyUOJa66fJjuH3vV_PveSl3vCxgItzQjbtey4GDB8ehiLTazFZVwfhA5sEd_pFwmsTQ"/>
+<div class="absolute inset-0 gallery-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+<span class="font-label uppercase tracking-widest text-sm text-primary">Xưởng Rang</span>
+</div>
+</div>
+<!-- Item 3: Coffee beans (Square-ish) -->
+<div class="masonry-item relative group overflow-hidden rounded-2xl cursor-pointer">
+<img alt="Coffee beans" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida/ADBb0ujU8SD8p0oOdQlL68Vdaaqhgd7jU56bnf9jMPHinrQIwYduKtPjW8YGYw40RyCRSB7CXdfZhzlrgxftfigi7dvpb8T0CVyLNcgJItoRsQS7DONkAJy8U0I9OU7_fecwyMDuJXJmw_Z5U6ftwmnxtEr9vax8k8DYOQHIa3R43T0znGg74EdgvnU94lAB6Y9UYoI5_GXJxtSsSVcD_dHha6_oJEEm3xoK6_r1T9KjW9KSwM-0xpVx04f6cbk"/>
+<div class="absolute inset-0 gallery-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+<span class="font-label uppercase tracking-widest text-sm text-primary">Hạt Cà Phê Mộc</span>
+</div>
+</div>
+<!-- Item 4: Barista pouring -->
+<div class="masonry-item relative group overflow-hidden rounded-2xl cursor-pointer">
+<img alt="Barista pouring" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida/ADBb0uj9GjXdWt6n08K1RwaCDPDaj2mP-t-F_FBlyqn7NnjysbUEHeBy5N8cfMcNvwLHiq-KDna-mCnNHmV4F_55pnopSXpOPzaPxVtNKVKGheC6pc9mkF17UCbsNRXzhhpYJpuUyf86Zzb9QIKLfZm577p2_21u-BEntauA3ScnWPEfRYfPLjp39mHY-wNddxAbc3zK9d9S17-GnL-eS3egyyWg_NdWoxp_r8oFQhsTpIb0gjdsOiVZVMFmBb4"/>
+<div class="absolute inset-0 gallery-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+<span class="font-label uppercase tracking-widest text-sm text-primary">Nghệ Thuật Pour Over</span>
+</div>
+</div>
+<!-- Item 5: Matcha Latte -->
+<div class="masonry-item relative group overflow-hidden rounded-2xl cursor-pointer">
+<img alt="Matcha Latte" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida/ADBb0uiUr06QUr-fsu2uXNzQJyDL5EBCEq5ugZ0I69-YaXcGt7vvKCJ3xqCdU8cqYe8d37Qt3cnnCRjVMa84K1gaWL59ebxmW9eTzNW5lUQcl55HSE-ZzMfceWMy8KTLjDX25bWAsM5eAYhm3NbQOC2Q62sP8MG2bWOkgapsoNPon3ATjkwonJmdw4Srrksk9yy_dtfm9_RLjhB2bgkAfU1nZ3BdEzBMctPekWLGYgdPXMLrz42KDebf8reFGRk"/>
+<div class="absolute inset-0 gallery-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+<span class="font-label uppercase tracking-widest text-sm text-primary">Góc Thưởng Thức</span>
+</div>
+</div>
+<!-- Item 6: Coffee drip close-up -->
+<div class="masonry-item relative group overflow-hidden rounded-2xl cursor-pointer">
+<img alt="Coffee drip close-up" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida/ADBb0uhKdFzTc5oyPNlRprN6vD3jdIIKI4JikdvI93fCWntBkzjoNKJmErsMXAgzOA9RJSFBVt9PDxFPq-0inqp0pFdsOl9xQ_gs7FE4bQLKWiMv7QyzwEe1W9uYZgJqQK7NPRXvo01lE2xHaGoM2y6i5B4bXr3WqJjGzkZgj620DjLoSRvtQsMlKQhc_4VCX5nTisqA3iSVFmUXEOEl_guQepDS6jB-1SGHxD7s_HIX6pfcOiT6vk2nROXvOw"/>
+<div class="absolute inset-0 gallery-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+<span class="font-label uppercase tracking-widest text-sm text-primary">Phin Truyền Thống</span>
+</div>
+</div>
+<!-- Item 7: Salt coffee -->
+<div class="masonry-item relative group overflow-hidden rounded-2xl cursor-pointer">
+<img alt="Salt coffee" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida/ADBb0uivaVHwkYMdEOoytnM9Ay-YbFNcW9-hJ-s0hhlwrzh-SEMYRSHaI8Rr3171Mwhj3AC3d3OVKyHfAjBTp7-CXpzRtIrecUFKc5MDXRsZyiBNxqqp9QNkvMIMFF1SrOHH2o5EofS5Q7OQERxiYDa-arvWz1NbAWGNMwegSDivP0IU0Kd9UoLAMbIlz-K7TfIVvMDl316_zVJPDxqbl8shdkYLJIyfvVGH_xd015sQ7buUbkQWxoXC8SDUfXY"/>
+<div class="absolute inset-0 gallery-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+<span class="font-label uppercase tracking-widest text-sm text-primary">Sáng Tạo Mới</span>
+</div>
+</div>
+<!-- Item 8: Highlands plantation (Landscape) -->
+<div class="masonry-item relative group overflow-hidden rounded-2xl cursor-pointer">
+<img alt="Highlands plantation" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida/ADBb0ui9D_w1FBlaUqRO1XS2nA3UKFz3G9gYKtJnp0uBDiqtwPMX4F4n-7QEci-gy7kHm2S1-OcZhyh8ZMdB3rYQNT-gO86fPws_jLiaVfI_cWqajR75qws8qslN1DWNEc8B9Nf7-IG9f2RILgVDYEhokG5UKGEL9F8vV6te_SYMRjT99BcY4_thqAsryfba5RLvk8iq_C0Hx6UybWcExcfxImercZX4997xJj4Q-MthQhvPpqPk0l9bZMs6hP8"/>
+<div class="absolute inset-0 gallery-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+<span class="font-label uppercase tracking-widest text-sm text-primary">Nguồn Gốc Cầu Đất</span>
+</div>
+</div>
+<!-- Item 9: Cold brew -->
+<div class="masonry-item relative group overflow-hidden rounded-2xl cursor-pointer">
+<img alt="Cold brew" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida/ADBb0uhyjMRRjP_FzfMaOy_Bjr2220Wmra0FJhLSP96hd1tkL2zBr3ZInqLUYTRcEbkOsxRBr2oWbDCFWdD3m1N59iXnTsaHiZU02w8Fpfp051TRQm1YX4ARPiQmhIQhjRaRGUYaixSAezz7HhPdMYlyqPatZ4njCKwhRW7r0foTvF4HLVfM-3R7dyz8fDjM_-5SXTRAL7PaPpStX22pMR9XH5fOlccABxb9AJoJeallhj6taZilfL5UAE5DoG4"/>
+<div class="absolute inset-0 gallery-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+<span class="font-label uppercase tracking-widest text-sm text-primary">Cold Brew</span>
+</div>
+</div>
+<!-- Item 10: Egg coffee -->
+<div class="masonry-item relative group overflow-hidden rounded-2xl cursor-pointer">
+<img alt="Egg coffee" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida/ADBb0ugGPm_wDMXky1Pa3BwvdS_kTOClx_8WGfpRUzSfb_3MiMy47kDS0jw1Onsw8TZNEja5XEKvq2KRkQr768Pa6e_3j5xsljpksLta4q_sdUtyd0l5ZG9DLZyFvwlDTcxhQe_utA56-oMZMrEEZkzxOzMkeG1mDHO1Ac91jbVoPX1G4XEuG9H-P8AU3LL4-px2DiX14-cYnbbhGDKFR7LpeNTmbhj-rVwsT5U1jpkOMdZEKsMn7zRExxqDEKQ"/>
+<div class="absolute inset-0 gallery-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+<span class="font-label uppercase tracking-widest text-sm text-primary">Đặc Sản Hà Nội</span>
+</div>
+</div>
+<!-- Item 11: Minimalist drink -->
+<div class="masonry-item relative group overflow-hidden rounded-2xl cursor-pointer">
+<img alt="Minimalist drink" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida/ADBb0ugMqCETL-T2OehlQLENmzL_NUVWCZ6pwnGCcsG9SQF2SRfbUsQwb8FKqFNn1o2YTdn5M4eZ2b5rCdTNETj6guOU-j-zC4x2qoARaw0dOp5SlV12ivLgLtBj9ZpSsmPnLplJ4ZfDDp5yG-1rET-rgrswoI9ARzdLvGTM-8s_riYG8vvJUAU1Uh2NK-1-S5YfQLfml97yoN_mZcB2nClBDM2PS7Cvz6JZSjgaFacbZM5lVA4hI46MooFvPw"/>
+<div class="absolute inset-0 gallery-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+<span class="font-label uppercase tracking-widest text-sm text-primary">Tinh Tế</span>
+</div>
+</div>
+<!-- Item 12: Lotus tea -->
+<div class="masonry-item relative group overflow-hidden rounded-2xl cursor-pointer">
+<img alt="Lotus tea" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida/ADBb0uhAS1SsiGjAQhTK88xCaujZZzXpLlUxTCAVn51-x-w9cI3IGrvEhHjTxxzG8WJubTwM-IcxD7KgVJYEfBfkvkpm_aSlpcNCnBZFBbnSUFa5VpsIXh2dblCW-NbBB0tQZUvN3ZNo9j5MFqCJSUC_x6zckVXbJo9rZ4h-dXtwbLiwKLKB1nOC6xdrWxPcWAFhYwQX2pVP1YiZZSqhS1J5rpg0Ys5HS6ZsLRbimhFm7eNxFTVl92-lGM9rcg"/>
+<div class="absolute inset-0 gallery-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+<span class="font-label uppercase tracking-widest text-sm text-primary">Thanh Tao</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Atmosphere Section -->
+<section class="relative py-32 flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img alt="Moody cafe interior background" class="w-full h-full object-cover opacity-30 blur-sm" src="https://lh3.googleusercontent.com/aida/ADBb0uiywoSOE1n7y0fCMCxaCUjoYl6oSRlw2AdesuHWbXh1tBOQOuJWHb1XFPswp5_WPbq8lnWfv_HgcJ_P0U6itAzAz7uGkyc0HLEyzLiAlmM5pE49BNTJ72oOyo50WGmXSjo3eB2eA2cyuXv62IPw0Mlu3XAUkEvnQ8ZI-4YzGgcbXFpd4RpkjJB_egGOeRHhG8XzPYb9l0l8XY7xDE1e7Pr9XjrAwMOFAtqBAZbFl7mnppjcPaNIVArQdi8" style="filter: grayscale(50%) sepia(20%);"/>
+<div class="absolute inset-0 bg-background/80 mix-blend-multiply"></div>
+</div>
+<div class="relative z-10 px-8 max-w-4xl mx-auto text-center">
+<h2 class="font-headline italic text-3xl md:text-5xl leading-tight text-primary font-normal">
+                "Đến Nâu, bạn không chỉ uống cà phê — <br class="hidden md:block"/> bạn trải nghiệm một khoảng lặng."
+            </h2>
+</div>
+</section>
+<!-- Visit CTA Section -->
+<section class="py-24 px-8 max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-16 items-center">
+<div>
+<h3 class="font-headline text-4xl mb-8 font-bold text-primary">Ghé Thăm Chúng Tôi</h3>
+<div class="space-y-6 mb-10 text-secondary font-body font-light">
+<div class="flex items-start">
+<span aria-hidden="true" class="material-symbols-outlined text-accent mr-4 mt-1" data-icon="location_on" data-weight="fill">location_on</span>
+<div>
+<p class="text-primary font-medium mb-1">Địa Chỉ</p>
+<p>123 Nguyễn Huệ, Quận 1, TP.HCM</p>
+</div>
+</div>
+<div class="flex items-start">
+<span aria-hidden="true" class="material-symbols-outlined text-accent mr-4 mt-1" data-icon="schedule" data-weight="fill">schedule</span>
+<div>
+<p class="text-primary font-medium mb-1">Giờ Mở Cửa</p>
+<p>7:00 — 22:00 hàng ngày</p>
+</div>
+</div>
+</div>
+<a class="inline-flex items-center justify-center bg-accent text-background px-8 py-4 rounded-lg font-label font-semibold tracking-widest hover:-translate-y-1 hover:bg-[#d4a355] transition-all duration-300 shadow-lg shadow-accent/20" href="#">
+                CHỈ ĐƯỜNG
+            </a>
+</div>
+<div class="relative h-96 rounded-2xl overflow-hidden border border-surface group">
+<!-- Simulated Map Image -->
+<div class="absolute inset-0 bg-surface/50 flex items-center justify-center" data-alt="A stylized, dark-mode map illustration of Ho Chi Minh City, focusing on District 1. The map uses a deep espresso and warm stone color palette with caramel gold highlights indicating key streets or the cafe location. The style is minimalist, clean, and high-end, fitting a premium specialty coffee brand's aesthetic." data-location="Ho Chi Minh City" style="">
+<span class="material-symbols-outlined text-4xl text-secondary" data-icon="map">map</span>
+<span class="ml-2 font-label text-secondary">Bản đồ đang tải...</span>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent pointer-events-none"></div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-[#1A1208] dark:bg-[#1A1208] border-t border-[#2D2418] flex flex-col md:flex-row justify-between items-center px-8 max-w-7xl mx-auto w-full py-12 flat no shadows">
+<div class="font-['Playfair_Display'] text-xl text-[#F5ECD7] mb-6 md:mb-0">
+            Nâu Coffee
+        </div>
+<div class="flex flex-wrap justify-center gap-6 md:gap-8 mb-6 md:mb-0 font-['Outfit'] uppercase tracking-widest">
+<a class="text-[#8A7E6E] hover:text-[#F5ECD7] transition-all text-sm" href="#">Chính sách bảo mật</a>
+<a class="text-[#8A7E6E] hover:text-[#F5ECD7] transition-all text-sm" href="#">Điều khoản sử dụng</a>
+<a class="text-[#8A7E6E] hover:text-[#F5ECD7] transition-all text-sm" href="#">Tuyển dụng</a>
+</div>
+<div class="font-['Outfit'] text-sm font-light text-[#8A7E6E]">
+            © 2024 Nâu Coffee. All rights reserved.
+        </div>
+</footer>
+</body></html>

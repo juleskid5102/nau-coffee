@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Thực Đơn - Nâu Coffee</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;600&amp;family=Playfair+Display:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        background: "#1A1208",
+                        surface: "#2D2418",
+                        primary: "#F5ECD7",
+                        secondary: "#8A7E6E",
+                        accent: "#C4903D",
+                        error: "#C44D3D",
+                        success: "#6B8C42"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Playfair Display", "serif"],
+                        display: ["Playfair Display", "serif"],
+                        body: ["Outfit", "sans-serif"],
+                        label: ["Outfit", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #1A1208;
+            color: #F5ECD7;
+            font-family: 'Outfit', sans-serif;
+        }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(196, 144, 61, 0.1), 0 8px 10px -6px rgba(196, 144, 61, 0.1);
+        }
+        
+        .btn-hover:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Custom scrollbar for horizontal scrolling filters */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-primary antialiased min-h-screen flex flex-col pt-[72px]">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full h-[72px] bg-[#1A1208] border-b border-[#2D2418] z-50 transition-all duration-300">
+<div class="flex justify-between items-center px-8 max-w-7xl mx-auto h-full">
+<!-- Brand Logo -->
+<a class="text-2xl font-headline text-[#F5ECD7] font-bold tracking-tight" href="#">Nâu Coffee</a>
+<!-- Navigation Links (Desktop) -->
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-[#F5ECD7] font-medium font-label uppercase tracking-widest hover:text-[#C4903D] transition-colors duration-300 text-sm" href="#">Trang Chủ</a>
+<a class="text-[#C4903D] font-semibold font-label uppercase tracking-widest hover:text-[#C4903D] transition-colors duration-300 text-sm" href="#">Menu</a>
+<a class="text-[#F5ECD7] font-medium font-label uppercase tracking-widest hover:text-[#C4903D] transition-colors duration-300 text-sm" href="#">Giới Thiệu</a>
+<a class="text-[#F5ECD7] font-medium font-label uppercase tracking-widest hover:text-[#C4903D] transition-colors duration-300 text-sm" href="#">Không Gian</a>
+<a class="text-[#F5ECD7] font-medium font-label uppercase tracking-widest hover:text-[#C4903D] transition-colors duration-300 text-sm" href="#">Liên Hệ</a>
+</div>
+<!-- Trailing Action / Mobile Menu Toggle -->
+<div class="flex items-center">
+<button class="hidden md:block bg-accent text-background font-body font-semibold px-6 py-2.5 rounded-lg hover:bg-[#d4a04d] hover:-translate-y-0.5 transition-all duration-300">
+                    Đặt Món
+                </button>
+<button class="md:hidden text-primary hover:text-accent p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col relative z-0">
+<!-- Page Header -->
+<header class="w-full bg-background pt-20 pb-12 px-6 md:px-12 lg:px-24">
+<div class="max-w-7xl mx-auto flex flex-col items-start gap-4">
+<h1 class="font-headline text-5xl md:text-6xl lg:text-7xl text-primary leading-tight">Thực Đơn</h1>
+<p class="font-body font-light text-xl text-secondary max-w-2xl">Mỗi ly cà phê là một tác phẩm được chế tác tỉ mỉ.</p>
+</div>
+</header>
+<!-- Category Filter Bar (Sticky) -->
+<div class="sticky top-[72px] z-40 bg-background/95 backdrop-blur-sm border-b border-surface py-4 px-6 md:px-12 lg:px-24 w-full">
+<div class="max-w-7xl mx-auto flex items-center gap-3 overflow-x-auto hide-scrollbar">
+<button class="shrink-0 px-5 py-2 rounded-lg bg-accent text-background font-label uppercase text-sm tracking-wider font-semibold transition-colors duration-200">Tất Cả</button>
+<button class="shrink-0 px-5 py-2 rounded-lg border border-surface text-secondary hover:text-primary hover:border-secondary font-label uppercase text-sm tracking-wider font-medium transition-all duration-200">Cà Phê</button>
+<button class="shrink-0 px-5 py-2 rounded-lg border border-surface text-secondary hover:text-primary hover:border-secondary font-label uppercase text-sm tracking-wider font-medium transition-all duration-200">Trà</button>
+<button class="shrink-0 px-5 py-2 rounded-lg border border-surface text-secondary hover:text-primary hover:border-secondary font-label uppercase text-sm tracking-wider font-medium transition-all duration-200">Đá Xay</button>
+<button class="shrink-0 px-5 py-2 rounded-lg border border-surface text-secondary hover:text-primary hover:border-secondary font-label uppercase text-sm tracking-wider font-medium transition-all duration-200">Bánh Ngọt</button>
+</div>
+</div>
+<!-- Menu Grid -->
+<section class="w-full py-16 px-6 md:px-12 lg:px-24">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[400px]">
+<!-- Item 1: Cà Phê Muối (Wide) -->
+<article class="group relative bg-surface rounded-2xl overflow-hidden md:col-span-2 card-hover transition-all duration-300 border border-surface flex flex-col md:flex-row">
+<div class="w-full md:w-1/2 h-48 md:h-full relative overflow-hidden">
+<img alt="Cà Phê Muối" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A macro shot of a tall glass of iced dark coffee topped with thick, velvety beige sea salt foam, garnished with a light sprinkle of coarse sea salt. The background is a moody, dimly lit cafe environment with warm, low-key lighting highlighting the textures of the foam and the dark espresso." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvr4cDGnMZJWYw7T7wZJzZE13Ro5q9AmRvQ_ZV4-z_QibZQ33SI3uQIA1RFFS-hoRggtkfAG8qtyNnPls37hviHFKhFcOxsUNj82gIDEuggggyduYVWmb8wIHLelT5Qn4J64ANlf26KEvahQwajrpNOlx4r3Ti3keI37KBikpF8EmOxqqPZfYA9knu-GTNKN6DrPgH8OwXcJ9bt9N0SIJBOxpnt9kKdc8C5A-rX7ck_6GH38Aauyxd9LYIWHE8O35a91QAsXpJ-vU"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent md:bg-gradient-to-r md:from-transparent md:to-background/80"></div>
+</div>
+<div class="p-8 flex flex-col justify-center w-full md:w-1/2 relative z-10">
+<div class="flex justify-between items-start mb-4">
+<h2 class="font-headline text-3xl text-primary leading-snug">Cà Phê Muối</h2>
+<span class="font-body font-semibold text-accent text-xl">55.000đ</span>
+</div>
+<p class="font-body font-light text-secondary mb-8 leading-relaxed">Cà phê đen pha muối hồng, vị mặn nhẹ hòa quyện đắng sâu</p>
+<button class="mt-auto self-start border border-accent text-accent font-label uppercase tracking-wider text-sm px-6 py-2.5 rounded-lg group-hover:bg-accent group-hover:text-background transition-all duration-300">
+                            Thêm vào
+                        </button>
+</div>
+</article>
+<!-- Item 2: Bạc Xỉu (Narrow) -->
+<article class="group relative bg-surface rounded-2xl overflow-hidden md:col-span-1 card-hover transition-all duration-300 border border-surface flex flex-col">
+<div class="w-full h-48 relative overflow-hidden">
+<img alt="Bạc Xỉu" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A beautifully layered Vietnamese iced coffee (Bạc Xỉu) in a ribbed glass. The bottom layer is sweet, thick condensed milk, topped with a large layer of iced milk, and finished with a dark, intense pour of phin-brewed espresso. The setting is dark and warm, emphasizing the contrast between the creamy white and deep brown layers." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAX3KeVu0HyGeoXtQ5WEvsKGI-c94-2eWzhxTOJutjHDOaC-Gs7C0-0Wne_wIrKoJrwwpnxwE6kRyRFgdgPp7Ym1xm4Q1UJOs07ULfP_fguBY6LopgdjTLtNXNuO2pynmri18EeHFq6a9TtczTz95fiMo5Sp6B-a0ftXJ1Xz8vAyNubex3g6Rpfv4rXF_hSBmU58PTog0TPbNtnS2OwtlVYy1FwznlhoueW3arXt_qL7_4BHsbA5s94GJqGKU-1p0c51bv3B7_5v6A"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
+</div>
+<div class="p-6 flex flex-col flex-grow relative z-10 -mt-8">
+<div class="flex justify-between items-start mb-2">
+<h2 class="font-headline text-2xl text-primary">Bạc Xỉu</h2>
+<span class="font-body font-semibold text-accent">45.000đ</span>
+</div>
+<p class="font-body font-light text-secondary text-sm mb-6 flex-grow">Cà phê sữa đặc truyền thống, ngọt thanh, thơm béo</p>
+<button class="w-full border border-surface text-secondary font-label uppercase tracking-wider text-xs px-4 py-2 rounded-lg group-hover:border-accent group-hover:text-accent transition-all duration-300">
+                            Thêm vào
+                        </button>
+</div>
+</article>
+<!-- Item 3: Cold Brew (Narrow) -->
+<article class="group relative bg-surface rounded-2xl overflow-hidden md:col-span-1 card-hover transition-all duration-300 border border-surface flex flex-col">
+<div class="w-full h-48 relative overflow-hidden">
+<img alt="Cold Brew" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWz3hdBQeg1MFCO4ujs-mbQsja1Nx1DI86V0Rq8eyG3GNkv30xFBD9s8HUMTCTaax5pdP1R1EzQMSl2XGFvyUYded2bDKFXcWXE8bYNqnV54i8tO_hc6Uu4MSLvHGxUqXrdUlZYW3PwWG34MxlK4EhRy1k7Olafg_3WMZfQU6W4RUuvOgjfIVOp8FNO4OL_m125w8U5vQrCsXmtzp4A7Yi7poXNkMiqe6N4Lb8JfWZLptvpww1q9zhYOG8eopoOoYb9Hx1rfInoPg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
+</div>
+<div class="p-6 flex flex-col flex-grow relative z-10 -mt-8">
+<div class="flex justify-between items-start mb-2">
+<h2 class="font-headline text-2xl text-primary">Cold Brew</h2>
+<span class="font-body font-semibold text-accent">65.000đ</span>
+</div>
+<p class="font-body font-light text-secondary text-sm mb-6 flex-grow">Ủ lạnh 18 giờ, vị thanh, hậu ngọt tự nhiên</p>
+<button class="w-full border border-surface text-secondary font-label uppercase tracking-wider text-xs px-4 py-2 rounded-lg group-hover:border-accent group-hover:text-accent transition-all duration-300">
+                            Thêm vào
+                        </button>
+</div>
+</article>
+<!-- Item 4: Cà Phê Trứng (Wide) -->
+<article class="group relative bg-surface rounded-2xl overflow-hidden md:col-span-2 card-hover transition-all duration-300 border border-surface flex flex-col md:flex-row">
+<div class="w-full md:w-1/2 h-48 md:h-full relative overflow-hidden order-first md:order-last">
+<img alt="Cà Phê Trứng" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A warm, inviting cup of Vietnamese Egg Coffee (Cà Phê Trứng) in a clear, short glass mug resting on a rustic dark wood table. The drink features a thick, frothy, golden-yellow layer of whipped egg yolk floating atop rich, dark robusta espresso. Soft, directional light highlights the fluffy texture of the egg cream against the moody, dark espresso bar backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhBXHz3vlW7pz15_SOE5wQ0OJ5IwjKc6KjT7QKjDgsdvK40bWnGT-Kpp1fuy88A0tW-CFVFDQIblAj3uF70sq4S1HZ8b3pKneZocNvsPYeIRJhA4J48NqbH_2F3gkBRBWL8GzdrBDgM8UQ9w5F0XyNQoMAsl6b9J4EKbMHRy2_nhf8prRO3bGMFpwZUeukO3K83G_XzDrTYaZ3r_-AK8aV4YaspVWYfwoOKTk9L3fTKK2Sh4U0T_Jf6LM7Juff5X2EZzzNwE-3jx0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent md:bg-gradient-to-l md:from-transparent md:to-background/80"></div>
+</div>
+<div class="p-8 flex flex-col justify-center w-full md:w-1/2 relative z-10">
+<div class="flex justify-between items-start mb-4">
+<h2 class="font-headline text-3xl text-primary leading-snug">Cà Phê Trứng</h2>
+<span class="font-body font-semibold text-accent text-xl">60.000đ</span>
+</div>
+<p class="font-body font-light text-secondary mb-8 leading-relaxed">Kem trứng béo mịn phủ trên nền cà phê nóng</p>
+<button class="mt-auto self-start border border-accent text-accent font-label uppercase tracking-wider text-sm px-6 py-2.5 rounded-lg group-hover:bg-accent group-hover:text-background transition-all duration-300">
+                            Thêm vào
+                        </button>
+</div>
+</article>
+<!-- Item 5: Trà Sen (Wide) -->
+<article class="group relative bg-surface rounded-2xl overflow-hidden md:col-span-2 card-hover transition-all duration-300 border border-surface flex flex-col md:flex-row">
+<div class="w-full md:w-1/2 h-48 md:h-full relative overflow-hidden">
+<img alt="Trà Sen" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZvePaguVm9cBQeMtcnVbUtoBHc4YLs622v9hh4a_F_yl2CSluTAxy0SlZaxdqgShbYp6ocq5-MhI2N-9cuOwd_pSY2_qdGIqQQwKjhMi8ArNCAs-avwGXCcUi9L1e8F7AwuDQIkG6aNM5KFuwAchBb9pUo8fZ_gUATrlJe2dUl5SvNCYQZcNyLL9WcRdmSO-qYWX9N1oxUb3A29hBuD__rkXyO3AXLRM3jqKOub79aPefIweVDEWIxxe9prkuo1gZiX7GxS7sSO4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent md:bg-gradient-to-r md:from-transparent md:to-background/80"></div>
+</div>
+<div class="p-8 flex flex-col justify-center w-full md:w-1/2 relative z-10">
+<div class="flex justify-between items-start mb-4">
+<h2 class="font-headline text-3xl text-primary leading-snug">Trà Sen</h2>
+<span class="font-body font-semibold text-accent text-xl">50.000đ</span>
+</div>
+<p class="font-body font-light text-secondary mb-8 leading-relaxed">Trà xanh hương sen, thanh mát, thư giãn</p>
+<button class="mt-auto self-start border border-accent text-accent font-label uppercase tracking-wider text-sm px-6 py-2.5 rounded-lg group-hover:bg-accent group-hover:text-background transition-all duration-300">
+                            Thêm vào
+                        </button>
+</div>
+</article>
+<!-- Item 6: Matcha Latte (Narrow) -->
+<article class="group relative bg-surface rounded-2xl overflow-hidden md:col-span-1 card-hover transition-all duration-300 border border-surface flex flex-col">
+<div class="w-full h-48 relative overflow-hidden">
+<img alt="Matcha Latte" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZQu1M7ZrZReUGpaV66XFxfh2rd2kmgE752ddOIRVelXL5ZEUtjzE1q4A1pT0JBlmPza71hD82hxqQn07CC8Jj6P2WG-01YReeNJilDt1WwUcOgx2zN4zdFtPBoPAUNo-AlyBaQ13Js9NAPEjvmNXUdlSU2OmPCByPuGPzLaP5_26EuiGKVwOuxXn9fLfTAAzIhnKlb43krhDqcGQkO4ShG6WKqQNDK_V4zeervg4qdk2KVmjifBPhw84sxm9NPYI68O9OcvFZfR4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
+</div>
+<div class="p-6 flex flex-col flex-grow relative z-10 -mt-8">
+<div class="flex justify-between items-start mb-2">
+<h2 class="font-headline text-2xl text-primary">Matcha Latte</h2>
+<span class="font-body font-semibold text-accent">55.000đ</span>
+</div>
+<p class="font-body font-light text-secondary text-sm mb-6 flex-grow">Matcha Nhật Bản, sữa tươi, ít đường</p>
+<button class="w-full border border-surface text-secondary font-label uppercase tracking-wider text-xs px-4 py-2 rounded-lg group-hover:border-accent group-hover:text-accent transition-all duration-300">
+                            Thêm vào
+                        </button>
+</div>
+</article>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 bg-[#1A1208] border-t border-[#2D2418]">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 max-w-7xl mx-auto gap-6">
+<div class="text-[#8A7E6E] font-body text-xs font-light">
+                © 2024 Nâu Coffee. All rights reserved.
+            </div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-[#8A7E6E] font-body text-xs font-light hover:text-[#F5ECD7] transition-colors duration-200" href="#">Privacy Policy</a>
+<a class="text-[#8A7E6E] font-body text-xs font-light hover:text-[#F5ECD7] transition-colors duration-200" href="#">Terms of Service</a>
+<a class="text-[#8A7E6E] font-body text-xs font-light hover:text-[#F5ECD7] transition-colors duration-200" href="#">Shipping Info</a>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>About - Nâu Coffee</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#1A1208',
+                        surface: '#2D2418',
+                        textPrimary: '#F5ECD7',
+                        textSecondary: '#8A7E6E',
+                        accent: '#C4903D',
+                        error: '#C44D3D',
+                        success: '#6B8C42'
+                    },
+                    fontFamily: {
+                        headline: ["Playfair Display", "serif"],
+                        display: ["Playfair Display", "serif"],
+                        body: ["Outfit", "sans-serif"],
+                        label: ["Outfit", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.textPrimary');
+            font-family: theme('fontFamily.body');
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: theme('fontFamily.headline');
+        }
+        .btn-hover {
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            background-color: #d19f4a;
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-background text-textPrimary antialiased selection:bg-accent selection:text-background">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full h-[72px] z-50 bg-[#1A1208]/90 backdrop-blur-md border-b border-[#2D2418] shadow-2xl">
+<div class="flex justify-between items-center px-8 max-w-7xl mx-auto h-full">
+<div class="font-headline text-2xl text-[#F5ECD7] font-bold tracking-wider">
+                Nâu Coffee
+            </div>
+<ul class="hidden md:flex gap-8 items-center h-full">
+<li>
+<a class="font-headline text-[#F5ECD7] uppercase tracking-widest text-sm hover:text-[#C4903D] transition-colors h-full flex items-center" href="#">
+                        Home
+                    </a>
+</li>
+<li>
+<a class="font-headline text-[#F5ECD7] uppercase tracking-widest text-sm hover:text-[#C4903D] transition-colors h-full flex items-center" href="#">
+                        Menu
+                    </a>
+</li>
+<li>
+<a class="font-headline text-[#C4903D] font-bold border-b-2 border-[#C4903D] pb-1 uppercase tracking-widest text-sm h-full flex items-center mt-1" href="#">
+                        About
+                    </a>
+</li>
+</ul>
+<div>
+<a class="bg-accent text-background px-6 py-2 rounded-lg font-body font-semibold text-sm tracking-wider uppercase btn-hover shadow-lg" href="#">
+                    Order Now
+                </a>
+</div>
+</div>
+</nav>
+<main class="pt-[72px]">
+<!-- Hero Section -->
+<section class="relative h-[70vh] flex items-center bg-background overflow-hidden">
+<div class="absolute inset-0 w-full h-full">
+<img alt="" class="w-full h-full object-cover opacity-60 mix-blend-overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKu29PEqLlGb1lFv5VqpRL1ebxMgOJ1J09_Pe3Tp6fa9t7QMU2VU79Qdae4teEmrDh1URxzOd6jK8Rgxxjks7x-CvjRUxYX_4CSHT6rlGv_0xJtWawe1XXYHS2s55Ni9MWVM2-sEsGHQ7rUxr7sr30Rzc9EYH2ISCOoU74IAo0r2UKHOlqi9dxly_0WX6d5kTktLAbiJ9F7u6JXRR6l5moTHCB1c1DIgnTo5Xw1ppquKavFHQ6zb2_LQu8KHCPQQh5PRNwf9HZzvQ"/>
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto px-8 w-full">
+<div class="max-w-2xl">
+<h1 class="text-5xl md:text-7xl mb-6 text-textPrimary leading-tight">Câu Chuyện Của Nâu</h1>
+<p class="text-xl text-textSecondary font-body font-light tracking-wide max-w-lg">Hương vị nguyên bản, tâm huyết từng hạt cà phê.</p>
+</div>
+</div>
+</section>
+<!-- Origin Story -->
+<section class="py-32 max-w-7xl mx-auto px-8">
+<div class="flex flex-col md:flex-row gap-20 items-center">
+<div class="w-full md:w-2/5 md:pr-12">
+<h2 class="text-4xl text-accent mb-8">Khởi Nguồn</h2>
+<p class="text-textSecondary leading-relaxed text-lg font-light mb-6">Bắt đầu từ niềm đam mê mãnh liệt với hạt cà phê Việt, Nâu hành trình tìm kiếm những hạt Robusta và Arabica tinh túy nhất từ các vùng cao nguyên Đà Lạt và Buôn Ma Thuột.</p>
+<p class="text-textSecondary leading-relaxed text-lg font-light">Chúng tôi tin rằng, mỗi tách cà phê là một câu chuyện dài từ mảnh đất sương mù đến đôi bàn tay nâng niu của người thợ rang.</p>
+</div>
+<div class="w-full md:w-3/5 relative">
+<div class="absolute inset-0 bg-accent/10 rounded-2xl transform translate-x-6 translate-y-6"></div>
+<img alt="" class="w-full h-auto rounded-2xl shadow-2xl relative z-10 border border-surface object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcz4KfY3g31qL0VBNzXHLAAXRyPqpewWV4eHaeXHafDJ8IhDZMGDpmgA6_t1sndKLAvsMTzaNgb4ihFPJwoO1Pagt6cuPQVdHNpZAjnZTrm0N4gFMk6i4ZlVEDEAy4Td5WwcTc43UOACmZEmsef3wryvFqzEhvez6_icU4cLScSM0VsWO227DNIrhDSlxPgBlBATQGUTNBlPXsiET4-bAA6CHQ5YpiAp2G61TqVpMa9HLtloa2pTJIR5iV7MXKjrINi8LqWiiPppo"/>
+</div>
+</div>
+</section>
+<!-- Values Section -->
+<section class="py-32 bg-surface/30">
+<div class="max-w-7xl mx-auto px-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-24 items-start">
+<div class="md:mt-0">
+<div class="text-6xl font-headline text-accent/30 mb-4 tracking-tighter">01</div>
+<h3 class="text-2xl text-textPrimary mb-4">Nguyên Bản</h3>
+<p class="text-textSecondary font-light leading-relaxed">Chỉ sử dụng hạt cà phê đặc sản, giữ trọn hương vị gốc. Không tẩm ướp, không pha trộn, để mỗi giọt cà phê kể đúng câu chuyện của vùng đất sinh ra nó.</p>
+</div>
+<div class="md:mt-32">
+<div class="text-6xl font-headline text-accent/30 mb-4 tracking-tighter">02</div>
+<h3 class="text-2xl text-textPrimary mb-4">Tỉ Mỉ</h3>
+<p class="text-textSecondary font-light leading-relaxed">Tận tâm trong từng khâu rang xay và pha chế thủ công. Mỗi mẻ rang là một bản giao hưởng của nhiệt độ và thời gian, được kiểm soát bởi sự tinh tế của người nghệ nhân.</p>
+</div>
+<div class="md:mt-0">
+<div class="text-6xl font-headline text-accent/30 mb-4 tracking-tighter">03</div>
+<h3 class="text-2xl text-textPrimary mb-4">Bền Vững</h3>
+<p class="text-textSecondary font-light leading-relaxed">Hỗ trợ nông dân địa phương và quy trình canh tác bền vững. Trân trọng môi trường và những giá trị cộng đồng để ly cà phê không chỉ ngon mà còn mang ý nghĩa nhân văn.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Team Section -->
+<section class="py-32 max-w-7xl mx-auto px-8">
+<h2 class="text-4xl text-accent mb-16">Đội Ngũ</h2>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<div class="md:col-span-7">
+<img alt="" class="w-full h-[600px] object-cover rounded-2xl shadow-2xl border border-surface mb-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMsKelXKaP4Jsk9_Fp411Ivf3JUn9rrFw7hh_hAlJJw0W7AdU6EhoHIJ6frhVn1f80dVuDJdPkdvMcL6G_okxNdUri8Ji-M7yBCyqQT_MC0pRV1UtuK1-n0wAeVDpblFbqfAPyvpLMtG3VXZgDGE-ZYRdVh0JC9Rhnsj397hHGAMWPv5LEJopfEJmWR2qNkfyJKyT8fNBELUhh1ZszWK_b4uqQMzY4DeI4Ri0x3Wa3AIqi2U5lEMNL89pF5D9jLSlDWxLVack2CwU"/>
+<h3 class="text-2xl text-textPrimary mb-2">Minh Trí</h3>
+<p class="font-label text-accent uppercase tracking-widest text-sm mb-4">Trưởng Thợ Rang</p>
+<p class="text-textSecondary font-light leading-relaxed max-w-2xl">Với hơn 10 năm đắm mình trong hương cà phê, Trí hiểu rõ ngôn ngữ của từng hạt cà phê khi chúng nhảy múa trong lò rang, đảm bảo hương vị Nâu luôn đồng nhất và trọn vẹn.</p>
+</div>
+<div class="md:col-span-5 flex flex-col gap-8 justify-end pb-8">
+<div class="bg-surface p-8 rounded-2xl border border-surface/50">
+<div class="w-20 h-20 bg-background rounded-full mb-6 flex items-center justify-center border border-surface/50">
+<span class="material-symbols-outlined text-textSecondary text-3xl">local_cafe</span>
+</div>
+<h3 class="text-xl text-textPrimary mb-1">Hà Phương</h3>
+<p class="font-label text-accent uppercase tracking-widest text-xs mb-3">Chuyên Gia Pha Chế</p>
+<p class="text-textSecondary text-sm font-light leading-relaxed">Người thổi hồn vào từng ly latte, biến mỗi buổi sáng tại Nâu thành một trải nghiệm nghệ thuật thị giác và vị giác.</p>
+</div>
+<div class="bg-surface p-8 rounded-2xl border border-surface/50">
+<div class="w-20 h-20 bg-background rounded-full mb-6 flex items-center justify-center border border-surface/50">
+<span class="material-symbols-outlined text-textSecondary text-3xl">eco</span>
+</div>
+<h3 class="text-xl text-textPrimary mb-1">Tuấn Anh</h3>
+<p class="font-label text-accent uppercase tracking-widest text-xs mb-3">Thu Mua &amp; Nguồn Gốc</p>
+<p class="text-textSecondary text-sm font-light leading-relaxed">Kết nối trực tiếp với nông dân, đảm bảo những mẻ cà phê xanh chất lượng nhất và thực hành thương mại công bằng.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-40 bg-surface text-center px-8 relative overflow-hidden">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-accent/10 via-transparent to-transparent"></div>
+<div class="relative z-10">
+<h2 class="text-4xl md:text-5xl mb-12 text-textPrimary">Hãy ghé Nâu và cảm nhận</h2>
+<a class="inline-block bg-accent text-background px-10 py-4 rounded-lg font-body font-semibold tracking-wider uppercase text-lg btn-hover shadow-[0_0_20px_rgba(196,144,61,0.3)]" href="#">
+                    Xem không gian
+                </a>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 bg-[#1A1208] border-t border-[#2D2418]">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 max-w-7xl mx-auto gap-4">
+<div class="font-headline text-lg text-[#F5ECD7]">
+                Nâu Coffee
+            </div>
+<ul class="flex flex-wrap justify-center gap-6 font-body text-[#8A7E6E] text-xs uppercase tracking-widest">
+<li><a class="hover:text-[#C4903D] transition-colors opacity-80 hover:opacity-100" href="#">Instagram</a></li>
+<li><a class="hover:text-[#C4903D] transition-colors opacity-80 hover:opacity-100" href="#">Facebook</a></li>
+<li><a class="hover:text-[#C4903D] transition-colors opacity-80 hover:opacity-100" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-[#C4903D] transition-colors opacity-80 hover:opacity-100" href="#">Contact</a></li>
+</ul>
+<div class="font-body text-[#8A7E6E] text-xs uppercase tracking-widest">
+                © 2024 Nâu Coffee. Crafted in Vietnam.
+            </div>
+</div>
+</footer>
+</body></html>

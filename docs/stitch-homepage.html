@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nâu Coffee - Khoảnh khắc của sự tinh tế</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#1A1208',
+                            surface: '#2D2418',
+                            text: '#F5ECD7',
+                            muted: '#8A7E6E',
+                            accent: '#C4903D',
+                            error: '#C44D3D',
+                            success: '#6B8C42'
+                        }
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        headline: ['Playfair Display', 'serif'],
+                        body: ['Outfit', 'sans-serif'],
+                        label: ['Outfit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #1A1208;
+            color: #F5ECD7;
+            font-family: 'Outfit', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        h1, h2, h3, h4, h5, h6, .font-headline {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .label-text {
+            font-family: 'Outfit', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+
+        /* Micro-interactions */
+        .btn-hover {
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+        .btn-hover:hover {
+            transform: translateY(-2px);
+        }
+        
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(196, 144, 61, 0.15);
+        }
+
+        /* Smooth reveal on scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-brand-bg text-brand-text min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 max-w-7xl mx-auto h-[72px] bg-[#1A1208] dark:bg-[#1A1208] border-b border-[#2D2418] shadow-sm">
+<div class="flex items-center gap-3 cursor-pointer">
+<img alt="Nâu Coffee Logo" class="w-10 h-10 rounded-md object-contain" src="data:image/png;base64,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"/>
+<span class="font-['Playfair_Display'] text-2xl font-bold text-[#F5ECD7]">Nâu Coffee</span>
+</div>
+<!-- Web Navigation Links -->
+<div class="hidden md:flex items-center gap-8">
+<a class="text-[#C4903D] font-semibold border-b-2 border-[#C4903D] pb-1 font-['Outfit'] font-medium uppercase tracking-[0.1em] text-sm" href="#">Trang Chủ</a>
+<a class="text-[#F5ECD7] font-medium hover:text-[#C4903D] transition-colors duration-300 font-['Outfit'] font-medium uppercase tracking-[0.1em] text-sm" href="#">Menu</a>
+<a class="text-[#F5ECD7] font-medium hover:text-[#C4903D] transition-colors duration-300 font-['Outfit'] font-medium uppercase tracking-[0.1em] text-sm" href="#">Giới Thiệu</a>
+<a class="text-[#F5ECD7] font-medium hover:text-[#C4903D] transition-colors duration-300 font-['Outfit'] font-medium uppercase tracking-[0.1em] text-sm" href="#">Không Gian</a>
+<a class="text-[#F5ECD7] font-medium hover:text-[#C4903D] transition-colors duration-300 font-['Outfit'] font-medium uppercase tracking-[0.1em] text-sm" href="#">Liên Hệ</a>
+</div>
+<button class="bg-brand-accent text-brand-bg px-6 py-2 rounded-lg font-['Outfit'] font-semibold label-text btn-hover hover:bg-[#d6a555]">
+            Đặt Món
+        </button>
+</nav>
+<main class="flex-grow pt-[72px]">
+<!-- Hero Section -->
+<section class="relative h-[90vh] min-h-[600px] flex items-center">
+<div class="absolute inset-0 z-0">
+<img alt="Atmospheric background of coffee preparation" class="w-full h-full object-cover" data-alt="A cinematic, wide-angle shot of a dimly lit, high-end specialty coffee shop interior at dusk. Warm caramel-colored light spills across deep espresso-stained wood surfaces. A barista's hands are visible pouring a slow, steaming drip coffee from a matte black kettle into a ceramic dripper. The atmosphere is moody, quiet, and intensely focused on the craft of coffee making, with a rich, dark color palette dominated by near-blacks (#1A1208) and glowing amber accents (#C4903D)." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9i1rYqmtmnVxSaKesQ66TWmC0yxwr-51vgCfSbbo9vhFCN-o_c64zQGpIAQxN3Bi9hBq8R1NmSiVo3d9LhJCChNuBbu8SnFVtlpFZf57NpFhCcx1eBcWi7El8eNHWaD9qR-VE_2DOlO1Ntsi3uXIALfPxcyZuTzRIZN_H-6DatQQg-0zr7LxCCCO4mX0twLlS4HqJM0o8uStBheGG12B5eAqw6oBLU_JBvE3ZU3HN3b48CbPJyyCqzaGZWqHihTEiuNvJcMI2oOU"/>
+<div class="absolute inset-0 bg-gradient-to-r from-brand-bg via-brand-bg/80 to-transparent"></div>
+</div>
+<div class="relative z-10 w-full max-w-7xl mx-auto px-8 reveal">
+<div class="max-w-2xl">
+<h1 class="font-headline text-5xl md:text-7xl mb-6 leading-tight text-[#F5ECD7]">Khoảnh khắc của sự tinh tế.</h1>
+<p class="font-body text-xl md:text-2xl font-light text-[#F5ECD7]/90 mb-10 leading-relaxed">
+                        Cà phê nguyên bản, rang mộc mỗi ngày.<br/>Nơi mỗi giọt cà phê kể câu chuyện riêng.
+                    </p>
+<button class="bg-brand-accent text-brand-bg px-8 py-4 rounded-lg font-semibold label-text text-lg btn-hover hover:bg-[#d6a555]">
+                        Khám Phá
+                    </button>
+</div>
+</div>
+</section>
+<!-- Featured Menu Section -->
+<section class="py-24 px-8 max-w-7xl mx-auto reveal">
+<div class="flex justify-between items-end mb-12">
+<h2 class="font-headline text-4xl text-[#F5ECD7]">Thực Đơn Nổi Bật</h2>
+<a class="text-brand-accent hover:text-[#d6a555] font-medium transition-colors flex items-center gap-2 label-text text-sm" href="#">
+                    Xem thực đơn đầy đủ <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Large Card (Left) -->
+<div class="md:col-span-7 group cursor-pointer">
+<div class="bg-brand-surface border border-brand-surface/50 rounded-[16px] overflow-hidden h-[500px] relative card-hover">
+<img alt="Cà Phê Muối" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500" data-alt="Close-up shot of a glass of Vietnamese Salted Coffee (Cà Phê Muối) resting on a rich, dark espresso wood table. The coffee features distinct layers: a dark, intense black coffee base topped with a thick, creamy, slightly off-white salted foam. A subtle drizzle of caramel graces the foam. The lighting is dramatic and moody, with a soft spotlight highlighting the texture of the foam and the condensation on the glass, set against a completely dark background (#1A1208) to emphasize the warm amber and cream tones of the drink." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1PvmEx1rQhgK_FkS0d-M859uZNzPkqQWOS7oofGKepQEfjPeILoH6_jwBJW2lYOHfapy4-s2PbkqPipYDFI9b45TlAfOOF5RirhSVGNmX3XG_gWVmSPDB4V81kNrAvAKx6Dc9pwyUBUUaMw_VIVEt9mLaiMZwI8MBJI66Zpcq91_aunQO_jvpSLYM6mwHnon3xpuHod9ULYGCkGm4Ins_1X_eHrNTCUhf3wCH4AYQ-Vml-PcTotW4ijJbjSK6ryzyHrnQsdQ8Ph4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-brand-bg/90 via-brand-bg/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8 w-full flex justify-between items-end">
+<div>
+<h3 class="font-headline text-3xl mb-2">Cà Phê Muối</h3>
+<p class="text-brand-muted font-light">Sự cân bằng hoàn hảo giữa đắng và mặn béo</p>
+</div>
+<span class="text-brand-accent font-semibold text-xl">55k</span>
+</div>
+</div>
+</div>
+<!-- Stacked Cards (Right) -->
+<div class="md:col-span-5 flex flex-col gap-6">
+<div class="bg-brand-surface border border-brand-surface/50 rounded-[16px] overflow-hidden flex-1 relative card-hover cursor-pointer group">
+<img alt="Bạc Xỉu" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500" data-alt="An elegant double-walled glass filled with Bạc Xỉu (Vietnamese iced milk coffee) sitting on a dark grey slate coaster. The drink shows a beautiful gradient from creamy white milk at the bottom to rich brown espresso at the top. Next to the glass, a few dark roasted coffee beans and a piece of cinnamon bark are scattered on the espresso-stained wooden table. Warm, directional light from a window subtly illuminates the scene, creating a sophisticated, moody atmosphere in the Nâu Coffee aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlgl8lvW0fDhWdtj2oKsd4ewnii07wO_OdhC_AY_qMvqYbMjPa3mCYwFl_7LmQ82Be2zYhwo8_KPgwrl2yw8cPKNUUD6mazB7-r9pnGey21vNhD0vA6UmGO5YDubFPDY2_gl77t77O3edVGGxMu1WN12nugfApoI2dwa_OJzlkAoL4IuV991n8ouLHwL-rENK3dQuiZm7Xe1SOhiPgxl2v5WsJQyBIc8eIOaQqN_Y-CaHGO4Qos2leWlwdPTkqEY7kXnjC3SsKif4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-brand-bg/90 to-brand-bg/30"></div>
+<div class="relative z-10 p-6 h-full flex flex-col justify-end">
+<div class="flex justify-between items-end">
+<div>
+<h3 class="font-headline text-2xl mb-1">Bạc Xỉu</h3>
+<p class="text-brand-muted font-light text-sm">Ngọt ngào, nhẹ nhàng</p>
+</div>
+<span class="text-brand-accent font-semibold text-lg">45k</span>
+</div>
+</div>
+</div>
+<div class="bg-brand-surface border border-brand-surface/50 rounded-[16px] overflow-hidden flex-1 relative card-hover cursor-pointer group">
+<div class="absolute inset-0 bg-[#221a11]"></div>
+<!-- Placeholder pattern for the second small card since no specific image was requested, keeping it textural -->
+<div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#C4903D 1px, transparent 1px); background-size: 20px 20px;"></div>
+<div class="relative z-10 p-6 h-full flex flex-col justify-end">
+<div class="flex justify-between items-end">
+<div>
+<h3 class="font-headline text-2xl mb-1">Cold Brew</h3>
+<p class="text-brand-muted font-light text-sm">Ủ lạnh 24 giờ</p>
+</div>
+<span class="text-brand-accent font-semibold text-lg">60k</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Story Section -->
+<section class="py-24 bg-brand-surface/30">
+<div class="max-w-7xl mx-auto px-8 reveal">
+<div class="flex flex-col md:flex-row items-center gap-16">
+<!-- Text (Left 40%) -->
+<div class="w-full md:w-[40%]">
+<h2 class="font-headline text-4xl mb-8 text-[#F5ECD7]">Câu Chuyện Nâu</h2>
+<p class="font-body text-brand-text/80 font-light leading-relaxed mb-6">
+                            Khởi nguồn từ niềm đam mê mãnh liệt với hạt cà phê Việt, Nâu không chỉ là một quán cà phê, mà là một không gian tôn vinh nghệ thuật rang xay. Chúng tôi tin rằng mỗi mẻ rang là một tác phẩm nghệ thuật, đòi hỏi sự kiên nhẫn và tĩnh lặng.
+                        </p>
+<p class="font-body text-brand-text/80 font-light leading-relaxed mb-10">
+                            Trong không gian tối giản và trầm ấm này, chúng tôi mời bạn gác lại nhịp sống hối hả, để thưởng thức một tách cà phê được pha chế bằng tất cả sự tĩnh tại và tâm huyết.
+                        </p>
+<button class="border border-brand-accent text-brand-accent px-8 py-3 rounded-lg font-semibold label-text hover:bg-brand-accent hover:text-brand-bg transition-colors duration-300">
+                            Tìm hiểu thêm
+                        </button>
+</div>
+<!-- Image (Right 60%) -->
+<div class="w-full md:w-[60%]">
+<div class="aspect-[4/3] rounded-[16px] overflow-hidden border border-brand-surface shadow-lg relative">
+<img alt="Cảnh rang cà phê" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" data-alt="A macro shot of a weathered, dark wooden bowl overflowing with freshly roasted, dark espresso coffee beans. The beans have a slight oily sheen, catching tiny specks of warm, caramel-colored light (#C4903D). The background is completely swallowed in soft, moody blackness (#1A1208). The texture of the cracked wooden bowl and the deep, rich brown tones of the beans evoke a sense of heritage, craftsmanship, and the intense aroma of specialty coffee." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVCf8lbBuffIRVCck82-QI_pfszoGHHfSyqh3bI7Lgfrgaf0rgkxYwn7NDY-qzSanta4mNTfmX0wmdPz_kX8dXPzG1UO8Dwh2PN9Opb7M8ix9gqKWF9X_5MVDJ2WGL_LnL9QkZOZVfbB7rg6FVWzmbxnRzYf8SZ3xobiniwJAWohthEOVExSq2ITjm4SHBcxs69yVS8r76kCvsLEr0ceb5BQohpz5ICr4KXf4VKYCKsiI_KAGvxlly-eYJXCxUQVEHTF1f5aE7pvw"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonial -->
+<section class="py-32 px-8 relative overflow-hidden reveal">
+<!-- Subtle ambient background elements -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-accent/5 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="max-w-4xl mx-auto text-center relative z-10">
+<span class="material-symbols-outlined text-brand-accent text-5xl mb-8 block opacity-50" style="font-variation-settings: 'FILL' 1;">format_quote</span>
+<h3 class="font-headline text-3xl md:text-5xl italic leading-relaxed text-[#F5ECD7] mb-8">
+                    "Không gian tĩnh lặng tuyệt đối. Tách cà phê Pour Over ở đây thực sự đưa tôi trở về với những nốt hương nguyên bản nhất."
+                </h3>
+<p class="label-text text-brand-muted text-sm tracking-widest">
+                    — Nguyễn Minh, Coffee Enthusiast
+                </p>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-24 px-8 border-t border-brand-surface/50 reveal">
+<div class="max-w-7xl mx-auto bg-brand-surface rounded-[24px] p-12 md:p-16 flex flex-col md:flex-row items-center justify-between border border-brand-surface/80 relative overflow-hidden">
+<!-- Decorative subtle pattern -->
+<div class="absolute inset-0 opacity-5" style="background-image: repeating-linear-gradient(45deg, #C4903D 0, #C4903D 1px, transparent 0, transparent 50%); background-size: 20px 20px;"></div>
+<div class="relative z-10 md:w-2/3 mb-8 md:mb-0">
+<h2 class="font-headline text-4xl md:text-5xl mb-6 text-[#F5ECD7]">Ghé thăm không gian của chúng tôi</h2>
+<div class="flex flex-col gap-3 font-light text-brand-text/80">
+<p class="flex items-center gap-3">
+<span class="material-symbols-outlined text-brand-accent">location_on</span>
+                            123 Đường Cà Phê, Quận Trầm, TP.HCM
+                        </p>
+<p class="flex items-center gap-3">
+<span class="material-symbols-outlined text-brand-accent">schedule</span>
+                            Mở cửa: 07:00 - 22:00 mỗi ngày
+                        </p>
+</div>
+</div>
+<div class="relative z-10">
+<button class="bg-brand-text text-brand-bg px-8 py-4 rounded-lg font-semibold label-text text-lg btn-hover flex items-center gap-2 hover:bg-white">
+<span class="material-symbols-outlined">map</span>
+                        Xem bản đồ
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#1A1208] dark:bg-[#1A1208] full-width py-12 border-t border-[#2D2418]">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 max-w-7xl mx-auto w-full gap-8">
+<div class="font-['Playfair_Display'] text-xl text-[#F5ECD7]">
+                Nâu Coffee
+            </div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="font-['Outfit'] uppercase tracking-widest text-[#8A7E6E] text-sm hover:text-[#F5ECD7] transition-all" href="#">Chính sách bảo mật</a>
+<a class="font-['Outfit'] uppercase tracking-widest text-[#8A7E6E] text-sm hover:text-[#F5ECD7] transition-all" href="#">Điều khoản sử dụng</a>
+<a class="font-['Outfit'] uppercase tracking-widest text-[#8A7E6E] text-sm hover:text-[#F5ECD7] transition-all" href="#">Tuyển dụng</a>
+</div>
+<div class="font-['Outfit'] text-sm font-light text-[#8A7E6E]">
+                © 2024 Nâu Coffee. All rights reserved.
+            </div>
+</div>
+</footer>
+<script>
+        // Simple scroll reveal animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                const elementVisible = 100;
+
+                reveals.forEach((reveal) => {
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveal.classList.add('active');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll(); // Trigger on load
+        });
+    </script>
+</body></html>

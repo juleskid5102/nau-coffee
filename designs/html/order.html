@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nâu Coffee - Đặt Món</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: "#1A1208",
+                            surface: "#2D2418",
+                            text: {
+                                primary: "#F5ECD7",
+                                secondary: "#8A7E6E"
+                            },
+                            accent: {
+                                DEFAULT: "#C4903D",
+                                hover: "#d9a34e"
+                            },
+                            error: "#C44D3D",
+                            success: "#6B8C42"
+                        }
+                    },
+                    fontFamily: {
+                        headline: ["Playfair Display", "serif"],
+                        body: ["Outfit", "sans-serif"],
+                        label: ["Outfit", "sans-serif"]
+                    },
+                    boxShadow: {
+                        'glow': '0 10px 25px -5px rgba(196, 144, 61, 0.1), 0 8px 10px -6px rgba(196, 144, 61, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #1A1208;
+            color: #F5ECD7;
+            font-family: 'Outfit', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        h1, h2, h3, h4, h5, h6, .font-headline {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Custom Scrollbar for Right Panel */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(45, 36, 24, 0.3);
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #8A7E6E;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #C4903D;
+        }
+        
+        /* Form Inputs Focus Ring override */
+        input:focus, textarea:focus {
+            --tw-ring-color: #C4903D !important;
+            border-color: #C4903D !important;
+        }
+    </style>
+</head>
+<body class="bg-brand-bg text-brand-text-primary min-h-screen flex flex-col pt-[72px]">
+<!-- Shared Component: TopNavBar -->
+<nav class="bg-[#1A1208] fixed top-0 w-full h-[72px] border-b border-[#2D2418] shadow-2xl z-50">
+<div class="flex justify-between items-center px-8 max-w-7xl mx-auto h-full">
+<div class="font-['Playfair_Display'] italic text-2xl text-[#F5ECD7] flex items-center gap-4">
+                Nâu Coffee
+            </div>
+<div class="hidden md:flex items-center gap-8 font-['Outfit'] font-light tracking-wide uppercase text-sm">
+<a class="text-[#8A7E6E] hover:text-[#F5ECD7] transition-colors hover:bg-[#2D2418] hover:text-[#C4903D] transition-all duration-300 px-3 py-2 rounded-md" href="#">Menu</a>
+<a class="text-[#8A7E6E] hover:text-[#F5ECD7] transition-colors hover:bg-[#2D2418] hover:text-[#C4903D] transition-all duration-300 px-3 py-2 rounded-md" href="#">Roastery</a>
+<a class="text-[#8A7E6E] hover:text-[#F5ECD7] transition-colors hover:bg-[#2D2418] hover:text-[#C4903D] transition-all duration-300 px-3 py-2 rounded-md" href="#">Story</a>
+<a class="text-[#8A7E6E] hover:text-[#F5ECD7] transition-colors hover:bg-[#2D2418] hover:text-[#C4903D] transition-all duration-300 px-3 py-2 rounded-md" href="#">Locations</a>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-[#8A7E6E]">
+<span class="material-symbols-outlined hover:text-[#C4903D] cursor-pointer transition-colors" style="font-variation-settings: 'FILL' 0;">shopping_bag</span>
+<span class="material-symbols-outlined hover:text-[#C4903D] cursor-pointer transition-colors" style="font-variation-settings: 'FILL' 0;">person</span>
+</div>
+<button class="font-['Outfit'] font-medium tracking-wide text-sm bg-[#C4903D] text-[#1A1208] px-5 py-2 rounded-lg hover:-translate-y-0.5 hover:bg-[#d9a34e] transition-all duration-300">
+                    Order Now
+                </button>
+</div>
+</div>
+</nav>
+<!-- Main Content Layout -->
+<main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
+<div class="flex flex-col lg:flex-row gap-12 relative items-start">
+<!-- Left Panel: Menu Selection (60%) -->
+<div class="w-full lg:w-3/5 pb-12 lg:pb-0">
+<header class="mb-10">
+<h1 class="font-headline text-5xl md:text-6xl text-brand-text-primary mb-4 tracking-tight">Đặt Món</h1>
+<p class="font-body text-brand-text-secondary text-lg font-light max-w-xl">Chọn món yêu thích và chúng tôi sẽ chuẩn bị cho bạn.</p>
+</header>
+<!-- Category Tabs -->
+<div class="flex overflow-x-auto gap-2 mb-10 pb-2 custom-scrollbar -mx-4 px-4 lg:mx-0 lg:px-0">
+<button class="whitespace-nowrap px-6 py-2.5 rounded-full bg-brand-surface text-brand-text-primary border border-brand-accent font-medium text-sm tracking-wide transition-all duration-300">Cà Phê</button>
+<button class="whitespace-nowrap px-6 py-2.5 rounded-full bg-transparent text-brand-text-secondary border border-transparent hover:text-brand-text-primary hover:bg-brand-surface/50 font-medium text-sm tracking-wide transition-all duration-300">Trà</button>
+<button class="whitespace-nowrap px-6 py-2.5 rounded-full bg-transparent text-brand-text-secondary border border-transparent hover:text-brand-text-primary hover:bg-brand-surface/50 font-medium text-sm tracking-wide transition-all duration-300">Đá Xay</button>
+<button class="whitespace-nowrap px-6 py-2.5 rounded-full bg-transparent text-brand-text-secondary border border-transparent hover:text-brand-text-primary hover:bg-brand-surface/50 font-medium text-sm tracking-wide transition-all duration-300">Bánh Ngọt</button>
+</div>
+<!-- Item Cards Grid -->
+<div class="grid grid-cols-1 gap-4">
+<!-- Item 1 (Added State) -->
+<div class="group bg-brand-surface border border-brand-surface/50 rounded-2xl p-3 flex items-center gap-5 transition-all duration-300 hover:shadow-glow hover:-translate-y-1 relative overflow-hidden ring-1 ring-brand-accent/30">
+<div class="absolute inset-0 bg-gradient-to-r from-brand-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+<div class="w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-[#1A1208]">
+<img alt="Cà Phê Muối" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uivaVHwkYMdEOoytnM9Ay-YbFNcW9-hJ-s0hhlwrzh-SEMYRSHaI8Rr3171Mwhj3AC3d3OVKyHfAjBTp7-CXpzRtIrecUFKc5MDXRsZyiBNxqqp9QNkvMIMFF1SrOHH2o5EofS5Q7OQERxiYDa-arvWz1NbAWGNMwegSDivP0IU0Kd9UoLAMbIlz-K7TfIVvMDl316_zVJPDxqbl8shdkYLJIyfvVGH_xd015sQ7buUbkQWxoXC8SDUfXY"/>
+</div>
+<div class="flex-grow min-w-0 py-1">
+<h3 class="font-body font-medium text-lg text-brand-text-primary truncate mb-1">Cà Phê Muối</h3>
+<p class="font-body text-sm text-brand-text-secondary line-clamp-1 font-light">Gourmet Vietnamese Salt Coffee</p>
+<p class="font-body text-brand-accent font-semibold mt-1">55.000đ</p>
+</div>
+<div class="shrink-0 pr-2">
+<!-- Quantity Adjuster (Active State) -->
+<div class="flex items-center bg-brand-bg rounded-lg border border-brand-accent/30 h-10">
+<button class="w-8 h-full flex items-center justify-center text-brand-text-secondary hover:text-brand-accent transition-colors">
+<span class="material-symbols-outlined text-[20px]">remove</span>
+</button>
+<span class="w-6 text-center font-medium text-sm">1</span>
+<button class="w-8 h-full flex items-center justify-center text-brand-text-secondary hover:text-brand-accent transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 2 (Added State) -->
+<div class="group bg-brand-surface border border-brand-surface/50 rounded-2xl p-3 flex items-center gap-5 transition-all duration-300 hover:shadow-glow hover:-translate-y-1 relative overflow-hidden ring-1 ring-brand-accent/30">
+<div class="w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-[#1A1208]">
+<img alt="Bạc Xỉu" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uhVfvD2PY9kYX8eJ3o391TG3CD5lUSiMkXMRwtQH32gY-i-bbbdrwKwm5guK6yLyHd0FuXPwItAuMGSMxMpD8yzC3Nl7XEH8YbewAEj7LtC3T-0f-3coDTkF6STv78KzllyuL2atseWA1-AfmYCphkzUku8Rk7lP9tpL9uSfX5S8AlCmoRVum9Sv0x0irkEXQJxXnz-DqO4Cscij-GAop0YEYVICCUvKvWENgfohCN746TDiSfHJOvevB0"/>
+</div>
+<div class="flex-grow min-w-0 py-1">
+<h3 class="font-body font-medium text-lg text-brand-text-primary truncate mb-1">Bạc Xỉu</h3>
+<p class="font-body text-sm text-brand-text-secondary line-clamp-1 font-light">Classic condensed milk layers</p>
+<p class="font-body text-brand-accent font-semibold mt-1">45.000đ</p>
+</div>
+<div class="shrink-0 pr-2">
+<div class="flex items-center bg-brand-bg rounded-lg border border-brand-accent/30 h-10">
+<button class="w-8 h-full flex items-center justify-center text-brand-text-secondary hover:text-brand-accent transition-colors">
+<span class="material-symbols-outlined text-[20px]">remove</span>
+</button>
+<span class="w-6 text-center font-medium text-sm">1</span>
+<button class="w-8 h-full flex items-center justify-center text-brand-text-secondary hover:text-brand-accent transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 3 (Add State) -->
+<div class="group bg-brand-surface border border-brand-surface/50 rounded-2xl p-3 flex items-center gap-5 transition-all duration-300 hover:shadow-glow hover:-translate-y-1 relative overflow-hidden">
+<div class="w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-[#1A1208]">
+<img alt="Cold Brew" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uhyjMRRjP_FzfMaOy_Bjr2220Wmra0FJhLSP96hd1tkL2zBr3ZInqLUYTRcEbkOsxRBr2oWbDCFWdD3m1N59iXnTsaHiZU02w8Fpfp051TRQm1YX4ARPiQmhIQhjRaRGUYaixSAezz7HhPdMYlyqPatZ4njCKwhRW7r0foTvF4HLVfM-3R7dyz8fDjM_-5SXTRAL7PaPpStX22pMR9XH5fOlccABxb9AJoJeallhj6taZilfL5UAE5DoG4"/>
+</div>
+<div class="flex-grow min-w-0 py-1">
+<h3 class="font-body font-medium text-lg text-brand-text-primary truncate mb-1">Cold Brew</h3>
+<p class="font-body text-sm text-brand-text-secondary line-clamp-1 font-light">Minimalist clear ice texture</p>
+<p class="font-body text-brand-accent font-semibold mt-1">65.000đ</p>
+</div>
+<div class="shrink-0 pr-2">
+<button class="w-10 h-10 rounded-full bg-brand-bg text-brand-accent flex items-center justify-center border border-brand-accent/20 hover:bg-brand-accent hover:text-brand-bg transition-colors duration-300">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+<!-- Item 4 (Add State) -->
+<div class="group bg-brand-surface border border-brand-surface/50 rounded-2xl p-3 flex items-center gap-5 transition-all duration-300 hover:shadow-glow hover:-translate-y-1 relative overflow-hidden">
+<div class="w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-[#1A1208]">
+<img alt="Cà Phê Trứng" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ugGPm_wDMXky1Pa3BwvdS_kTOClx_8WGfpRUzSfb_3MiMy47kDS0jw1Onsw8TZNEja5XEKvq2KRkQr768Pa6e_3j5xsljpksLta4q_sdUtyd0l5ZG9DLZyFvwlDTcxhQe_utA56-oMZMrEEZkzxOzMkeG1mDHO1Ac91jbVoPX1G4XEuG9H-P8AU3LL4-px2DiX14-cYnbbhGDKFR7LpeNTmbhj-rVwsT5U1jpkOMdZEKsMn7zRExxqDEKQ"/>
+</div>
+<div class="flex-grow min-w-0 py-1">
+<h3 class="font-body font-medium text-lg text-brand-text-primary truncate mb-1">Cà Phê Trứng</h3>
+<p class="font-body text-sm text-brand-text-secondary line-clamp-1 font-light">Traditional egg foam top</p>
+<p class="font-body text-brand-accent font-semibold mt-1">60.000đ</p>
+</div>
+<div class="shrink-0 pr-2">
+<button class="w-10 h-10 rounded-full bg-brand-bg text-brand-accent flex items-center justify-center border border-brand-accent/20 hover:bg-brand-accent hover:text-brand-bg transition-colors duration-300">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+<!-- Item 5 (Add State) -->
+<div class="group bg-brand-surface border border-brand-surface/50 rounded-2xl p-3 flex items-center gap-5 transition-all duration-300 hover:shadow-glow hover:-translate-y-1 relative overflow-hidden">
+<div class="w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-[#1A1208]">
+<img alt="Trà Sen" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uhAS1SsiGjAQhTK88xCaujZZzXpLlUxTCAVn51-x-w9cI3IGrvEhHjTxxzG8WJubTwM-IcxD7KgVJYEfBfkvkpm_aSlpcNCnBZFBbnSUFa5VpsIXh2dblCW-NbBB0tQZUvN3ZNo9j5MFqCJSUC_x6zckVXbJo9rZ4h-dXtwbLiwKLKB1nOC6xdrWxPcWAFhYwQX2pVP1YiZZSqhS1J5rpg0Ys5HS6ZsLRbimhFm7eNxFTVl92-lGM9rcg"/>
+</div>
+<div class="flex-grow min-w-0 py-1">
+<h3 class="font-body font-medium text-lg text-brand-text-primary truncate mb-1">Trà Sen</h3>
+<p class="font-body text-sm text-brand-text-secondary line-clamp-1 font-light">Premium Lotus Tea glass</p>
+<p class="font-body text-brand-accent font-semibold mt-1">50.000đ</p>
+</div>
+<div class="shrink-0 pr-2">
+<button class="w-10 h-10 rounded-full bg-brand-bg text-brand-accent flex items-center justify-center border border-brand-accent/20 hover:bg-brand-accent hover:text-brand-bg transition-colors duration-300">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+<!-- Item 6 (Add State) -->
+<div class="group bg-brand-surface border border-brand-surface/50 rounded-2xl p-3 flex items-center gap-5 transition-all duration-300 hover:shadow-glow hover:-translate-y-1 relative overflow-hidden">
+<div class="w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-[#1A1208]">
+<img alt="Matcha Latte" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uiUr06QUr-fsu2uXNzQJyDL5EBCEq5ugZ0I69-YaXcGt7vvKCJ3xqCdU8cqYe8d37Qt3cnnCRjVMa84K1gaWL59ebxmW9eTzNW5lUQcl55HSE-ZzMfceWMy8KTLjDX25bWAsM5eAYhm3NbQOC2Q62sP8MG2bWOkgapsoNPon3ATjkwonJmdw4Srrksk9yy_dtfm9_RLjhB2bgkAfU1nZ3BdEzBMctPekWLGYgdPXMLrz42KDebf8reFGRk"/>
+</div>
+<div class="flex-grow min-w-0 py-1">
+<h3 class="font-body font-medium text-lg text-brand-text-primary truncate mb-1">Matcha Latte</h3>
+<p class="font-body text-sm text-brand-text-secondary line-clamp-1 font-light">Latte art dark ceramic</p>
+<p class="font-body text-brand-accent font-semibold mt-1">55.000đ</p>
+</div>
+<div class="shrink-0 pr-2">
+<button class="w-10 h-10 rounded-full bg-brand-bg text-brand-accent flex items-center justify-center border border-brand-accent/20 hover:bg-brand-accent hover:text-brand-bg transition-colors duration-300">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+<!-- Item 7 (Add State) -->
+<div class="group bg-brand-surface border border-brand-surface/50 rounded-2xl p-3 flex items-center gap-5 transition-all duration-300 hover:shadow-glow hover:-translate-y-1 relative overflow-hidden">
+<div class="w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-[#1A1208]">
+<img alt="Bánh Croissant Placeholder" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ujU8SD8p0oOdQlL68Vdaaqhgd7jU56bnf9jMPHinrQIwYduKtPjW8YGYw40RyCRSB7CXdfZhzlrgxftfigi7dvpb8T0CVyLNcgJItoRsQS7DONkAJy8U0I9OU7_fecwyMDuJXJmw_Z5U6ftwmnxtEr9vax8k8DYOQHIa3R43T0znGg74EdgvnU94lAB6Y9UYoI5_GXJxtSsSVcD_dHha6_oJEEm3xoK6_r1T9KjW9KSwM-0xpVx04f6cbk"/>
+</div>
+<div class="flex-grow min-w-0 py-1">
+<h3 class="font-body font-medium text-lg text-brand-text-primary truncate mb-1">Bánh Croissant</h3>
+<p class="font-body text-sm text-brand-text-secondary line-clamp-1 font-light">Freshly baked pastry</p>
+<p class="font-body text-brand-accent font-semibold mt-1">35.000đ</p>
+</div>
+<div class="shrink-0 pr-2">
+<button class="w-10 h-10 rounded-full bg-brand-bg text-brand-accent flex items-center justify-center border border-brand-accent/20 hover:bg-brand-accent hover:text-brand-bg transition-colors duration-300">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Panel: Sticky Order Summary (40%) -->
+<div class="w-full lg:w-2/5 lg:sticky lg:top-[96px] z-10">
+<div class="bg-brand-surface rounded-[24px] border border-brand-surface/50 shadow-2xl overflow-hidden flex flex-col max-h-[calc(100vh-120px)]">
+<div class="p-6 md:p-8 border-b border-brand-bg flex-shrink-0">
+<h2 class="font-headline text-3xl text-brand-text-primary">Đơn Hàng Của Bạn</h2>
+</div>
+<!-- Scrollable Order Items List -->
+<div class="p-6 md:p-8 overflow-y-auto custom-scrollbar flex-grow">
+<div class="space-y-4">
+<!-- Selected Item 1 -->
+<div class="flex justify-between items-start group">
+<div class="flex-1 pr-4">
+<h4 class="font-body font-medium text-brand-text-primary">Cà Phê Muối</h4>
+<div class="text-sm text-brand-text-secondary mt-1 font-light">x1</div>
+</div>
+<div class="text-right">
+<div class="font-body font-medium text-brand-accent">55.000đ</div>
+<button class="text-xs text-brand-text-secondary hover:text-brand-error transition-colors mt-1 underline opacity-0 group-hover:opacity-100 focus:opacity-100">Xóa</button>
+</div>
+</div>
+<!-- Selected Item 2 -->
+<div class="flex justify-between items-start group">
+<div class="flex-1 pr-4">
+<h4 class="font-body font-medium text-brand-text-primary">Bạc Xỉu</h4>
+<div class="text-sm text-brand-text-secondary mt-1 font-light">x1</div>
+</div>
+<div class="text-right">
+<div class="font-body font-medium text-brand-accent">45.000đ</div>
+<button class="text-xs text-brand-text-secondary hover:text-brand-error transition-colors mt-1 underline opacity-0 group-hover:opacity-100 focus:opacity-100">Xóa</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Checkout Form & Total -->
+<div class="p-6 md:p-8 bg-[#251D14] flex-shrink-0 border-t border-brand-bg relative z-10">
+<!-- Totals -->
+<div class="flex justify-between items-end mb-6">
+<span class="font-body text-brand-text-secondary">Tạm tính</span>
+<span class="font-headline text-3xl text-brand-accent">100.000đ</span>
+</div>
+<!-- Customer Form -->
+<form class="space-y-4 mb-6">
+<div>
+<label class="sr-only" for="name">Họ tên</label>
+<input class="w-full bg-brand-surface border-brand-text-secondary/30 rounded-lg px-4 py-3 text-brand-text-primary placeholder:text-brand-text-secondary/50 focus:ring-1 focus:ring-brand-accent focus:border-brand-accent transition-colors font-light" id="name" name="name" placeholder="Họ tên" type="text"/>
+</div>
+<div>
+<label class="sr-only" for="phone">Số điện thoại</label>
+<input class="w-full bg-brand-surface border-brand-text-secondary/30 rounded-lg px-4 py-3 text-brand-text-primary placeholder:text-brand-text-secondary/50 focus:ring-1 focus:ring-brand-accent focus:border-brand-accent transition-colors font-light" id="phone" name="phone" placeholder="Số điện thoại" type="tel"/>
+</div>
+<div>
+<label class="sr-only" for="notes">Ghi chú</label>
+<textarea class="w-full bg-brand-surface border-brand-text-secondary/30 rounded-lg px-4 py-3 text-brand-text-primary placeholder:text-brand-text-secondary/50 focus:ring-1 focus:ring-brand-accent focus:border-brand-accent transition-colors font-light resize-none" id="notes" name="notes" placeholder="Ghi chú (Tùy chọn)" rows="2"></textarea>
+</div>
+</form>
+<button class="w-full bg-brand-accent text-brand-bg font-label uppercase tracking-widest font-semibold py-4 rounded-lg hover:-translate-y-0.5 hover:bg-brand-accent-hover transition-all duration-300 shadow-lg" type="button">
+                            Xác Nhận Đơn
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer: Minimal Copyright -->
+<footer class="bg-[#1A1208] border-t border-[#2D2418] py-8 w-full mt-auto">
+<div class="max-w-7xl mx-auto px-8 text-center text-brand-text-secondary text-sm font-light">
+            © 2024 Nâu Coffee Roasters. Ethically sourced, Vietnamese specialty coffee.
+        </div>
+</footer>
+</body></html>
