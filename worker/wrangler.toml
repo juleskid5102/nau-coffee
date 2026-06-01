@@ -1,0 +1,12 @@
+name = "nau-coffee-api"
+main = "src/index.ts"
+compatibility_date = "2025-05-20"
+
+[vars]
+FIREBASE_PROJECT_ID = "naucoffee"
+FIREBASE_CLIENT_EMAIL = "firebase-adminsdk-fbsvc@naucoffee.iam.gserviceaccount.com"
+CORS_ORIGIN = "https://naucoffee.pages.dev"
+ENVIRONMENT = "production"
+
+# Secrets (set via: npx wrangler secret put FIREBASE_PRIVATE_KEY)
+# FIREBASE_PRIVATE_KEY = "..." (never in config!)

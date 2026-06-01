@@ -10,6 +10,10 @@ worker/dist/
 .env.local
 .dev.vars
 
+# Firebase secrets — NEVER commit
+*-firebase-adminsdk-*.json
+*.key.json
+
 # IDE
 .vscode/
 .idea/

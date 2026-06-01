@@ -9,7 +9,7 @@ const menuItems = [
     description: 'Sự kết hợp hoàn hảo giữa vị đắng của cà phê nguyên chất, vị béo của kem và chút mặn mòi tinh tế của muối hồng Himalaya.',
     category: 'Cà Phê',
     wide: true,
-    img: 'https://lh3.googleusercontent.com/aida/ADBb0uhYTBNHld8K7OrmNHYSoCm6rMvuwSo8wkogKJZhsRvfwto8n1Pj8tzMdCbeEh5_Y1HClbTDKr4ILgpwVLKxDT0xUi6G-efsfzwHm3hSdcvc7_2OmRSw7KzIojKQSZ6RPiRAD97_DTXVeRRcWVxYb2mmN3eka6vaj-WqiEeKbcvnEnilB3Y6YOQukF68zJVnJf2ZQL-fTNE_85mzYUkjjjp4PoJh4YguElRAmNFrgHILDSBSwx2V_9eiPlU',
+    img: '/images/ca-phe-muoi.jpg',
   },
   {
     name: 'Bạc Xỉu',
@@ -17,7 +17,7 @@ const menuItems = [
     description: 'Hương vị truyền thống với lớp sữa đặc ngọt ngào hòa quyện cùng espresso đậm vị.',
     category: 'Cà Phê',
     wide: false,
-    img: 'https://lh3.googleusercontent.com/aida/ADBb0uj9W500ejUaqI85xY3VUiHNli_fkyM24xs43YD2WsshHGdgtYfh4lEfthwAcDW8d7Ss-myO92CDRKqwDtiGd-JyDicc_6j6K_1M57wwQcE_liax4V7YpK2ljmGF8dv88gsu5o69edJxN8oT3qJCVPq-a3mSqpOxylnjlLxyHWFa65MX56L--6qJAIrVHhc-IZeDOcLZx06mWvsSSvaGdzzlxBmEx8ssYVoCxQfI5WA6qAEA1KPs1MHE49E',
+    img: '/images/bac-xiu.jpg',
   },
   {
     name: 'Cold Brew',
@@ -25,7 +25,7 @@ const menuItems = [
     description: 'Cà phê ủ lạnh 24h, mượt mà, ít chua, thoang thoảng hương trái cây nhiệt đới.',
     category: 'Cà Phê',
     wide: false,
-    img: 'https://lh3.googleusercontent.com/aida/ADBb0ui_dT8xYvlAnCZKgB6ZfsasHMiDVvSuzzsWxP0PNUc5QexYzA7U55VuA0W8XHRdWZy7C13KA2MbIg7ryMhpdXlOy-7bA1Bdi75Sb_T8YmFVxHq8T8YkjozU7mrOYBRqzU9vIZztEyhAwo17iEaTNJ0ebAVCu5AgU3Z0KRP61aEmgllEg9jMOn34eUFuiPhKFGU08iP27Klf4vpCPF4CSPHDHJd3hCBSqoXdBLg3WSSJtdhbJSWPjOlGu2I',
+    img: '/images/cold-brew.jpg',
   },
   {
     name: 'Cà Phê Trứng',
@@ -33,7 +33,7 @@ const menuItems = [
     description: 'Đặc sản Hà Nội giữa lòng phố. Lớp kem trứng đánh bông mềm mịn, thơm lừng ôm trọn vị đắng gắt của robusta rang mộc.',
     category: 'Cà Phê',
     wide: true,
-    img: 'https://lh3.googleusercontent.com/aida/ADBb0uhgREk2lHObA1EODb-VEOHtLOwyQymVH17DoE33ocXQupp5J2ifFdzmAqKbT6QPhnU-6R9aTephVcNY5MT9i48-JnEuj71ENUiUgjcDLsxlj77yDsS7uFeHlVWGK71EzTzB8L9WvvYrkr4c_weE8k_TIZPhgG_TWH4FsQ2jgwmresT1tu9QV8YqO1-8TXSe8Kew7wXbiJpBUYAvv0JkOPuLXnsKS_X00qbpe_5rB0VXr3Pnaznqm0980Mk',
+    img: '/images/ca-phe-trung.jpg',
   },
   {
     name: 'Trà Sen',
@@ -41,7 +41,7 @@ const menuItems = [
     description: 'Trà mạn ướp hương sen thanh tao, dịu nhẹ, mang lại cảm giác thư thái.',
     category: 'Trà',
     wide: false,
-    img: 'https://lh3.googleusercontent.com/aida/ADBb0ujDRJbXlQ3Lw-BqfZP9uwnRHD_Jap3nSXpZBqBan_MlyzyJkBKBuhEQSsaC3sf8H8IJUqr-Fx2tDlk60PPzAHFcBpsfqaT9vviz5nU5oWTrSgjQDMpavi-CqlLzosv585S_Iu_8q-jwthdsHG7tZHdjg9OJFIpEltaIO9sd7bHKIY4j1PP0Kvg3fYcIyTLuVMiqfQ5yJy9viQEgWWz2kCe5fLdd-DTZGslWuGVgIJxvV0sjy95cm02SJw',
+    img: '/images/tra-sen.jpg',
   },
   {
     name: 'Matcha Latte',
@@ -49,7 +49,7 @@ const menuItems = [
     description: 'Bột matcha thượng hạng từ Nhật Bản kết hợp cùng sữa tươi béo ngậy.',
     category: 'Trà',
     wide: false,
-    img: 'https://lh3.googleusercontent.com/aida/ADBb0uhHXNP3d_4Tw1WnKUpc8riY1djntKaiHxY4s4DsdBvL68eI_lDVaYV3DPq4C2v1UoogiUZ14al-RSTb3yQebgGUfO-ZNfSQ5JGR0T2T1URVLxx5UzFKNtsJ8rSbnTGi-O3He9fR9NWp0Xi-e3zswRYh3tqR6Eq5MWSdOP7x_brQ-iDYrsJkbkERnvTeB1ilLANMG9oTt-5XU4J9bKTUx8HHqGme3i7MRCnR_AUhA67nEXM9mSV5N2nrLMA',
+    img: '/images/matcha-latte.jpg',
   },
 ];
 

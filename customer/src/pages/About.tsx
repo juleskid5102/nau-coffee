@@ -24,7 +24,7 @@ export default function About() {
                 }}
               >
                 <img
-                  src="https://lh3.googleusercontent.com/aida/ADBb0ujj8coCWp_TX1_gqvclGa6UKcNEzNScVAGC2On75vlVOxMS-v5_-ZjAdQsSidRHEFxZ2b33762mm-krAESh13aVrJFe-RsCIdxLHddcd-a1X4lH4pUm5cfZG1WKvue_93tgmEiDnFNMYqbp9BCn236zFlhVPIErpQ3_vg8xaJhIDGEBzkM_KawpvXR6fQlCpGFI14eSZWalPqGDMaqb8gNyKKTAfUpQRTVrtfh26pSehS63aNjEI9iLFA"
+                  src="/images/coffee-roasting.jpg"
                   alt="Quá trình rang cà phê"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
@@ -60,7 +60,7 @@ export default function About() {
           <div className="md:col-span-8">
             <div style={{ borderRadius: '2rem', overflow: 'hidden', border: '1px solid var(--color-warm-slate)' }}>
               <img
-                src="https://lh3.googleusercontent.com/aida/ADBb0ui88_so5oDLwFdH6vjfQqWQN-MTmbqCZ_Zb6sTNuYAXzi9MidNTA6qwcZ5VvBtjbzhIdHcl-LYWxqj0vGUh6XLpGvhwDEDGDb__Y-9QCuFvxSjfsv90fq8aGk2SElfMcYDkJjxV-FIqGQVQ3AWs2VLhfBoyCO2M65_mXuX0nlXu4d8yJGhURKQg6KSCm5SGuvD_8_k_WXwi3_jVIbLyvGj8dPvrClKDLXHh3BwfF7gwtsDbIn_Et6Oh2CE"
+                src="/images/barista-pourover.jpg"
                 alt="Barista pha chế"
                 style={{ width: '100%', height: 'clamp(300px, 50vh, 60vh)', objectFit: 'cover' }}
               />
@@ -124,7 +124,7 @@ export default function About() {
                 }}
               >
                 <img
-                  src="https://lh3.googleusercontent.com/aida/ADBb0uhd_ME5sNjEZK6Tnn54hdA0fzQxMyJ3vlORsk2y1b7-talYt_xPI-Il6OafLRtDM_bru5N8RcE521vndPBiTQlEwJW914sMj0SPTSCKdcmgZ1l8iz2AWUw12XmaMOHErfpJS7bkAmauaH_FS5Kc4zcK3rNMxD3mt0badKHgMDxlJnttc92gT3vSh3E10ycNDpn1HkDWEvu7mg8ENsgHfTquRPpub7G30X4yx_6f1orHDgWhGjUnucGnspo"
+                  src="/images/space-detail.jpg"
                   alt="Minh Trí - Founder"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
