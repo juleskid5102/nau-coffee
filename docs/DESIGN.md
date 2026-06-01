@@ -1,161 +1,134 @@
-# Design System: Nâu Coffee
+# Design System: Nâu Coffee — Specialty Coffee Brand
 
 ## 1. Visual Theme & Atmosphere
+A brooding, atmospheric specialty coffee sanctuary. The space feels like walking into a dimly-lit roastery at golden hour — deep charcoal surfaces absorb ambient light, while a single warm terracotta accent traces every intentional touchpoint. The density is Art Gallery Airy (3/10) with confident asymmetric layouts (Variance 8/10) and fluid spring-physics motion (Motion 7/10). Every surface whispers craft, not commerce.
 
-A warm, moody, gallery-airy interface with confident asymmetric layouts and restrained cinematic motion. The atmosphere evokes a dimly-lit specialty coffee bar — deep espresso wood surfaces, golden caramel light filtering through, cream-colored ceramic. Every surface feels tactile and lived-in, not sterile or digitally cold.
-
-**Design Read:** Premium-consumer coffee brand website for design-conscious coffee enthusiasts, with a warm editorial language, leaning toward dark-mode-locked + GSAP scroll choreography + distinctive serif display.
-
-**Dials:**
-- `DESIGN_VARIANCE: 7` — Confident asymmetry, not chaotic
-- `MOTION_INTENSITY: 6` — Fluid scroll reveals and spring-physics hover, no gratuitous loops
-- `VISUAL_DENSITY: 3` — Gallery-airy, generous whitespace, content breathes
+**Design Philosophy:** "The Quiet Ritual" — each section is a slow reveal, never a sales pitch. Whitespace is a luxury material. The interface should feel like a well-curated coffee tasting, not a menu board.
 
 ## 2. Color Palette & Roles
+- **Deep Roast** (#14110e) — Primary background surface. Near-black with warm undertone, NOT pure black
+- **Charcoal Surface** (#1c1916) — Card and container fill, elevated surfaces
+- **Warm Slate** (#252220) — Secondary surface, subtle tonal shifts between sections
+- **Ivory Smoke** (#e8e0d4) — Primary text, headlines, body copy. Warm but NOT cream/beige
+- **Ash Stone** (#8a8278) — Secondary text, descriptions, metadata. Cool-neutral
+- **Burnt Terracotta** (#c2703a) — Single accent for CTAs, active states, focus rings, links. Warm but NOT brass/gold/caramel
+- **Ember Glow** (#d4845a) — Accent hover state, lighter terracotta
+- **Deep Clay** (#9a5428) — Accent active/pressed state
+- **Moss Success** (#6b8c42) — Success states only
+- **Brick Error** (#c44d3d) — Error states only
 
-All colors sourced from brand identity kit — no deviation.
-
-- **Espresso Dark** (#1A1208) — Primary background surface. The dominant canvas. Near-black with warm undertone
-- **Coffee Surface** (#2D2418) — Card and container fill. Elevated surfaces, navbar background
-- **Warm Stone** (#8A7E6E) — Secondary text, descriptions, metadata, borders, dividers
-- **Caramel Gold** (#C4903D) — Single accent for CTAs, active states, focus rings, logo highlight. Saturation ~72%
-- **Cream Ivory** (#F5ECD7) — Primary text on dark backgrounds. Headlines, body text, navigation labels
-
-**Accent rule:** Caramel Gold is the ONLY accent. No secondary accent. No gradient variations. Lock it across every section.
-
-**Banned:**
-- Pure black (#000000) — always use Espresso Dark (#1A1208)
-- AI Purple / Blue neon — not relevant to this brand
-- Warm beige backgrounds (#f5f1ea, #faf7f1) — this is a DARK MODE LOCKED site. No light sections
-- Cool grays — warm undertone throughout, never Zinc or Slate
+**BANNED Colors:**
+- No #c4903d (caramel/brass/gold) — AI-default premium palette
+- No #f5ecd7 (cream/beige background) — AI-default warm paper
+- No #1a1208 (warm espresso near-black) — too warm, too generic
+- No pure black #000000
+- No purple/neon accents
+- No gradient text on large headers
 
 ## 3. Typography Rules
+- **Display/Headlines:** Stigma — Bold, modern display font. Track-normal, uppercase. Controlled scale hierarchy through weight and size, NOT just massive scaling. Max 2 lines for hero headlines
+- **Body:** Outfit — Clean geometric sans. Weight 300 for body, 500 for emphasis, 600 for buttons/labels. Line-height 1.7, max 65 characters per line
+- **Labels/Meta:** Outfit Medium — Uppercase, tracking 0.08-0.12em. Used sparingly for navigation and metadata
+- **Mono companion:** JetBrains Mono — For prices, timestamps, order numbers
 
-From brand identity kit:
+**BANNED:** Inter, generic system fonts, generic serif (Georgia, Times New Roman). No serif fonts anywhere in this project — Stigma is a display sans, Outfit is body sans.
 
-- **Display / Headlines:** DM Serif Display — Elegant, editorial serif justified by the genuine artisan/café heritage of this brand. Track-normal, controlled scale, weight-driven hierarchy. NOT a generic serif — DM Serif Display has distinctive ball terminals and high contrast strokes that evoke letterpress coffee packaging.
-- **Body:** Outfit — Clean geometric sans-serif. Relaxed leading (1.7), 65ch max-width for reading comfort. Weight 300 for body, 500 for emphasis, 600 for buttons/labels.
-- **Labels / Mono:** Outfit Medium — For navigation, buttons, category labels, prices. Uppercase with wide tracking (0.08em-0.12em) for small text.
+## 4. Hero Section Rules
+- **Asymmetric Split ONLY** — Text left (45%), atmospheric image right (55%). Centered hero is BANNED
+- **No overlapping text on images** — Every element in its own clean spatial zone
+- **No filler text** — "Scroll to explore", scroll arrows, bouncing chevrons are BANNED
+- **Max 4 text elements:** Headline (max 2 lines) + Subtext (max 20 words) + 1 primary CTA pill button. No eyebrow, no tiny tagline below CTA
+- **Hero top padding max pt-24** — Content does NOT float halfway down viewport
+- **CTA:** Single pill button, Burnt Terracotta fill, Deep Roast text. No secondary "Learn more" link
 
-**Scale:**
-- Display Large: DM Serif Display, clamp(2.5rem, 5vw, 4rem), line-height 1.1
-- Display Medium: DM Serif Display, clamp(2rem, 4vw, 3rem), line-height 1.15
-- Heading: DM Serif Display, clamp(1.5rem, 3vw, 2rem), line-height 1.2
-- Body: Outfit 300, clamp(0.95rem, 1.2vw, 1.125rem), line-height 1.7
-- Label: Outfit 500, 0.75rem, uppercase, tracking 0.1em
-- Price: Outfit 600, 1.125rem
-
-**Banned:** Inter, generic system fonts, Fraunces, Instrument Serif, Stigma (not in brand kit).
-
-## 4. Component Stylings
+## 5. Component Stylings
 
 ### Buttons
-- **Primary CTA:** Caramel Gold (#C4903D) fill, Espresso Dark (#1A1208) text. Rounded 8px. Outfit 600, 0.875rem, uppercase, tracking 0.08em. On hover: lighten to #D4A85C, translateY(-2px), soft caramel glow shadow. On active: translateY(0), scale(0.98) for tactile push.
-- **Secondary / Outline:** Transparent fill, 1.5px Warm Stone border, Cream text. On hover: border becomes Caramel Gold, text becomes Caramel Gold, translateY(-2px).
-- **Ghost links:** No border, Caramel Gold text, underline-offset animation on hover.
-- Max 1 primary CTA per section. Label max 3 words.
+- **Primary:** Burnt Terracotta (#c2703a) fill, Deep Roast text. Fully rounded pill shape (border-radius: 9999px). Padding: 14px 32px
+- **Hover:** Ember Glow (#d4845a), lift translateY(-2px), subtle warm shadow
+- **Active/Pressed:** scale(0.98) + translateY(1px) — tactile push feedback. Deep Clay color
+- **Ghost/Outline:** Transparent background, 1.5px Ash Stone border, Ivory Smoke text. Hover: border turns Terracotta
+- **BANNED:** No outer glows, no neon effects, no custom cursors, no square buttons (all pills)
 
-### Cards
-- Background: Coffee Surface (#2D2418). Border: 1px rgba(168,153,126,0.1). Rounded 16px.
-- On hover: translateY(-4px), shadow 0 4px 24px rgba(0,0,0,0.3), border-color shifts to rgba(196,144,61,0.2).
-- Image inside cards: object-fit cover, 0 border-radius on top, card radius on bottom.
-- Cards used ONLY when elevation communicates hierarchy (menu items, gallery). Otherwise use border-top dividers or negative space.
+### Cards — Double-Bezel Architecture
+Every premium card uses nested enclosures for machined hardware feel:
+- **Outer Shell:** Wrapper with bg Warm Slate (#252220), 1px border rgba(232,224,212,0.06), padding 6px, rounded 2rem
+- **Inner Core:** Content container with bg Charcoal Surface (#1c1916), inner highlight shadow inset 0 1px 1px rgba(255,255,255,0.04), rounded calc(2rem - 6px)
+- **Hover:** Outer shell border subtly brightens to rgba(194,112,58,0.15). No aggressive translateY
 
-### Navigation
-- Fixed top, transparent → Coffee Surface on scroll. Height: 72px desktop, 64px mobile.
-- Logo left (Nâu script + icon mark). Links center: Outfit Medium, 0.8125rem, uppercase, tracking 0.08em, Cream Ivory text.
-- CTA button right: Caramel Gold fill, compact padding.
-- Mobile: hamburger icon, fullscreen overlay menu with staggered reveal.
+### Navigation — Floating Island
+- **Desktop:** Floating pill detached from top — margin-top 16px, centered, max-width 960px, rounded-full
+- **Background:** rgba(20,17,14,0.85) + backdrop-blur 20px
+- **Border:** 1px solid rgba(232,224,212,0.08)
+- **Height:** 56px — compact, premium
+- **Logo:** Stigma font, left-aligned inside pill
+- **Links:** Outfit Medium, uppercase, tracking 0.12em, 13px
+- **CTA:** Small terracotta pill button flush right inside nav
+- **Mobile:** Full-screen overlay, backdrop-blur-3xl bg-black/85, staggered link reveals with spring physics
 
-### Inputs / Forms
-- Label above input (Outfit Medium, 0.75rem, uppercase, tracking 0.08em, Warm Stone color).
-- Input: Coffee Surface fill, 1px Warm Stone border, Cream text, rounded 8px, padding 0.875rem 1rem.
-- Focus: border becomes Caramel Gold, soft glow ring.
-- Error: #C44D3D text below input.
-- No floating labels. No placeholder-as-label.
+### Inputs/Forms
+- Label above input (never floating label, never placeholder-as-label)
+- Background: Charcoal Surface
+- Border: 1px Ash Stone at 30% opacity
+- Focus: Burnt Terracotta ring, 2px
+- Error text below input, Brick Error color
+- Helper text optional, Ash Stone color
+- Rounded 12px (consistent with card inner radius)
 
 ### Loading States
-- Skeletal shimmer matching exact layout dimensions. Shimmer gradient from Coffee Surface to Espresso Dark.
-- No circular spinners.
+- Skeletal shimmer loaders matching exact layout dimensions
+- Shimmer color: Warm Slate → Charcoal Surface gradient sweep
+- No circular spinners, no bouncing dots
 
-### Empty States
-- Composed composition with DM Serif Display heading + Outfit body + relevant illustration or icon.
-
-## 5. Layout Principles
-
-- **Dark mode locked.** Every section uses the Espresso Dark → Coffee Surface spectrum. No light sections mid-page.
-- **Grid-first.** CSS Grid for multi-column layouts. No flexbox percentage math.
-- **Max-width containment:** 72rem (1152px) centered with 1.5rem mobile padding, 2.5rem desktop.
-- **Section spacing:** clamp(3.5rem, 8vw, 6rem) vertical gap between sections.
-- **Hero:** Asymmetric or left-aligned content, NOT centered (variance 7). Full-viewport with background image. Content positioned left or with split layout.
-- **Feature sections:** No 3-equal-column card grids. Use 2-column zig-zag, asymmetric grid (wide + narrow), or horizontal scroll for menu categories.
-- **Mobile collapse:** All multi-column layouts → single column below 768px. No exceptions.
-- **Full-height sections:** Use min-h-[100dvh], never h-screen.
-- **Section-Layout-Repetition Ban:** Each section uses a different layout family. Max 2 consecutive image+text splits.
-
-## 6. Hero Section
-
-- Full viewport height, background image (moody coffee photography with B&W or desaturated treatment + warm overlay).
-- Content left-aligned or asymmetric split (NOT centered — variance 7).
-- Headline: DM Serif Display, 2 lines max. Example: "Khoảnh khắc / của sự tinh tế."
-- Subtext: Outfit 300, max 20 words. Warm Stone color.
-- 1 primary CTA: "Khám Phá Menu" or "Khám Phá" — Caramel Gold button.
-- No secondary CTA in hero. No "scroll to explore" text. No bouncing arrows.
-- Gradient overlay: linear-gradient from rgba(26,18,8,0.85) to rgba(26,18,8,0.3) — ensures text readability over image.
+## 6. Layout Principles
+- **Dark mode locked** — NO light sections mid-page, NO section flips to inverted mode
+- **Grid-first architecture** — CSS Grid over Flexbox math. No calc() percentage hacks
+- **Max-width containment:** 72rem (1152px) centered, with 40px side padding desktop, 24px mobile
+- **Section padding:** Generous — py-28 to py-40 on desktop. Art Gallery Airy density
+- **Asymmetric layouts:** Split 45/55, 40/60, or editorial full-width. Never 50/50 boring splits
+- **No 3-equal-column card grids** — use asymmetric 7/5 or 8/4 column splits, or 2-column with staggered heights
+- **Section Layout Diversification:** Each section uses a DIFFERENT layout family. No two sections look the same
+- **Zigzag Cap:** Max 2 consecutive image+text splits before breaking with full-width section
+- **Eyebrow Restraint:** Max 1 eyebrow per 3 sections
+- **Mobile collapse:** All multi-column layouts → single column below 768px. w-full, px-6
 
 ## 7. Motion & Interaction
+- **Spring physics default:** stiffness 100, damping 20 — premium weighty feel. No linear easing
+- **Custom cubic-bezier:** cubic-bezier(0.32, 0.72, 0, 1) for all transitions
+- **Scroll reveals:** Elements enter with translateY(24px) + opacity(0) + blur(4px), resolving over 800ms
+- **Staggered orchestration:** Lists reveal with 60ms cascade delay between items
+- **Parallax hero:** Background image shifts at 0.3x scroll speed
+- **Grain overlay:** Fixed pseudo-element, fractalNoise SVG, opacity 2.5%, pointer-events none
+- **Hardware acceleration:** Animate ONLY transform and opacity. Never top, left, width, height
+- **Reduced motion:** All animations collapse to instant under prefers-reduced-motion
 
-- **Engine:** GSAP + ScrollTrigger for scroll-based choreography. Lenis for smooth scroll inertia.
-- **Scroll reveal:** Staggered fade-up (opacity 0→1, translateY 30px→0) with 0.06s delay between siblings. Triggered once on viewport entry.
-- **Spring physics:** For interactive elements — stiffness: 100, damping: 20. Premium weighty feel.
-- **Page transitions:** Fade between routes, 300ms.
-- **Hover states:** Cards lift (translateY -4px). Buttons lift (translateY -2px). Images subtle scale(1.05) with overflow hidden.
-- **Performance:** Animate ONLY transform and opacity. No top/left/width/height animation. Grain overlay on fixed pseudo-element only.
-- **Reduced motion:** All motion collapses to instant under prefers-reduced-motion.
-- **Perpetual loops:** None by default. Status indicators only if needed (order tracking).
-- **Marquee:** Max 1 per page if used at all.
-- **Every animation must be motivated** — hierarchy, storytelling, feedback, or state transition. No "looked cool" animations.
-
-## 8. Image Strategy
-
-- **Hero:** Real moody coffee photography. Desaturated/B&W treatment with warm color grade overlay. Full bleed.
-- **Menu items:** Square or 4:3 ratio. Warm lighting, shallow depth of field. Dark background in photos.
-- **Gallery:** Mix of landscape and portrait shots. Masonry or staggered grid.
-- **About:** Environmental portraits, workspace shots, raw coffee beans.
-- **All images:** Warm color temperature. Low-key lighting. Never bright/clinical.
-- **No placeholder divs.** Generate real images or use picsum.photos with appropriate seeds.
-
-## 9. Anti-Patterns (Banned)
-
-- No emojis anywhere in UI
+## 8. Anti-Patterns (BANNED)
+- No emojis anywhere (📍🕐🗺️❝ etc.)
 - No Inter font
+- No generic serif fonts
 - No pure black (#000000)
-- No neon / outer glow shadows
-- No oversaturated accents
-- No gradient text on headers
+- No neon/outer glow shadows
+- No oversaturated accents (saturation < 75%)
+- No gradient text on large headers
 - No custom mouse cursors
-- No overlapping elements
 - No 3-column equal card layouts
-- No generic names ("John Doe", "Acme")
-- No fake round numbers
-- No AI copywriting clichés ("Elevate", "Seamless", "Unleash", "Next-Gen")
-- No filler UI text: "Scroll to explore", "Swipe down", scroll arrows, bouncing chevrons
-- No centered hero (variance 7)
-- No light/white sections mid-page (dark mode locked)
-- No DM Serif Display + Libre Franklin pairing (brand specifies Outfit)
-- No Stigma font (not in brand identity kit)
-- No broken image links
-- No section theme inversions
-- No split-header pattern (left headline + right explainer)
-- No eyebrow on every section (max 1 per 3 sections)
+- No centered hero sections
+- No light sections mid-page
+- No AI copywriting clichés ("Elevate", "Seamless", "Next-Gen")
+- No scroll-to-explore text or bouncing arrows
+- No emojis as icons — use SVG or icon library
+- No border-radius mixing (all pills for buttons, all 2rem for cards)
+- No placeholder-as-label in forms
+- No window.addEventListener('scroll') — use IntersectionObserver or GSAP ScrollTrigger
+- No em-dashes as design decoration
+- No section-numbering eyebrows (001, 002...)
+- No floating top-right sub-text in section headings
 
-## 10. Responsive Rules
-
-- **Mobile-first collapse (<768px):** All multi-column → single column
-- **No horizontal scroll on mobile**
-- **Typography scaling:** Headlines via clamp(). Body minimum 0.95rem
-- **Touch targets:** All interactive elements minimum 44px
-- **Navigation:** Desktop horizontal → mobile hamburger + fullscreen overlay
-- **Section spacing:** Reduces via clamp(3.5rem, 8vw, 6rem)
-- **Hero:** Image remains full-bleed, content stacks vertically
-- **Cards:** Full-width on mobile, no side padding squeeze
+## 9. Responsive Rules
+- **Mobile-First Collapse (< 768px):** All multi-column → single column. No exceptions
+- **No Horizontal Scroll:** Overflow-x hidden. Horizontal overflow on mobile is critical failure
+- **Typography Scaling:** Headlines via clamp(). Body minimum 1rem
+- **Touch Targets:** All interactive elements minimum 44px tap target
+- **Navigation:** Floating island → hamburger with full-screen glass overlay on mobile
+- **Spacing:** Section gaps reduce proportionally via clamp(3rem, 8vw, 6rem)
+- **Images:** Aspect ratios maintained, lazy loading, object-fit cover

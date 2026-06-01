@@ -1,94 +1,122 @@
 import { useState } from 'react';
-
-const contactItems = [
-  {
-    id: 'phone',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-      </svg>
-    ),
-    label: 'Gọi ngay',
-    href: 'tel:0901234567',
-    color: '#4ade80',
-  },
-  {
-    id: 'zalo',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 17.02c-.243.468-.883.82-1.406.82H7.512c-.523 0-1.163-.352-1.406-.82l-.82-1.58a.456.456 0 01.406-.668h12.616c.321 0 .52.311.406.668l-.82 1.58zM17.5 13H6.5a.5.5 0 01-.5-.5v-5a.5.5 0 01.5-.5h11a.5.5 0 01.5.5v5a.5.5 0 01-.5.5z" />
-      </svg>
-    ),
-    label: 'Zalo',
-    href: 'https://zalo.me/0901234567',
-    color: '#0068ff',
-  },
-  {
-    id: 'messenger',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.907 1.45 5.502 3.723 7.2V22l3.384-1.858A11.36 11.36 0 0012 20.485c5.523 0 10-4.144 10-9.242S17.523 2 12 2zm1.053 12.447l-2.553-2.723-4.982 2.723 5.482-5.818 2.614 2.723 4.921-2.723-5.482 5.818z" />
-      </svg>
-    ),
-    label: 'Messenger',
-    href: 'https://m.me/naucoffee',
-    color: '#a855f7',
-  },
-];
+import { Link } from 'react-router-dom';
 
 export function FloatingContactButton() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="fixed bottom-6 right-6" style={{ zIndex: 'var(--z-overlay)' }}>
-      {/* Contact items */}
-      <div className={`flex flex-col gap-3 mb-3 transition-all duration-300 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
-        {contactItems.map((item, index) => (
-          <a
-            key={item.id}
-            href={item.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 px-4 py-3 rounded-full shadow-lg transition-all duration-300 hover:scale-105 no-underline"
-            style={{
-              background: 'var(--color-surface-card)',
-              border: '1px solid rgba(168, 153, 126, 0.15)',
-              transitionDelay: isOpen ? `${index * 50}ms` : '0ms',
-              transform: isOpen ? 'translateX(0)' : 'translateX(20px)',
-            }}
-            aria-label={item.label}
-          >
-            <span style={{ color: item.color }}>{item.icon}</span>
-            <span className="text-cream text-sm font-medium">{item.label}</span>
-          </a>
-        ))}
-      </div>
-
-      {/* Main FAB button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`w-14 h-14 rounded-full flex items-center justify-center shadow-xl cursor-pointer border-none transition-all duration-300 ${
-          isOpen ? 'rotate-45' : 'rotate-0'
-        }`}
-        style={{
-          background: 'var(--color-caramel)',
-          boxShadow: '0 4px 20px rgba(196, 144, 61, 0.4)',
-        }}
-        aria-label={isOpen ? 'Đóng liên hệ nhanh' : 'Liên hệ nhanh'}
-      >
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="var(--color-espresso)"
-          strokeWidth="2.5"
-          strokeLinecap="round"
+    <div style={{ position: 'fixed', bottom: 24, right: 24, zIndex: 45 }}>
+      {/* Expanded panel */}
+      {expanded && (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 64,
+            right: 0,
+            background: 'var(--color-charcoal)',
+            border: '1px solid var(--color-outline-variant)',
+            borderRadius: '1rem',
+            padding: '1.5rem',
+            minWidth: 220,
+            boxShadow: '0 12px 40px rgba(0,0,0,0.4)',
+            animation: 'fadeInUp 0.3s ease',
+          }}
         >
-          <line x1="12" y1="5" x2="12" y2="19" />
-          <line x1="5" y1="12" x2="19" y2="12" />
-        </svg>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <a
+              href="tel:0901234567"
+              className="flex items-center"
+              style={{
+                gap: '0.75rem',
+                color: 'var(--color-ivory)',
+                textDecoration: 'none',
+                fontSize: '0.95rem',
+                transition: 'color 0.2s',
+              }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--color-terracotta)'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--color-ivory)'; }}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: 20, color: 'var(--color-terracotta)' }}>phone</span>
+              0901 234 567
+            </a>
+            <a
+              href="https://zalo.me/0901234567"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center"
+              style={{
+                gap: '0.75rem',
+                color: 'var(--color-ivory)',
+                textDecoration: 'none',
+                fontSize: '0.95rem',
+                transition: 'color 0.2s',
+              }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--color-terracotta)'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--color-ivory)'; }}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: 20, color: 'var(--color-terracotta)' }}>chat</span>
+              Zalo
+            </a>
+            <Link
+              to="/lien-he"
+              className="flex items-center"
+              style={{
+                gap: '0.75rem',
+                color: 'var(--color-ivory)',
+                textDecoration: 'none',
+                fontSize: '0.95rem',
+                transition: 'color 0.2s',
+              }}
+              onClick={() => setExpanded(false)}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--color-terracotta)'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--color-ivory)'; }}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: 20, color: 'var(--color-terracotta)' }}>mail</span>
+              Liên Hệ
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {/* FAB */}
+      <button
+        onClick={() => setExpanded(!expanded)}
+        aria-label="Liên hệ"
+        style={{
+          width: 56,
+          height: 56,
+          borderRadius: '50%',
+          background: 'var(--color-terracotta)',
+          color: 'var(--color-deep-roast)',
+          border: 'none',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: '0 4px 20px rgba(194, 112, 58, 0.3)',
+          transition: 'all 0.3s var(--ease-spring-bounce)',
+          transform: expanded ? 'rotate(45deg)' : 'rotate(0deg)',
+        }}
+        onMouseEnter={(e) => {
+          (e.currentTarget as HTMLElement).style.background = 'var(--color-ember)';
+          (e.currentTarget as HTMLElement).style.transform = expanded ? 'rotate(45deg) scale(1.1)' : 'scale(1.1)';
+        }}
+        onMouseLeave={(e) => {
+          (e.currentTarget as HTMLElement).style.background = 'var(--color-terracotta)';
+          (e.currentTarget as HTMLElement).style.transform = expanded ? 'rotate(45deg)' : 'rotate(0deg)';
+        }}
+      >
+        <span className="material-symbols-outlined" style={{ fontSize: 24 }}>
+          {expanded ? 'close' : 'chat_bubble'}
+        </span>
       </button>
+
+      <style>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(12px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }

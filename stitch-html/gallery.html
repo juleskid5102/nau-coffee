@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Không Gian Nâu - Nâu Coffee</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&amp;family=Outfit:wght@300;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Custom Font: Stigma (Using Outfit as fallback since Stigma is not a standard Google Font, but we define it in Tailwind) -->
+<style>
+        @font-face {
+            font-family: 'Stigma';
+            src: local('Georgia'), serif; /* Fallback for rendering if actual font file is missing */
+            font-weight: 700;
+        }
+        
+        /* Fixed Grain Overlay */
+        .bg-grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+    </style>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#cfc5bd",
+                        "tertiary-container": "#111113",
+                        "surface-variant": "#363434",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-container-high": "#2b2a29",
+                        "on-secondary": "#522300",
+                        "surface-dim": "#141313",
+                        "surface-charcoal": "#1c1916",
+                        "secondary": "#ffb68b",
+                        "on-error": "#690005",
+                        "on-secondary-fixed-variant": "#753400",
+                        "tertiary-fixed": "#e5e1e4",
+                        "surface-container": "#201f1f",
+                        "on-primary-fixed": "#1e1b18",
+                        "on-primary-fixed-variant": "#4a4642",
+                        "on-tertiary-container": "#7e7c7f",
+                        "on-tertiary-fixed": "#1b1b1d",
+                        "on-tertiary": "#303032",
+                        "on-secondary-container": "#fb9f64",
+                        "status-success": "#6b8c42",
+                        "outline-variant": "#4c4640",
+                        "on-surface": "#e6e1e0",
+                        "secondary-fixed": "#ffdbc8",
+                        "surface-slate": "#252220",
+                        "on-primary": "#34302c",
+                        "outline": "#988f88",
+                        "surface-bright": "#3a3938",
+                        "primary-fixed": "#e9e1db",
+                        "error": "#ffb4ab",
+                        "on-primary-container": "#827c77",
+                        "inverse-surface": "#e6e1e0",
+                        "on-tertiary-fixed-variant": "#474649",
+                        "surface-container-highest": "#363434",
+                        "accent-clay": "#9a5428",
+                        "surface-tint": "#cdc5c0",
+                        "accent-ember": "#d4845a",
+                        "on-secondary-fixed": "#321200",
+                        "tertiary-fixed-dim": "#c8c6c8",
+                        "text-ivory": "#e8e0d4",
+                        "secondary-fixed-dim": "#ffb68b",
+                        "status-error": "#c44d3d",
+                        "text-ash": "#8a8278",
+                        "surface": "#141313",
+                        "primary": "#cdc5c0",
+                        "primary-container": "#14110e",
+                        "background": "#141313",
+                        "primary-fixed-dim": "#cdc5c0",
+                        "inverse-on-surface": "#313030",
+                        "error-container": "#93000a",
+                        "on-error-container": "#ffdad6",
+                        "tertiary": "#c8c6c8",
+                        "on-background": "#e6e1e0",
+                        "surface-container-lowest": "#0f0e0e",
+                        "secondary-container": "#753400",
+                        "inverse-primary": "#635d59"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "4xl": "2rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-py-mobile": "3rem",
+                        "section-py-desktop": "clamp(7rem, 10vw, 10rem)",
+                        "gutter": "1.5rem",
+                        "container-max": "1152px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Outfit", "sans-serif"],
+                        "label-caps": ["Outfit", "sans-serif"],
+                        "body-lg": ["Outfit", "sans-serif"],
+                        "mono-data": ["JetBrains Mono", "monospace"],
+                        "headline-md": ["Stigma", "serif"],
+                        "display-lg": ["Stigma", "serif"]
+                    },
+                    "fontSize": {
+                        "body-md": ["1rem", {"lineHeight": "1.7", "fontWeight": "300"}],
+                        "label-caps": ["13px", {"lineHeight": "1", "letterSpacing": "0.12em", "fontWeight": "500"}],
+                        "body-lg": ["1.125rem", {"lineHeight": "1.7", "fontWeight": "300"}],
+                        "mono-data": ["14px", {"lineHeight": "1", "fontWeight": "400"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "display-lg": ["clamp(48px, 8vw, 80px)", {"lineHeight": "1.1", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background antialiased overflow-x-hidden">
+<!-- Texture Overlay -->
+<div class="bg-grain"></div>
+<!-- Top Navigation (Generated from JSON) -->
+<nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 bg-surface-container/80 backdrop-blur-xl rounded-full mt-6 mx-auto w-[calc(100%-3rem)] max-w-4xl h-14 border border-outline-variant/20 shadow-2xl">
+<a class="font-display-lg text-headline-md text-text-ivory tracking-tight hover:scale-105 transition-transform duration-300" href="/">Nâu Coffee</a>
+<!-- Desktop Nav -->
+<div class="hidden md:flex items-center gap-6">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-text-ivory transition-colors hover:scale-105 duration-300" href="#">Menu</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-text-ivory transition-colors hover:scale-105 duration-300" href="#">Roastery</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-text-ivory transition-colors hover:scale-105 duration-300" href="#">Story</a>
+<a class="font-body-md text-body-md text-accent-ember font-bold border-b border-accent-clay pb-1 hover:scale-105 transition-transform duration-300" href="#">Locations</a>
+</div>
+<a class="font-body-md text-body-md text-primary bg-surface-slate px-4 py-2 rounded-full border border-outline-variant/30 hover:bg-surface-charcoal hover:scale-105 transition-transform duration-300" href="#">Shop</a>
+</nav>
+<main class="pt-32 pb-section-py-mobile md:pb-section-py-desktop">
+<!-- PAGE HEADER -->
+<header class="max-w-container-max mx-auto px-gutter mb-16 md:mb-24">
+<div class="max-w-2xl">
+<h1 class="font-display-lg text-display-lg text-text-ivory mb-6 tracking-tight">Không Gian Nâu</h1>
+<p class="font-body-lg text-body-lg text-text-ash max-w-xl">Nơi tìm thấy sự tĩnh lặng giữa nhịp sống hối hả.</p>
+</div>
+</header>
+<!-- MASONRY GALLERY -->
+<section class="max-w-container-max mx-auto px-gutter mb-section-py-mobile md:mb-section-py-desktop">
+<div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+<!-- Gallery Item 1 -->
+<div class="group relative break-inside-avoid">
+<div class="p-[6px] rounded-4xl bg-surface-slate border border-outline-variant/10 transition-colors duration-500 hover:border-accent-ember/50">
+<div class="relative rounded-[1.6rem] overflow-hidden bg-surface-charcoal shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]">
+<img alt="Head barista at Nâu Coffee" class="w-full h-auto object-cover transform transition-transform duration-700 ease-out group-hover:scale-105 filter group-hover:brightness-110" src="https://lh3.googleusercontent.com/aida/ADBb0uhd_ME5sNjEZK6Tnn54hdA0fzQxMyJ3vlORsk2y1b7-talYt_xPI-Il6OafLRtDM_bru5N8RcE521vndPBiTQlEwJW914sMj0SPTSCKdcmgZ1l8iz2AWUw12XmaMOHErfpJS7bkAmauaH_FS5Kc4zcK3rNMxD3mt0badKHgMDxlJnttc92gT3vSh3E10ycNDpn1HkDWEvu7mg8ENsgHfTquRPpub7G30X4yx_6f1orHDgWhGjUnucGnspo"/>
+</div>
+</div>
+</div>
+<!-- Gallery Item 2 -->
+<div class="group relative break-inside-avoid">
+<div class="p-[6px] rounded-4xl bg-surface-slate border border-outline-variant/10 transition-colors duration-500 hover:border-accent-ember/50">
+<div class="relative rounded-[1.6rem] overflow-hidden bg-surface-charcoal shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]">
+<img alt="Pour-over station detail" class="w-full h-auto object-cover transform transition-transform duration-700 ease-out group-hover:scale-105 filter group-hover:brightness-110" src="https://lh3.googleusercontent.com/aida/ADBb0ui88_so5oDLwFdH6vjfQqWQN-MTmbqCZ_Zb6sTNuYAXzi9MidNTA6qwcZ5VvBtjbzhIdHcl-LYWxqj0vGUh6XLpGvhwDEDGDb__Y-9QCuFvxSjfsv90fq8aGk2SElfMcYDkJjxV-FIqGQVQ3AWs2VLhfBoyCO2M65_mXuX0nlXu4d8yJGhURKQg6KSCm5SGuvD_8_k_WXwi3_jVIbLyvGj8dPvrClKDLXHh3BwfF7gwtsDbIn_Et6Oh2CE"/>
+</div>
+</div>
+</div>
+<!-- Gallery Item 3 -->
+<div class="group relative break-inside-avoid">
+<div class="p-[6px] rounded-4xl bg-surface-slate border border-outline-variant/10 transition-colors duration-500 hover:border-accent-ember/50">
+<div class="relative rounded-[1.6rem] overflow-hidden bg-surface-charcoal shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]">
+<img alt="Traditional Vietnamese coffee with filter" class="w-full h-auto object-cover transform transition-transform duration-700 ease-out group-hover:scale-105 filter group-hover:brightness-110" src="https://lh3.googleusercontent.com/aida/ADBb0ug-Nozcv3G1pGRuQS9aAscDOevNJAQVezOIUp_iNEtptqtU-pTOoBbwZGFnZioHDN0h25bXYxE1j6V7oK84Am9ACSY3W6OKSlmig3_4A6b4lknE1y2B3CLyDRTCq_mFH__ncav02wGDLNniM4jd77mNWDeS7QGF57OVt1Buh0r0Wm0UOnZB9pUlcp88cViHxvDebXQfRdQY3FC3My-ffnWuwWjLKmfwr2pb2dTIp4EhCk1iAldDvy2d-A"/>
+</div>
+</div>
+</div>
+<!-- Gallery Item 4 -->
+<div class="group relative break-inside-avoid">
+<div class="p-[6px] rounded-4xl bg-surface-slate border border-outline-variant/10 transition-colors duration-500 hover:border-accent-ember/50">
+<div class="relative rounded-[1.6rem] overflow-hidden bg-surface-charcoal shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]">
+<img alt="Coffee roasting workshop space" class="w-full h-auto object-cover transform transition-transform duration-700 ease-out group-hover:scale-105 filter group-hover:brightness-110" src="https://lh3.googleusercontent.com/aida/ADBb0ujj8coCWp_TX1_gqvclGa6UKcNEzNScVAGC2On75vlVOxMS-v5_-ZjAdQsSidRHEFxZ2b33762mm-krAESh13aVrJFe-RsCIdxLHddcd-a1X4lH4pUm5cfZG1WKvue_93tgmEiDnFNMYqbp9BCn236zFlhVPIErpQ3_vg8xaJhIDGEBzkM_KawpvXR6fQlCpGFI14eSZWalPqGDMaqb8gNyKKTAfUpQRTVrtfh26pSehS63aNjEI9iLFA"/>
+</div>
+</div>
+</div>
+<!-- Gallery Item 5 -->
+<div class="group relative break-inside-avoid">
+<div class="p-[6px] rounded-4xl bg-surface-slate border border-outline-variant/10 transition-colors duration-500 hover:border-accent-ember/50">
+<div class="relative rounded-[1.6rem] overflow-hidden bg-surface-charcoal shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]">
+<img alt="Close-up of a specialty coffee drink" class="w-full h-auto object-cover transform transition-transform duration-700 ease-out group-hover:scale-105 filter group-hover:brightness-110" src="https://lh3.googleusercontent.com/aida/ADBb0ugIPyYM9VuiBKlCwBTIgDNvjSoalEtzhR5GGEqNOiAKYcKRU9lMKJGzHfHJj4k5vxPsnLP8DWwWa1XCx16MVWnqG-hRX_3IsbU3g9HXu9vsXK1TxCcvVhbR0UftLK9YAANfbaGBDtTQDCbwso8sYsaRIjHvOHQCViQwVDkqm7bmH4mv-FUQWhRjXV0xfs5EAq6wZg8ltvYrugC4bEHm1ZSDpPuRVNkfu43A2iL9W_nN8I4g5qkdjGatng"/>
+</div>
+</div>
+</div>
+<!-- Gallery Item 6 -->
+<div class="group relative break-inside-avoid">
+<div class="p-[6px] rounded-4xl bg-surface-slate border border-outline-variant/10 transition-colors duration-500 hover:border-accent-ember/50">
+<div class="relative rounded-[1.6rem] overflow-hidden bg-surface-charcoal shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]">
+<img alt="Freshly roasted coffee beans" class="w-full h-auto object-cover transform transition-transform duration-700 ease-out group-hover:scale-105 filter group-hover:brightness-110" src="https://lh3.googleusercontent.com/aida/ADBb0ugW1baLXMi7NoPK65j6Ns4AhCyaOSNW1Ji1oeA8Cs61G6RTjPuHJYkSVvpiKoGOQDPIq5Aw1vvEEBMPHKJcMrwg7c96DadhB_WZOmZw1_Cavd6iHT5vD7P0jdim7nYjQ66XUYhqyX_3pNHS3aPgZZQ9-SB2bmwKe8cS7ZZjdI5uR3sTh1A1Vye4DUJ7DMA_oFcOfhVr0Gei89AgDOquI_tQh6dmbMwocAzUmZYxSNR7hWTEuXy-FVIx6mQ"/>
+</div>
+</div>
+</div>
+<!-- Gallery Item 7 -->
+<div class="group relative break-inside-avoid">
+<div class="p-[6px] rounded-4xl bg-surface-slate border border-outline-variant/10 transition-colors duration-500 hover:border-accent-ember/50">
+<div class="relative rounded-[1.6rem] overflow-hidden bg-surface-charcoal shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]">
+<img alt="Matcha latte with swan latte art" class="w-full h-auto object-cover transform transition-transform duration-700 ease-out group-hover:scale-105 filter group-hover:brightness-110" src="https://lh3.googleusercontent.com/aida/ADBb0uhHXNP3d_4Tw1WnKUpc8riY1djntKaiHxY4s4DsdBvL68eI_lDVaYV3DPq4C2v1UoogiUZ14al-RSTb3yQebgGUfO-ZNfSQ5JGR0T2T1URVLxx5UzFKNtsJ8rSbnTGi-O3He9fR9NWp0Xi-e3zswRYh3tqR6Eq5MWSdOP7x_brQ-iDYrsJkbkERnvTeB1ilLANMG9oTt-5XU4J9bKTUx8HHqGme3i7MRCnR_AUhA67nEXM9mSV5N2nrLMA"/>
+</div>
+</div>
+</div>
+<!-- Gallery Item 8 -->
+<div class="group relative break-inside-avoid">
+<div class="p-[6px] rounded-4xl bg-surface-slate border border-outline-variant/10 transition-colors duration-500 hover:border-accent-ember/50">
+<div class="relative rounded-[1.6rem] overflow-hidden bg-surface-charcoal shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]">
+<img alt="Salt coffee specialty drink" class="w-full h-auto object-cover transform transition-transform duration-700 ease-out group-hover:scale-105 filter group-hover:brightness-110" src="https://lh3.googleusercontent.com/aida/ADBb0uhYTBNHld8K7OrmNHYSoCm6rMvuwSo8wkogKJZhsRvfwto8n1Pj8tzMdCbeEh5_Y1HClbTDKr4ILgpwVLKxDT0xUi6G-efsfzwHm3hSdcvc7_2OmRSw7KzIojKQSZ6RPiRAD97_DTXVeRRcWVxYb2mmN3eka6vaj-WqiEeKbcvnEnilB3Y6YOQukF68zJVnJf2ZQL-fTNE_85mzYUkjjjp4PoJh4YguElRAmNFrgHILDSBSwx2V_9eiPlU"/>
+</div>
+</div>
+</div>
+<!-- Gallery Item 9 -->
+<div class="group relative break-inside-avoid">
+<div class="p-[6px] rounded-4xl bg-surface-slate border border-outline-variant/10 transition-colors duration-500 hover:border-accent-ember/50">
+<div class="relative rounded-[1.6rem] overflow-hidden bg-surface-charcoal shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]">
+<img alt="Cold brew coffee in a glass" class="w-full h-auto object-cover transform transition-transform duration-700 ease-out group-hover:scale-105 filter group-hover:brightness-110" src="https://lh3.googleusercontent.com/aida/ADBb0ui_dT8xYvlAnCZKgB6ZfsasHMiDVvSuzzsWxP0PNUc5QexYzA7U55VuA0W8XHRdWZy7C13KA2MbIg7ryMhpdXlOy-7bA1Bdi75Sb_T8YmFVxHq8T8YkjozU7mrOYBRqzU9vIZztEyhAwo17iEaTNJ0ebAVCu5AgU3Z0KRP61aEmgllEg9jMOn34eUFuiPhKFGU08iP27Klf4vpCPF4CSPHDHJd3hCBSqoXdBLg3WSSJtdhbJSWPjOlGu2I"/>
+</div>
+</div>
+</div>
+<!-- Gallery Item 10 -->
+<div class="group relative break-inside-avoid">
+<div class="p-[6px] rounded-4xl bg-surface-slate border border-outline-variant/10 transition-colors duration-500 hover:border-accent-ember/50">
+<div class="relative rounded-[1.6rem] overflow-hidden bg-surface-charcoal shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]">
+<img alt="Vietnamese egg coffee" class="w-full h-auto object-cover transform transition-transform duration-700 ease-out group-hover:scale-105 filter group-hover:brightness-110" src="https://lh3.googleusercontent.com/aida/ADBb0uhgREk2lHObA1EODb-VEOHtLOwyQymVH17DoE33ocXQupp5J2ifFdzmAqKbT6QPhnU-6R9aTephVcNY5MT9i48-JnEuj71ENUiUgjcDLsxlj77yDsS7uFeHlVWGK71EzTzB8L9WvvYrkr4c_weE8k_TIZPhgG_TWH4FsQ2jgwmresT1tu9QV8YqO1-8TXSe8Kew7wXbiJpBUYAvv0JkOPuLXnsKS_X00qbpe_5rB0VXr3Pnaznqm0980Mk"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SPACE DETAILS (45/55 Asymmetric Split) -->
+<section class="max-w-container-max mx-auto px-gutter mb-section-py-mobile md:mb-section-py-desktop">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center">
+<!-- Left (45%) -->
+<div class="md:col-span-5 flex flex-col justify-center order-2 md:order-1">
+<h2 class="font-headline-md text-headline-md text-text-ivory mb-6">Thiết Kế</h2>
+<p class="font-body-md text-body-md text-text-ash mb-6">
+                        Không gian tại Nâu được thiết kế theo triết lý "The Quiet Ritual" - một nghi thức tĩnh lặng. Chúng tôi từ chối sự ồn ào của phong cách thương mại, nhường chỗ cho ánh sáng tự nhiên mờ ảo, chất liệu gỗ mộc mạc và kim loại sẫm màu.
+                    </p>
+<p class="font-body-md text-body-md text-text-ash mb-8">
+                        Mọi chi tiết từ cấu trúc quầy bar đến vị trí ngồi đều được tính toán để tạo ra một không gian mang cảm giác của một xưởng rang cà phê yên bình lúc bình minh, nơi bạn có thể chậm lại và tận hưởng từng giọt cà phê.
+                    </p>
+<div>
+<a class="inline-flex items-center justify-center font-body-md text-body-md bg-accent-clay text-primary-container px-8 py-3 rounded-full hover:-translate-y-0.5 hover:bg-accent-ember hover:shadow-[0_0_20px_rgba(212,132,90,0.3)] transition-all duration-300" href="#">
+                            Khám Phá Menu
+                        </a>
+</div>
+</div>
+<!-- Right (55%) -->
+<div class="md:col-span-7 order-1 md:order-2">
+<div class="p-[6px] rounded-4xl bg-surface-slate border border-outline-variant/10">
+<div class="relative rounded-[1.6rem] overflow-hidden bg-surface-charcoal shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] aspect-[4/3] md:aspect-[5/4]">
+<img alt="Architectural detail of Nâu Coffee roastery" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ujj8coCWp_TX1_gqvclGa6UKcNEzNScVAGC2On75vlVOxMS-v5_-ZjAdQsSidRHEFxZ2b33762mm-krAESh13aVrJFe-RsCIdxLHddcd-a1X4lH4pUm5cfZG1WKvue_93tgmEiDnFNMYqbp9BCn236zFlhVPIErpQ3_vg8xaJhIDGEBzkM_KawpvXR6fQlCpGFI14eSZWalPqGDMaqb8gNyKKTAfUpQRTVrtfh26pSehS63aNjEI9iLFA"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Generated from JSON) -->
+<footer class="bg-surface-dim full-width py-12 px-gutter border-t border-outline-variant/10">
+<div class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="font-display-lg text-body-lg text-text-ash">
+                Nâu Coffee
+            </div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="font-body-md text-body-md text-text-ash hover:text-accent-ember hover:translate-x-1 transition-all" href="#">Instagram</a>
+<a class="font-body-md text-body-md text-text-ash hover:text-accent-ember hover:translate-x-1 transition-all" href="#">Journal</a>
+<a class="font-body-md text-body-md text-text-ash hover:text-accent-ember hover:translate-x-1 transition-all" href="#">Contact</a>
+<a class="font-body-md text-body-md text-text-ash hover:text-accent-ember hover:translate-x-1 transition-all" href="#">Terms</a>
+</div>
+<div class="font-body-md text-body-md text-on-surface-variant text-center md:text-right">
+                © 2024 Nâu Coffee. The Quiet Ritual.
+            </div>
+</div>
+</footer>
+</body></html>

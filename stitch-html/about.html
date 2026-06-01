@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Câu Chuyện Nâu - Nâu Coffee</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&amp;family=Outfit:wght@300;500&amp;family=Stigma:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#c8c6c8",
+                        "surface-container-high": "#2b2a29",
+                        "surface-slate": "#252220",
+                        "surface-container-lowest": "#0f0e0e",
+                        "inverse-surface": "#e6e1e0",
+                        "on-surface-variant": "#cfc5bd",
+                        "on-secondary-fixed": "#321200",
+                        "tertiary-fixed": "#e5e1e4",
+                        "surface-variant": "#363434",
+                        "surface-bright": "#3a3938",
+                        "surface-tint": "#cdc5c0",
+                        "text-ivory": "#e8e0d4",
+                        "outline-variant": "#4c4640",
+                        "surface-dim": "#141313",
+                        "text-ash": "#8a8278",
+                        "on-surface": "#e6e1e0",
+                        "on-secondary-fixed-variant": "#753400",
+                        "on-background": "#e6e1e0",
+                        "surface-container-highest": "#363434",
+                        "outline": "#988f88",
+                        "secondary-container": "#753400",
+                        "surface-container-low": "#1c1b1b",
+                        "primary-fixed": "#e9e1db",
+                        "primary": "#cdc5c0",
+                        "on-primary-container": "#827c77",
+                        "accent-clay": "#9a5428",
+                        "on-primary-fixed": "#1e1b18",
+                        "on-error": "#690005",
+                        "primary-fixed-dim": "#cdc5c0",
+                        "error": "#ffb4ab",
+                        "tertiary-container": "#111113",
+                        "on-tertiary": "#303032",
+                        "secondary-fixed-dim": "#ffb68b",
+                        "on-tertiary-fixed-variant": "#474649",
+                        "inverse-on-surface": "#313030",
+                        "surface-container": "#201f1f",
+                        "surface": "#141313",
+                        "surface-charcoal": "#1c1916",
+                        "status-error": "#c44d3d",
+                        "error-container": "#93000a",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#1b1b1d",
+                        "secondary": "#ffb68b",
+                        "inverse-primary": "#635d59",
+                        "on-primary-fixed-variant": "#4a4642",
+                        "on-secondary": "#522300",
+                        "on-tertiary-container": "#7e7c7f",
+                        "on-primary": "#34302c",
+                        "secondary-fixed": "#ffdbc8",
+                        "tertiary-fixed-dim": "#c8c6c8",
+                        "on-secondary-container": "#fb9f64",
+                        "accent-ember": "#d4845a",
+                        "status-success": "#6b8c42",
+                        "primary-container": "#14110e",
+                        "background": "#141313"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-py-desktop": "clamp(7rem, 10vw, 10rem)",
+                        "gutter": "1.5rem",
+                        "container-max": "1152px",
+                        "section-py-mobile": "3rem"
+                    },
+                    "fontFamily": {
+                        "mono-data": ["JetBrains Mono"],
+                        "display-lg": ["Stigma"],
+                        "body-md": ["Outfit"],
+                        "headline-md": ["Stigma"],
+                        "body-lg": ["Outfit"],
+                        "label-caps": ["Outfit"]
+                    },
+                    "fontSize": {
+                        "mono-data": ["14px", { "lineHeight": "1", "fontWeight": "400" }],
+                        "display-lg": ["clamp(48px, 8vw, 80px)", { "lineHeight": "1.1", "fontWeight": "700" }],
+                        "body-md": ["1rem", { "lineHeight": "1.7", "fontWeight": "300" }],
+                        "headline-md": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-lg": ["1.125rem", { "lineHeight": "1.7", "fontWeight": "300" }],
+                        "label-caps": ["13px", { "lineHeight": "1", "letterSpacing": "0.12em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.025;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .spring-physics {
+            transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden selection:bg-accent-clay selection:text-surface-container-lowest">
+<!-- Navigation -->
+<nav class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-4xl h-14 rounded-full px-6 flex items-center z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border border-outline-variant/30 shadow-2xl flex justify-between items-center">
+<a class="font-display-lg text-headline-md tracking-tighter text-on-surface" href="#">Nâu Coffee</a>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-colors hover:scale-105 duration-300" href="#">ROASTERY</a>
+<a class="font-label-caps text-label-caps uppercase tracking-widest text-accent-clay font-bold hover:scale-105 duration-300" href="#">JOURNAL</a>
+<a class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-colors hover:scale-105 duration-300" href="#">HERITAGE</a>
+<a class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-colors hover:scale-105 duration-300" href="#">SHOP</a>
+</div>
+<a class="hidden md:inline-flex items-center justify-center px-6 py-2 rounded-full bg-accent-clay text-primary-container font-label-caps text-label-caps uppercase tracking-widest hover:-translate-y-[2px] hover:bg-accent-ember transition-all duration-300 spring-physics" href="#">ORDER NOW</a>
+<button class="md:hidden text-on-surface">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">menu</span>
+</button>
+</nav>
+<!-- Hero Section -->
+<section class="min-h-screen pt-32 pb-section-py-mobile md:pb-section-py-desktop px-gutter max-w-container-max mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-8">
+<div class="w-full md:w-[45%] bg-primary-container p-8 md:p-12 rounded-3xl flex flex-col justify-center order-2 md:order-1 h-full min-h-[60vh] border border-outline-variant/20">
+<h1 class="font-display-lg text-display-lg text-text-ivory mb-8">Câu Chuyện Nâu</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed max-w-md">Khởi nguồn từ niềm đam mê mãnh liệt với những hạt cà phê Việt, Nâu là hành trình tìm kiếm và lưu giữ những giá trị nguyên bản nhất. Mỗi mẻ rang tại đây không chỉ là cà phê, mà là một tác phẩm nghệ thuật, là câu chuyện về tâm huyết của những người thợ rang.</p>
+</div>
+<div class="w-full md:w-[55%] h-[60vh] md:h-[80vh] order-1 md:order-2 rounded-[2rem] overflow-hidden relative">
+<img alt="Atmospheric coffee roasting" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ujj8coCWp_TX1_gqvclGa6UKcNEzNScVAGC2On75vlVOxMS-v5_-ZjAdQsSidRHEFxZ2b33762mm-krAESh13aVrJFe-RsCIdxLHddcd-a1X4lH4pUm5cfZG1WKvue_93tgmEiDnFNMYqbp9BCn236zFlhVPIErpQ3_vg8xaJhIDGEBzkM_KawpvXR6fQlCpGFI14eSZWalPqGDMaqb8gNyKKTAfUpQRTVrtfh26pSehS63aNjEI9iLFA"/>
+<div class="absolute inset-0 border border-white/5 rounded-[2rem] pointer-events-none"></div>
+</div>
+</section>
+<!-- Philosophy Section -->
+<section class="py-32 px-gutter max-w-4xl mx-auto text-center">
+<h2 class="font-headline-md text-[clamp(40px,5vw,64px)] text-text-ivory italic mb-12 leading-tight">"Mỗi mẻ rang là một<br/>tác phẩm nghệ thuật."</h2>
+<p class="font-body-lg text-body-lg text-text-ash max-w-2xl mx-auto leading-relaxed">
+            Chúng tôi tin rằng sự hoàn hảo đến từ sự đơn giản và tôn trọng nguyên bản. Phương pháp rang mộc truyền thống kết hợp với nguồn hạt cà phê tuyển chọn gắt gao từ các nông trại bền vững tại Đà Lạt và Buôn Ma Thuột tạo nên một bản giao hưởng hương vị tinh tế, đậm đà bản sắc vùng cao nguyên đất đỏ.
+        </p>
+</section>
+<!-- Values Section -->
+<section class="py-section-py-mobile md:py-section-py-desktop px-gutter max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+<div class="md:col-span-8 h-[60vh] rounded-[2rem] overflow-hidden relative border border-surface-slate">
+<img alt="Barista hand-pouring coffee" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ui88_so5oDLwFdH6vjfQqWQN-MTmbqCZ_Zb6sTNuYAXzi9MidNTA6qwcZ5VvBtjbzhIdHcl-LYWxqj0vGUh6XLpGvhwDEDGDb__Y-9QCuFvxSjfsv90fq8aGk2SElfMcYDkJjxV-FIqGQVQ3AWs2VLhfBoyCO2M65_mXuX0nlXu4d8yJGhURKQg6KSCm5SGuvD_8_k_WXwi3_jVIbLyvGj8dPvrClKDLXHh3BwfF7gwtsDbIn_Et6Oh2CE"/>
+<div class="absolute inset-0 bg-surface/10 mix-blend-overlay pointer-events-none"></div>
+</div>
+<div class="md:col-span-4 flex flex-col gap-12">
+<div class="flex items-start gap-6">
+<div class="w-12 h-12 rounded-full bg-surface-charcoal border border-outline-variant/30 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-accent-clay">eco</span>
+</div>
+<div>
+<h3 class="font-headline-md text-xl text-text-ivory mb-3">Nguyên Liệu</h3>
+<p class="font-body-md text-body-md text-text-ash">Hạt cà phê được tuyển chọn từ các vùng cao nguyên trù phú nhất Việt Nam.</p>
+</div>
+</div>
+<div class="flex items-start gap-6">
+<div class="w-12 h-12 rounded-full bg-surface-charcoal border border-outline-variant/30 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-accent-clay">local_fire_department</span>
+</div>
+<div>
+<h3 class="font-headline-md text-xl text-text-ivory mb-3">Rang Mộc</h3>
+<p class="font-body-md text-body-md text-text-ash">Phương pháp rang thủ công giữ trọn hương vị tự nhiên, không tẩm ướp.</p>
+</div>
+</div>
+<div class="flex items-start gap-6">
+<div class="w-12 h-12 rounded-full bg-surface-charcoal border border-outline-variant/30 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-accent-clay">water_drop</span>
+</div>
+<div>
+<h3 class="font-headline-md text-xl text-text-ivory mb-3">Pha Chế</h3>
+<p class="font-body-md text-body-md text-text-ash">Đa dạng phương thức từ Pour Over, Cold Brew đến Espresso hiện đại.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Team Section -->
+<section class="py-section-py-mobile md:py-section-py-desktop px-gutter max-w-container-max mx-auto">
+<h2 class="font-display-lg text-headline-md text-text-ivory mb-16 md:mb-24 text-center">Người Truyền Lửa</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+<!-- Double-Bezel Card -->
+<div class="bg-surface-slate p-[1px] rounded-[2rem]">
+<div class="bg-surface-charcoal rounded-[2rem] p-8 h-full flex flex-col items-center text-center inset-shadow-sm border border-white/[0.04]">
+<div class="w-48 h-48 rounded-full overflow-hidden mb-8 border-4 border-surface-dim">
+<img alt="Founder portrait" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uhd_ME5sNjEZK6Tnn54hdA0fzQxMyJ3vlORsk2y1b7-talYt_xPI-Il6OafLRtDM_bru5N8RcE521vndPBiTQlEwJW914sMj0SPTSCKdcmgZ1l8iz2AWUw12XmaMOHErfpJS7bkAmauaH_FS5Kc4zcK3rNMxD3mt0badKHgMDxlJnttc92gT3vSh3E10ycNDpn1HkDWEvu7mg8ENsgHfTquRPpub7G30X4yx_6f1orHDgWhGjUnucGnspo"/>
+</div>
+<h3 class="font-headline-md text-2xl text-text-ivory mb-2">Minh Trí</h3>
+<p class="font-body-md text-accent-clay tracking-wider uppercase text-sm font-medium">Head Roaster / Founder</p>
+</div>
+</div>
+<div class="bg-surface-slate p-[1px] rounded-[2rem]">
+<div class="bg-surface-charcoal rounded-[2rem] p-8 h-full flex flex-col justify-center items-center text-center inset-shadow-sm border border-white/[0.04]">
+<p class="font-body-lg text-text-ash italic max-w-sm">"Cà phê không chỉ là thức uống, nó là sự kết nối giữa người trồng, người rang và người thưởng thức. Chúng tôi chỉ là người kể câu chuyện đó bằng hương vị."</p>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-32 px-gutter relative overflow-hidden flex flex-col items-center justify-center text-center border-t border-outline-variant/10">
+<div class="absolute inset-0 bg-surface-container-low -z-10"></div>
+<h2 class="font-display-lg text-[clamp(40px,6vw,80px)] text-text-ivory mb-12">Hãy đến và cảm nhận</h2>
+<a class="inline-flex items-center justify-center px-10 py-4 rounded-full bg-[#c2703a] text-[#14110e] font-label-caps text-label-caps uppercase tracking-widest hover:-translate-y-[2px] hover:bg-accent-ember transition-all duration-300 spring-physics shadow-[0_0_30px_rgba(194,112,58,0.2)]" href="#">Liên Hệ Chúng Tôi</a>
+</section>
+<!-- Footer -->
+<footer class="w-full py-section-py-mobile md:py-16 bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant/20">
+<div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="col-span-1 md:col-span-2">
+<a class="font-display-lg text-headline-md text-on-surface opacity-50 block mb-6 hover:opacity-100 transition-opacity" href="#">Nâu Coffee</a>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-sm">© 2024 Nâu Coffee Roastery. Heritage in Every Drop.</p>
+</div>
+<div class="col-span-1 flex flex-col gap-4">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-accent-ember transition-colors" href="#">Sourcing</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-accent-ember transition-colors" href="#">Brewing Guides</a>
+</div>
+<div class="col-span-1 flex flex-col gap-4">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-accent-ember transition-colors" href="#">Wholesale</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-accent-ember transition-colors" href="#">Privacy</a>
+</div>
+</div>
+</footer>
+</body></html>

@@ -2,42 +2,39 @@ import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Reveal } from '../components/Reveal';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const heroTextRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const menuRef = useRef<HTMLElement>(null);
+  const storyRef = useRef<HTMLElement>(null);
+  const quoteRef = useRef<HTMLElement>(null);
+  const ctaRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const hero = heroRef.current;
-    if (!hero) return;
-
-    gsap.to(hero.querySelector('.hero-bg'), {
-      yPercent: 20,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: hero,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-      },
+    const reveals = [heroRef, menuRef, storyRef, quoteRef, ctaRef];
+    reveals.forEach((ref) => {
+      if (!ref.current) return;
+      const children = ref.current.querySelectorAll('.reveal-item');
+      gsap.fromTo(
+        children,
+        { y: 24, opacity: 0, filter: 'blur(4px)' },
+        {
+          y: 0,
+          opacity: 1,
+          filter: 'blur(0px)',
+          duration: 0.8,
+          stagger: 0.06,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: ref.current,
+            start: 'top 85%',
+            once: true,
+          },
+        }
+      );
     });
-
-    const textEl = heroTextRef.current;
-    if (textEl) {
-      gsap.from(textEl.children, {
-        opacity: 0,
-        y: 60,
-        stagger: 0.15,
-        duration: 1,
-        ease: 'power3.out',
-        delay: 0.3,
-      });
-    }
 
     return () => {
       ScrollTrigger.getAll().forEach((t) => t.kill());
@@ -46,318 +43,369 @@ export default function Home() {
 
   return (
     <>
-      {/* ═══ HERO SECTION — Stitch layout: left-aligned text, gradient overlay ═══ */}
-      <section
-        ref={heroRef}
-        className="relative flex items-center overflow-hidden"
-        style={{ height: '90vh', minHeight: '600px' }}
-      >
-        <div className="hero-bg absolute inset-0 z-0">
-          <img
-            alt="Không gian pha chế Nâu Coffee"
-            className="w-full h-full object-cover"
-            src="/images/hero/hero-bg.jpg"
-          />
-          <div className="absolute inset-0"
-            style={{ background: 'linear-gradient(to right, #1A1208, rgba(26,18,8,0.8), transparent)' }}
-          />
-        </div>
-
-        <div ref={heroTextRef} className="relative z-10 w-full max-w-7xl mx-auto px-8">
-          <div className="max-w-2xl">
-            <h1
-              className="text-5xl md:text-7xl mb-6 leading-tight"
-              style={{ fontFamily: 'var(--font-heading)', color: '#F5ECD7' }}
-            >
-              Khoảnh khắc của sự tinh tế.
+      {/* HERO SECTION — 45/55 asymmetric split */}
+      <header ref={heroRef} className="section-padding container-narrow" style={{ paddingTop: '2rem' }}>
+        <div
+          className="grid grid-cols-1 md:grid-cols-12 items-center"
+          style={{ gap: 'clamp(2rem, 4vw, 4rem)' }}
+        >
+          {/* Left Content (5 cols = ~42%) */}
+          <div className="md:col-span-5 flex flex-col items-start" style={{ gap: '2rem' }}>
+            <h1 className="reveal-item" style={{ color: 'var(--color-ivory)' }}>
+              Khoảnh khắc<br />của sự<br />tinh tế.
             </h1>
-            <p className="text-xl md:text-2xl font-light mb-10 leading-relaxed" style={{ color: 'rgba(245,236,215,0.9)' }}>
-              Cà phê nguyên bản, rang mộc mỗi ngày.<br />
-              Nơi mỗi giọt cà phê kể câu chuyện riêng.
+            <p className="reveal-item" style={{ fontSize: '1.125rem', maxWidth: '28rem' }}>
+              Cà phê nguyên bản, rang mộc mỗi ngày. Nơi mỗi giọt cà phê kể câu chuyện riêng.
             </p>
-            <Link
-              to="/menu"
-              className="btn-primary text-lg px-8 py-4"
-            >
+            <Link to="/menu" className="btn-primary reveal-item" style={{ textDecoration: 'none' }}>
               Khám Phá
             </Link>
           </div>
-        </div>
-      </section>
 
-      {/* ═══ FEATURED MENU — Stitch layout: asymmetric 7/5 grid ═══ */}
-      <section className="section-padding" style={{ background: 'var(--color-espresso)' }}>
-        <div className="container-narrow">
-          <Reveal>
-            <div className="flex justify-between items-end mb-12">
-              <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(2rem, 4vw, 2.5rem)' }}>
-                Thực Đơn Nổi Bật
-              </h2>
-              <Link
-                to="/menu"
-                className="text-sm font-medium uppercase tracking-widest flex items-center gap-2"
-                style={{ color: 'var(--color-caramel)' }}
+          {/* Right Image (7 cols = ~58%) */}
+          <div className="md:col-span-7 reveal-item" style={{ position: 'relative' }}>
+            <div className="double-bezel" style={{ borderRadius: '2rem' }}>
+              <div
+                className="double-bezel-inner"
+                style={{
+                  height: 'clamp(400px, 60vh, 80vh)',
+                  position: 'relative',
+                  borderRadius: 'calc(2rem - 6px)',
+                }}
               >
-                Xem thực đơn đầy đủ
-                <span style={{ fontSize: '1.1rem' }}>→</span>
-              </Link>
-            </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-            {/* Large Card (Left — 7 cols) */}
-            <Reveal className="md:col-span-7">
-              <div className="group cursor-pointer">
-                <Link to="/menu/ca-phe-muoi" className="block no-underline">
-                  <div
-                    className="rounded-2xl overflow-hidden relative"
-                    style={{
-                      height: '500px',
-                      background: 'var(--color-surface-card)',
-                      border: '1px solid rgba(45,36,24,0.5)',
-                    }}
-                  >
-                    <img
-                      alt="Cà Phê Muối"
-                      className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500"
-                      src="/images/menu/ca-phe-muoi.jpg"
-                      loading="lazy"
-                    />
-                    <div
-                      className="absolute inset-0"
-                      style={{ background: 'linear-gradient(to top, rgba(26,18,8,0.9), rgba(26,18,8,0.2), transparent)' }}
-                    />
-                    <div className="absolute bottom-0 left-0 p-8 w-full flex justify-between items-end">
-                      <div>
-                        <h3
-                          className="text-3xl mb-2"
-                          style={{ fontFamily: 'var(--font-heading)', color: '#F5ECD7' }}
-                        >
-                          Cà Phê Muối
-                        </h3>
-                        <p style={{ color: 'var(--color-text-muted)', fontWeight: 300 }}>
-                          Sự cân bằng hoàn hảo giữa đắng và mặn béo
-                        </p>
-                      </div>
-                      <span style={{ color: 'var(--color-caramel)', fontWeight: 600, fontSize: '1.25rem' }}>
-                        55k
-                      </span>
-                    </div>
-                  </div>
-                </Link>
+                <img
+                  src="https://lh3.googleusercontent.com/aida/ADBb0ui88_so5oDLwFdH6vjfQqWQN-MTmbqCZ_Zb6sTNuYAXzi9MidNTA6qwcZ5VvBtjbzhIdHcl-LYWxqj0vGUh6XLpGvhwDEDGDb__Y-9QCuFvxSjfsv90fq8aGk2SElfMcYDkJjxV-FIqGQVQ3AWs2VLhfBoyCO2M65_mXuX0nlXu4d8yJGhURKQg6KSCm5SGuvD_8_k_WXwi3_jVIbLyvGj8dPvrClKDLXHh3BwfF7gwtsDbIn_Et6Oh2CE"
+                  alt="Barista pha chế cà phê"
+                  loading="eager"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    opacity: 0.8,
+                    mixBlendMode: 'luminosity',
+                  }}
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(to top, var(--color-deep-roast), transparent)',
+                    opacity: 0.6,
+                  }}
+                />
               </div>
-            </Reveal>
-
-            {/* Stacked Cards (Right — 5 cols) */}
-            <div className="md:col-span-5 flex flex-col gap-6">
-              <Reveal delay={0.1} className="flex-1">
-                <Link to="/menu/bac-xiu" className="block no-underline group">
-                  <div
-                    className="rounded-2xl overflow-hidden flex-1 relative cursor-pointer"
-                    style={{
-                      height: '237px',
-                      background: 'var(--color-surface-card)',
-                      border: '1px solid rgba(45,36,24,0.5)',
-                    }}
-                  >
-                    <img
-                      alt="Bạc Xỉu"
-                      className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
-                      src="/images/menu/bac-xiu.jpg"
-                      loading="lazy"
-                    />
-                    <div
-                      className="absolute inset-0"
-                      style={{ background: 'linear-gradient(to top, rgba(26,18,8,0.9), rgba(26,18,8,0.3))' }}
-                    />
-                    <div className="relative z-10 p-6 h-full flex flex-col justify-end">
-                      <div className="flex justify-between items-end">
-                        <div>
-                          <h3 className="text-2xl mb-1" style={{ fontFamily: 'var(--font-heading)', color: '#F5ECD7' }}>
-                            Bạc Xỉu
-                          </h3>
-                          <p className="text-sm" style={{ color: 'var(--color-text-muted)', fontWeight: 300 }}>
-                            Ngọt ngào, nhẹ nhàng
-                          </p>
-                        </div>
-                        <span style={{ color: 'var(--color-caramel)', fontWeight: 600, fontSize: '1.125rem' }}>45k</span>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </Reveal>
-
-              <Reveal delay={0.2}>
-                <Link to="/menu/cold-brew" className="block no-underline group">
-                  <div
-                    className="rounded-2xl overflow-hidden flex-1 relative cursor-pointer"
-                    style={{
-                      height: '237px',
-                      background: '#221a11',
-                      border: '1px solid rgba(45,36,24,0.5)',
-                    }}
-                  >
-                    <div
-                      className="absolute inset-0 opacity-10"
-                      style={{
-                        backgroundImage: 'radial-gradient(#C4903D 1px, transparent 1px)',
-                        backgroundSize: '20px 20px',
-                      }}
-                    />
-                    <div className="relative z-10 p-6 h-full flex flex-col justify-end">
-                      <div className="flex justify-between items-end">
-                        <div>
-                          <h3 className="text-2xl mb-1" style={{ fontFamily: 'var(--font-heading)', color: '#F5ECD7' }}>
-                            Cold Brew
-                          </h3>
-                          <p className="text-sm" style={{ color: 'var(--color-text-muted)', fontWeight: 300 }}>
-                            Ủ lạnh 24 giờ
-                          </p>
-                        </div>
-                        <span style={{ color: 'var(--color-caramel)', fontWeight: 600, fontSize: '1.125rem' }}>60k</span>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </Reveal>
             </div>
           </div>
         </div>
-      </section>
+      </header>
 
-      {/* ═══ STORY SECTION — Stitch layout: 40/60 split ═══ */}
-      <section className="section-padding" style={{ background: 'rgba(45,36,24,0.3)' }}>
-        <div className="container-narrow">
-          <Reveal>
-            <div className="flex flex-col md:flex-row items-center gap-16">
-              {/* Text (Left 40%) */}
-              <div className="w-full md:w-[40%]">
-                <h2 className="text-4xl mb-8" style={{ fontFamily: 'var(--font-heading)', color: '#F5ECD7' }}>
-                  Câu Chuyện Nâu
-                </h2>
-                <p className="font-light leading-relaxed mb-6" style={{ color: 'rgba(245,236,215,0.8)' }}>
-                  Khởi nguồn từ niềm đam mê mãnh liệt với hạt cà phê Việt, Nâu không chỉ là một quán cà phê,
-                  mà là một không gian tôn vinh nghệ thuật rang xay. Chúng tôi tin rằng mỗi mẻ rang là một
-                  tác phẩm nghệ thuật, đòi hỏi sự kiên nhẫn và tĩnh lặng.
-                </p>
-                <p className="font-light leading-relaxed mb-10" style={{ color: 'rgba(245,236,215,0.8)' }}>
-                  Trong không gian tối giản và trầm ấm này, chúng tôi mời bạn gác lại nhịp sống hối hả,
-                  để thưởng thức một tách cà phê được pha chế bằng tất cả sự tĩnh tại và tâm huyết.
-                </p>
-                <Link to="/gioi-thieu" className="btn-outline">
-                  Tìm hiểu thêm
-                </Link>
-              </div>
+      {/* FEATURED MENU — asymmetric 7/5 grid */}
+      <section
+        ref={menuRef}
+        className="section-padding container-narrow"
+        style={{ borderTop: '1px solid var(--color-surface-variant)' }}
+      >
+        <div className="flex flex-col md:flex-row justify-between items-end reveal-item" style={{ marginBottom: '4rem', gap: '1.5rem' }}>
+          <h2>Thực Đơn Nổi Bật</h2>
+          <Link
+            to="/menu"
+            className="label-caps"
+            style={{
+              color: 'var(--color-terracotta)',
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+            }}
+          >
+            Xem thực đơn đầy đủ
+            <span className="material-symbols-outlined" style={{ fontSize: 16 }}>arrow_forward</span>
+          </Link>
+        </div>
 
-              {/* Image (Right 60%) */}
-              <div className="w-full md:w-[60%]">
-                <div
-                  className="rounded-2xl overflow-hidden relative"
+        <div
+          className="grid grid-cols-1 md:grid-cols-12"
+          style={{ gap: '2rem', minHeight: '500px' }}
+        >
+          {/* Large card — 7 cols */}
+          <div className="md:col-span-7 reveal-item">
+            <div className="double-bezel spring-hover" style={{ borderRadius: '1.5rem', height: '100%' }}>
+              <div
+                className="double-bezel-inner"
+                style={{
+                  borderRadius: 'calc(1.5rem - 6px)',
+                  position: 'relative',
+                  height: '100%',
+                  minHeight: '400px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'flex-end',
+                  padding: '2rem',
+                }}
+              >
+                <img
+                  src="https://lh3.googleusercontent.com/aida/ADBb0uhYTBNHld8K7OrmNHYSoCm6rMvuwSo8wkogKJZhsRvfwto8n1Pj8tzMdCbeEh5_Y1HClbTDKr4ILgpwVLKxDT0xUi6G-efsfzwHm3hSdcvc7_2OmRSw7KzIojKQSZ6RPiRAD97_DTXVeRRcWVxYb2mmN3eka6vaj-WqiEeKbcvnEnilB3Y6YOQukF68zJVnJf2ZQL-fTNE_85mzYUkjjjp4PoJh4YguElRAmNFrgHILDSBSwx2V_9eiPlU"
+                  alt="Cà Phê Muối"
+                  loading="lazy"
                   style={{
-                    aspectRatio: '4/3',
-                    border: '1px solid var(--color-surface-card)',
-                    boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    opacity: 0.6,
+                    transition: 'transform 1s ease',
                   }}
-                >
-                  <img
-                    alt="Hạt cà phê rang mộc"
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                    src="/images/about/beans.png"
-                    loading="lazy"
-                  />
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(to top, var(--color-deep-roast), rgba(20,17,14,0.5), transparent)',
+                  }}
+                />
+                <div style={{ position: 'relative', zIndex: 20 }}>
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <h3 style={{ fontSize: '32px', marginBottom: '0.5rem' }}>Cà Phê Muối</h3>
+                      <p style={{ color: 'var(--color-on-surface-variant)', fontSize: '1rem' }}>
+                        Sự kết hợp hoàn hảo giữa vị đắng, ngọt và chút mặn mà đặc trưng.
+                      </p>
+                    </div>
+                    <span className="mono-data" style={{ color: 'var(--color-terracotta)', fontSize: '18px' }}>55k</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </Reveal>
+          </div>
+
+          {/* Right stacked — 5 cols */}
+          <div className="md:col-span-5 flex flex-col" style={{ gap: '2rem' }}>
+            {[
+              {
+                name: 'Bạc Xỉu',
+                price: '45k',
+                img: 'https://lh3.googleusercontent.com/aida/ADBb0uj9W500ejUaqI85xY3VUiHNli_fkyM24xs43YD2WsshHGdgtYfh4lEfthwAcDW8d7Ss-myO92CDRKqwDtiGd-JyDicc_6j6K_1M57wwQcE_liax4V7YpK2ljmGF8dv88gsu5o69edJxN8oT3qJCVPq-a3mSqpOxylnjlLxyHWFa65MX56L--6qJAIrVHhc-IZeDOcLZx06mWvsSSvaGdzzlxBmEx8ssYVoCxQfI5WA6qAEA1KPs1MHE49E',
+              },
+              {
+                name: 'Cold Brew',
+                price: '60k',
+                img: 'https://lh3.googleusercontent.com/aida/ADBb0ui_dT8xYvlAnCZKgB6ZfsasHMiDVvSuzzsWxP0PNUc5QexYzA7U55VuA0W8XHRdWZy7C13KA2MbIg7ryMhpdXlOy-7bA1Bdi75Sb_T8YmFVxHq8T8YkjozU7mrOYBRqzU9vIZztEyhAwo17iEaTNJ0ebAVCu5AgU3Z0KRP61aEmgllEg9jMOn34eUFuiPhKFGU08iP27Klf4vpCPF4CSPHDHJd3hCBSqoXdBLg3WSSJtdhbJSWPjOlGu2I',
+              },
+            ].map((item) => (
+              <div key={item.name} className="reveal-item" style={{ flex: 1 }}>
+                <div className="double-bezel spring-hover" style={{ borderRadius: '1.5rem', height: '100%' }}>
+                  <div
+                    className="double-bezel-inner"
+                    style={{
+                      borderRadius: 'calc(1.5rem - 6px)',
+                      position: 'relative',
+                      height: '100%',
+                      minHeight: '240px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'flex-end',
+                      padding: '1.5rem',
+                    }}
+                  >
+                    <img
+                      src={item.img}
+                      alt={item.name}
+                      loading="lazy"
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        opacity: 0.5,
+                      }}
+                    />
+                    <div
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: 'linear-gradient(to top, var(--color-deep-roast), transparent)',
+                      }}
+                    />
+                    <div className="flex justify-between items-end" style={{ position: 'relative', zIndex: 20 }}>
+                      <h3 style={{ fontSize: '24px' }}>{item.name}</h3>
+                      <span className="mono-data" style={{ color: 'var(--color-terracotta)' }}>{item.price}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ═══ TESTIMONIAL — Stitch layout: centered quote with ambient glow ═══ */}
-      <section className="relative overflow-hidden" style={{ padding: '8rem 2rem' }}>
+      {/* STORY SECTION — 40/60 split */}
+      <section ref={storyRef} className="section-padding container-narrow">
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"
-          style={{
-            width: '800px',
-            height: '800px',
-            background: 'rgba(196,144,61,0.05)',
-            filter: 'blur(100px)',
-          }}
-        />
-        <Reveal>
-          <div className="max-w-4xl mx-auto text-center relative z-10">
-            <div className="text-5xl mb-8 block opacity-50" style={{ color: 'var(--color-caramel)' }}>
-              ❝
-            </div>
-            <h3
-              className="text-3xl md:text-5xl italic leading-relaxed mb-8"
-              style={{ fontFamily: 'var(--font-heading)', color: '#F5ECD7' }}
-            >
-              "Không gian tĩnh lặng tuyệt đối. Tách cà phê Pour Over ở đây thực sự đưa tôi trở về
-              với những nốt hương nguyên bản nhất."
-            </h3>
-            <p
-              className="text-sm tracking-widest uppercase"
-              style={{ color: 'var(--color-text-muted)' }}
-            >
-              — Nguyễn Minh, Coffee Enthusiast
+          className="grid grid-cols-1 md:grid-cols-10 items-center"
+          style={{ gap: '4rem' }}
+        >
+          <div className="md:col-span-4 flex flex-col items-start" style={{ gap: '2rem' }}>
+            <h2 className="reveal-item">Câu Chuyện Nâu</h2>
+            <p className="reveal-item" style={{ fontSize: '1rem' }}>
+              Bắt nguồn từ tình yêu với hạt cà phê nguyên bản, Nâu là một hành trình tìm về những giá trị cốt lõi. Chúng tôi không chỉ rang xay cà phê, chúng tôi gìn giữ hương vị của thời gian và sự tỉ mỉ trong từng công đoạn.
             </p>
+            <Link to="/gioi-thieu" className="btn-ghost reveal-item" style={{ textDecoration: 'none' }}>
+              Tìm Hiểu Thêm
+            </Link>
           </div>
-        </Reveal>
+
+          <div className="md:col-span-6 reveal-item">
+            <div className="double-bezel" style={{ borderRadius: '2rem' }}>
+              <div
+                className="double-bezel-inner"
+                style={{
+                  borderRadius: 'calc(2rem - 6px)',
+                  height: 'clamp(350px, 50vh, 70vh)',
+                  position: 'relative',
+                }}
+              >
+                <img
+                  src="https://lh3.googleusercontent.com/aida/ADBb0ujj8coCWp_TX1_gqvclGa6UKcNEzNScVAGC2On75vlVOxMS-v5_-ZjAdQsSidRHEFxZ2b33762mm-krAESh13aVrJFe-RsCIdxLHddcd-a1X4lH4pUm5cfZG1WKvue_93tgmEiDnFNMYqbp9BCn236zFlhVPIErpQ3_vg8xaJhIDGEBzkM_KawpvXR6fQlCpGFI14eSZWalPqGDMaqb8gNyKKTAfUpQRTVrtfh26pSehS63aNjEI9iLFA"
+                  alt="Rang cà phê"
+                  loading="lazy"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    opacity: 0.7,
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
-      {/* ═══ CTA SECTION — Stitch layout: card with pattern background ═══ */}
-      <section className="section-padding px-8" style={{ borderTop: '1px solid rgba(45,36,24,0.5)' }}>
-        <Reveal>
-          <div
-            className="max-w-7xl mx-auto rounded-3xl flex flex-col md:flex-row items-center justify-between relative overflow-hidden"
+      {/* TESTIMONIAL — centered with ambient glow */}
+      <section
+        ref={quoteRef}
+        className="section-padding flex justify-center items-center"
+        style={{
+          position: 'relative',
+          overflow: 'hidden',
+          padding: 'clamp(4rem, 10vw, 8rem) var(--spacing-gutter)',
+        }}
+      >
+        {/* Ambient glow */}
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 600,
+            height: 600,
+            background: 'rgba(194, 112, 58, 0.1)',
+            borderRadius: '50%',
+            filter: 'blur(120px)',
+            pointerEvents: 'none',
+          }}
+        />
+
+        <div style={{ maxWidth: '48rem', textAlign: 'center', position: 'relative', zIndex: 10 }}>
+          {/* Large typographic quote mark */}
+          <span
+            className="reveal-item"
             style={{
-              background: 'var(--color-surface-card)',
-              padding: 'clamp(2rem, 4vw, 4rem)',
-              border: '1px solid rgba(45,36,24,0.8)',
+              fontFamily: 'var(--font-heading)',
+              fontSize: '120px',
+              color: 'var(--color-surface-variant)',
+              lineHeight: 1,
+              position: 'absolute',
+              top: '-3rem',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              opacity: 0.5,
             }}
           >
-            {/* Decorative pattern */}
+            "
+          </span>
+          <p
+            className="reveal-item"
+            style={{
+              fontSize: 'clamp(20px, 3vw, 32px)',
+              color: 'var(--color-ivory)',
+              fontStyle: 'italic',
+              fontWeight: 300,
+              lineHeight: 1.5,
+              marginBottom: '2rem',
+              maxWidth: 'none',
+            }}
+          >
+            Không gian tĩnh lặng tuyệt đối. Tách cà phê Pour Over ở đây thực sự đưa tôi trở về với những nốt hương nguyên bản nhất.
+          </p>
+          <div className="label-caps reveal-item" style={{ color: 'var(--color-terracotta)' }}>
+            Nguyễn Minh <span style={{ color: 'var(--color-ash)', margin: '0 0.5rem' }}>|</span> Coffee Enthusiast
+          </div>
+        </div>
+      </section>
+
+      {/* CTA SECTION */}
+      <section ref={ctaRef} className="container-narrow" style={{ marginBottom: '5rem' }}>
+        <div className="double-bezel reveal-item" style={{ borderRadius: '2rem' }}>
+          <div
+            className="double-bezel-inner"
+            style={{
+              borderRadius: 'calc(2rem - 6px)',
+              padding: 'clamp(2rem, 5vw, 5rem)',
+              position: 'relative',
+            }}
+          >
+            {/* Terracotta tint */}
             <div
-              className="absolute inset-0 opacity-5"
               style={{
-                backgroundImage: 'repeating-linear-gradient(45deg, #C4903D 0, #C4903D 1px, transparent 0, transparent 50%)',
-                backgroundSize: '20px 20px',
+                position: 'absolute',
+                inset: 0,
+                background: 'rgba(194, 112, 58, 0.03)',
+                mixBlendMode: 'overlay',
+                borderRadius: 'inherit',
+                pointerEvents: 'none',
               }}
             />
 
-            <div className="relative z-10 md:w-2/3 mb-8 md:mb-0">
-              <h2
-                className="text-4xl md:text-5xl mb-6"
-                style={{ fontFamily: 'var(--font-heading)', color: '#F5ECD7' }}
-              >
-                Ghé thăm không gian của chúng tôi
-              </h2>
-              <div className="flex flex-col gap-3 font-light" style={{ color: 'rgba(245,236,215,0.8)' }}>
-                <p className="flex items-center gap-3">
-                  <span style={{ color: 'var(--color-caramel)' }}>📍</span>
-                  123 Đường Cà Phê, Quận Trầm, TP.HCM
-                </p>
-                <p className="flex items-center gap-3">
-                  <span style={{ color: 'var(--color-caramel)' }}>🕐</span>
-                  Mở cửa: 07:00 - 22:00 mỗi ngày
-                </p>
+            <div
+              className="flex flex-col md:flex-row items-center justify-between"
+              style={{ gap: '3rem', position: 'relative', zIndex: 20 }}
+            >
+              <div>
+                <h2 style={{ marginBottom: '2rem' }}>
+                  Ghé thăm không gian<br />của chúng tôi
+                </h2>
+                <div className="flex flex-col" style={{ gap: '1rem' }}>
+                  <div className="flex items-center" style={{ gap: '1rem' }}>
+                    <span className="material-symbols-outlined" style={{ color: 'var(--color-terracotta)' }}>location_on</span>
+                    <span style={{ color: 'var(--color-on-surface-variant)' }}>123 Đường Sách, Quận 1, TP. HCM</span>
+                  </div>
+                  <div className="flex items-center" style={{ gap: '1rem' }}>
+                    <span className="material-symbols-outlined" style={{ color: 'var(--color-terracotta)' }}>schedule</span>
+                    <span style={{ color: 'var(--color-on-surface-variant)' }}>07:00 - 22:00 Mỗi ngày</span>
+                  </div>
+                </div>
               </div>
-            </div>
 
-            <div className="relative z-10">
               <Link
                 to="/lien-he"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-lg font-semibold uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5"
+                className="btn-primary"
                 style={{
-                  background: 'var(--color-cream)',
-                  color: 'var(--color-espresso)',
+                  textDecoration: 'none',
+                  background: 'var(--color-ivory)',
+                  color: 'var(--color-deep-roast)',
+                  padding: '1.25rem 2.5rem',
+                  borderRadius: '2rem',
                 }}
               >
-                🗺️ Xem bản đồ
+                Xem bản đồ
               </Link>
             </div>
           </div>
-        </Reveal>
+        </div>
       </section>
     </>
   );

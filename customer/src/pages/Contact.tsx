@@ -1,171 +1,202 @@
 import { useState } from 'react';
-import { Reveal } from '../components/Reveal';
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', subject: 'gop_y', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // TODO: Wire to Firebase
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 3000);
   };
 
   return (
     <>
-      <main className="flex-grow w-full max-w-7xl mx-auto px-4 md:px-8 py-16 lg:py-24">
-        {/* Split Section — from Stitch contact.html */}
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 mb-24">
-          {/* Left: Contact Info & Form (45%) */}
-          <Reveal>
-            <div className="lg:w-[45%] flex flex-col justify-center">
-              <h1
-                className="text-5xl lg:text-6xl mb-4 font-bold tracking-tight"
-                style={{ fontFamily: 'var(--font-heading)', color: '#F5ECD7' }}
-              >
-                Liên Hệ
-              </h1>
-              <p className="text-lg mb-10 font-light" style={{ color: 'var(--color-text-muted)' }}>
-                Chúng tôi luôn sẵn lòng lắng nghe bạn.
-              </p>
+      {/* Page Header */}
+      <header className="container-narrow" style={{ paddingTop: '2rem', paddingBottom: '3rem' }}>
+        <h1 style={{ color: 'var(--color-ivory)', marginBottom: '1.5rem' }}>Liên Hệ</h1>
+        <p style={{ fontSize: '1.125rem', color: 'var(--color-on-surface-variant)' }}>
+          Chúng tôi luôn sẵn lòng lắng nghe.
+        </p>
+      </header>
 
-              {/* Contact Details */}
-              <div className="space-y-6 mb-12">
-                {[
-                  { icon: '📍', label: 'Địa chỉ', value: '123 Nguyễn Huệ, Quận 1, TP.HCM' },
-                  { icon: '📞', label: 'Điện thoại', value: '090 123 45 67' },
-                  { icon: '✉️', label: 'Email', value: 'hello@naucoffee.vn' },
-                  { icon: '🕐', label: 'Giờ mở cửa', value: '7:00 — 22:00, Tất cả các ngày' },
-                ].map((item) => (
-                  <div key={item.label} className="flex items-start gap-4 group">
-                    <span className="mt-1 text-lg group-hover:scale-110 transition-transform">{item.icon}</span>
+      {/* Contact Section — 45/55 split */}
+      <section className="container-narrow" style={{ marginBottom: '5rem' }}>
+        <div className="grid grid-cols-1 md:grid-cols-12" style={{ gap: 'clamp(2rem, 5vw, 4rem)' }}>
+          {/* Left: Contact Info (5 cols) */}
+          <div className="md:col-span-5 flex flex-col justify-center" style={{ gap: '3rem' }}>
+            {[
+              { icon: 'location_on', label: 'Địa Chỉ', value: '123 Đường Cà Phê, Quận Trầm, TP.HCM' },
+              { icon: 'phone', label: 'Điện Thoại', value: '0901 234 567' },
+              { icon: 'mail', label: 'Email', value: 'hello@naucoffee.vn' },
+              { icon: 'schedule', label: 'Giờ Mở Cửa', value: '07:00 - 22:00 mỗi ngày' },
+            ].map((item) => (
+              <div key={item.label} className="flex items-start" style={{ gap: '1.5rem' }}>
+                <span
+                  className="material-symbols-outlined"
+                  style={{ color: 'var(--color-terracotta)', fontSize: 28, fontVariationSettings: "'FILL' 1" }}
+                >
+                  {item.icon}
+                </span>
+                <div>
+                  <h3 className="label-caps" style={{ color: 'var(--color-on-surface-variant)', marginBottom: '0.5rem' }}>
+                    {item.label}
+                  </h3>
+                  <p style={{ color: 'var(--color-ivory)', fontSize: '1.125rem', fontWeight: 300 }}>
+                    {item.value}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Right: Form (7 cols) */}
+          <div className="md:col-span-7">
+            <div className="double-bezel" style={{ borderRadius: '1.5rem' }}>
+              <div
+                className="double-bezel-inner"
+                style={{ borderRadius: 'calc(1.5rem - 6px)', padding: 'clamp(1.5rem, 4vw, 3rem)' }}
+              >
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                  {/* Name */}
+                  <div>
+                    <label htmlFor="contact-name" className="form-label">Họ và tên</label>
+                    <input
+                      id="contact-name"
+                      type="text"
+                      className="form-input"
+                      placeholder="Nguyễn Văn A"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      required
+                    />
+                  </div>
+
+                  {/* Email + Phone row */}
+                  <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: '2rem' }}>
                     <div>
-                      <p className="text-xs uppercase tracking-widest mb-1" style={{ color: 'var(--color-text-muted)' }}>
-                        {item.label}
-                      </p>
-                      <p className="font-light" style={{ color: '#F5ECD7' }}>{item.value}</p>
+                      <label htmlFor="contact-email" className="form-label">Email</label>
+                      <input
+                        id="contact-email"
+                        type="email"
+                        className="form-input"
+                        placeholder="email@example.com"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="contact-phone" className="form-label">Số điện thoại</label>
+                      <input
+                        id="contact-phone"
+                        type="tel"
+                        className="form-input"
+                        placeholder="090..."
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      />
                     </div>
                   </div>
-                ))}
-              </div>
 
-              {/* Contact Form */}
-              <form className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Message */}
                   <div>
-                    <label className="block text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--color-text-muted)' }} htmlFor="name">
-                      Họ & Tên
-                    </label>
-                    <input
-                      className="w-full rounded-lg px-4 py-3 font-light transition-all focus:outline-none"
-                      style={{
-                        background: 'var(--color-surface-card)',
-                        border: '1px solid var(--color-text-muted)',
-                        color: '#F5ECD7',
-                      }}
-                      id="name" name="name" type="text" placeholder="Nguyễn Văn A"
-                      value={formData.name} onChange={handleChange}
+                    <label htmlFor="contact-message" className="form-label">Nội dung</label>
+                    <textarea
+                      id="contact-message"
+                      className="form-input"
+                      placeholder="Bạn muốn nhắn gửi điều gì?"
+                      rows={5}
+                      style={{ resize: 'none' }}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      required
                     />
                   </div>
-                  <div>
-                    <label className="block text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--color-text-muted)' }} htmlFor="email">
-                      Email
-                    </label>
-                    <input
-                      className="w-full rounded-lg px-4 py-3 font-light transition-all focus:outline-none"
-                      style={{ background: 'var(--color-surface-card)', border: '1px solid var(--color-text-muted)', color: '#F5ECD7' }}
-                      id="email" name="email" type="email" placeholder="email@example.com"
-                      value={formData.email} onChange={handleChange}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--color-text-muted)' }} htmlFor="subject">
-                    Chủ Đề
-                  </label>
-                  <select
-                    className="w-full rounded-lg px-4 py-3 font-light transition-all focus:outline-none appearance-none"
-                    style={{ background: 'var(--color-surface-card)', border: '1px solid var(--color-text-muted)', color: '#F5ECD7' }}
-                    id="subject" name="subject" value={formData.subject} onChange={handleChange}
+
+                  {/* Submit */}
+                  <button
+                    type="submit"
+                    className="btn-primary"
+                    style={{
+                      width: '100%',
+                      justifyContent: 'center',
+                      padding: '1rem 2rem',
+                    }}
                   >
-                    <option value="gop_y">Góp ý</option>
-                    <option value="hop_tac">Hợp tác</option>
-                    <option value="dat_cho">Đặt chỗ</option>
-                    <option value="khac">Khác</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--color-text-muted)' }} htmlFor="message">
-                    Nội Dung
-                  </label>
-                  <textarea
-                    className="w-full rounded-lg px-4 py-3 font-light transition-all focus:outline-none resize-none"
-                    style={{ background: 'var(--color-surface-card)', border: '1px solid var(--color-text-muted)', color: '#F5ECD7' }}
-                    id="message" name="message" rows={4} placeholder="Hãy viết tin nhắn của bạn ở đây..."
-                    value={formData.message} onChange={handleChange}
-                  />
-                </div>
-                <button
-                  type="button"
-                  className="w-full md:w-auto px-8 py-4 rounded-lg font-semibold uppercase tracking-wider transition-all duration-300 hover:-translate-y-1"
-                  style={{
-                    background: 'var(--color-caramel)',
-                    color: 'var(--color-espresso)',
-                    boxShadow: '0 4px 14px 0 rgba(196,144,61,0.39)',
-                  }}
-                >
-                  Gửi Liên Hệ
-                </button>
-              </form>
+                    {submitted ? 'Đã gửi!' : 'Gửi Tin Nhắn'}
+                    {!submitted && (
+                      <span className="material-symbols-outlined" style={{ fontSize: 18 }}>arrow_forward</span>
+                    )}
+                  </button>
+                </form>
+              </div>
             </div>
-          </Reveal>
-
-          {/* Right: Image (55%) */}
-          <Reveal delay={0.2}>
-            <div className="lg:w-[55%] h-[500px] lg:h-auto rounded-2xl overflow-hidden relative group">
-              <img
-                alt="Nâu Coffee Interior"
-                className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out"
-                src="/images/about/contact-barista.jpg"
-                loading="lazy"
-              />
-              <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(26,18,8,0.8), transparent, transparent)' }} />
-            </div>
-          </Reveal>
-        </div>
-
-        {/* Social Media */}
-        <div className="flex justify-center items-center gap-8 mb-16">
-          {['🌐', '📷', '▶️'].map((icon, i) => (
-            <a
-              key={i}
-              href="#"
-              className="text-3xl transition-colors duration-300 hover:scale-110 transform"
-              style={{ color: 'var(--color-text-muted)' }}
-            >
-              {icon}
-            </a>
-          ))}
-        </div>
-
-        {/* Map Section */}
-        <div
-          className="w-full h-[400px] rounded-2xl overflow-hidden relative flex items-center justify-center"
-          style={{ border: '1px solid var(--color-surface-card)', background: 'var(--color-surface-card)' }}
-        >
-          <div
-            className="absolute inset-0 opacity-30"
-            style={{
-              backgroundImage: "url('https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')",
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              filter: 'grayscale(100%)',
-            }}
-          />
-          <div className="relative z-10 flex flex-col items-center">
-            <span className="text-5xl mb-2" style={{ color: 'var(--color-caramel)' }}>📍</span>
-            <p style={{ fontFamily: 'var(--font-heading)', color: '#F5ECD7', fontSize: '1.25rem' }}>Nâu Coffee</p>
-            <p className="text-sm font-light" style={{ color: 'var(--color-text-muted)' }}>123 Nguyễn Huệ, Quận 1</p>
           </div>
         </div>
-      </main>
+      </section>
+
+      {/* Map placeholder */}
+      <section className="container-narrow" style={{ marginBottom: 'var(--spacing-section)' }}>
+        <div
+          className="double-bezel"
+          style={{ borderRadius: '2rem' }}
+        >
+          <div
+            className="double-bezel-inner flex items-center justify-center"
+            style={{
+              borderRadius: 'calc(2rem - 6px)',
+              height: 'clamp(300px, 40vh, 500px)',
+              position: 'relative',
+              background: 'var(--color-charcoal)',
+            }}
+          >
+            {/* Map overlay card */}
+            <div
+              style={{
+                background: 'rgba(28, 25, 22, 0.8)',
+                backdropFilter: 'blur(12px)',
+                padding: '1.5rem',
+                borderRadius: '1rem',
+                border: '1px solid rgba(76, 70, 64, 0.3)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1rem',
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: '50%',
+                  background: 'rgba(194, 112, 58, 0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <span
+                  className="material-symbols-outlined"
+                  style={{ color: 'var(--color-terracotta)', fontSize: 24, fontVariationSettings: "'FILL' 1" }}
+                >
+                  location_on
+                </span>
+              </div>
+              <div>
+                <h4 className="label-caps" style={{ color: 'var(--color-on-surface-variant)', marginBottom: '0.25rem' }}>
+                  Nâu Coffee Roastery
+                </h4>
+                <p style={{ color: 'var(--color-ivory)', fontSize: '1rem' }}>
+                  123 Đường Cà Phê, Quận Trầm, TP.HCM
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

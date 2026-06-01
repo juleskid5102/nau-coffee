@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Liên Hệ - Nâu Coffee</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&amp;family=Stigma:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        @font-face {
+            font-family: 'Stigma';
+            src: local('Outfit'); /* Fallback for missing custom font */
+            font-weight: 700;
+        }
+        @font-face {
+            font-family: 'JetBrains Mono';
+            src: local('monospace');
+            font-weight: 400;
+        }
+        
+        /* Atmospheric Grain */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Spring Physics Interactions */
+        .spring-hover {
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .spring-hover:hover {
+            transform: scale(1.05) translateY(-2px);
+        }
+        
+        /* Fade in on scroll */
+        .fade-in-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Input Focus Ring */
+        .form-input:focus {
+            box-shadow: 0 0 0 2px #c2703a;
+            border-color: transparent;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#635d59",
+                        "on-surface-variant": "#cfc5bd",
+                        "surface": "#141313",
+                        "surface-charcoal": "#1c1916",
+                        "outline-variant": "#4c4640",
+                        "surface-bright": "#3a3938",
+                        "surface-container-lowest": "#0f0e0e",
+                        "on-tertiary": "#303032",
+                        "secondary-container": "#753400",
+                        "tertiary-container": "#111113",
+                        "surface-container-highest": "#363434",
+                        "status-error": "#c44d3d",
+                        "outline": "#988f88",
+                        "accent-clay": "#9a5428",
+                        "status-success": "#6b8c42",
+                        "surface-dim": "#141313",
+                        "text-ash": "#8a8278",
+                        "on-secondary": "#522300",
+                        "on-tertiary-fixed": "#1b1b1d",
+                        "secondary": "#ffb68b",
+                        "surface-container-low": "#1c1b1b",
+                        "on-primary-fixed": "#1e1b18",
+                        "error-container": "#93000a",
+                        "on-primary": "#34302c",
+                        "error": "#ffb4ab",
+                        "surface-container-high": "#2b2a29",
+                        "secondary-fixed": "#ffdbc8",
+                        "surface-slate": "#252220",
+                        "on-tertiary-container": "#7e7c7f",
+                        "on-error-container": "#ffdad6",
+                        "surface-container": "#201f1f",
+                        "surface-tint": "#cdc5c0",
+                        "background": "#141313",
+                        "tertiary-fixed-dim": "#c8c6c8",
+                        "on-secondary-container": "#fb9f64",
+                        "surface-variant": "#363434",
+                        "on-error": "#690005",
+                        "on-primary-container": "#827c77",
+                        "primary-fixed-dim": "#cdc5c0",
+                        "on-primary-fixed-variant": "#4a4642",
+                        "on-surface": "#e6e1e0",
+                        "on-secondary-fixed-variant": "#753400",
+                        "tertiary-fixed": "#e5e1e4",
+                        "primary-fixed": "#e9e1db",
+                        "primary": "#cdc5c0",
+                        "tertiary": "#c8c6c8",
+                        "primary-container": "#14110e",
+                        "accent-ember": "#d4845a",
+                        "on-tertiary-fixed-variant": "#474649",
+                        "text-ivory": "#e8e0d4",
+                        "on-secondary-fixed": "#321200",
+                        "on-background": "#e6e1e0",
+                        "secondary-fixed-dim": "#ffb68b",
+                        "inverse-surface": "#e6e1e0",
+                        "inverse-on-surface": "#313030",
+                        "custom-burnt": "#c2703a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-py-mobile": "3rem",
+                        "section-py-desktop": "clamp(7rem, 10vw, 10rem)",
+                        "gutter": "1.5rem",
+                        "container-max": "1152px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Outfit"],
+                        "display-lg": ["Stigma"],
+                        "mono-data": ["JetBrains Mono"],
+                        "body-md": ["Outfit"],
+                        "headline-md": ["Stigma"],
+                        "body-lg": ["Outfit"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["13px", {"lineHeight": "1", "letterSpacing": "0.12em", "fontWeight": "500"}],
+                        "display-lg": ["clamp(48px, 8vw, 80px)", {"lineHeight": "1.1", "fontWeight": "700"}],
+                        "mono-data": ["14px", {"lineHeight": "1", "fontWeight": "400"}],
+                        "body-md": ["1rem", {"lineHeight": "1.7", "fontWeight": "300"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "body-lg": ["1.125rem", {"lineHeight": "1.7", "fontWeight": "300"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-primary-container text-text-ivory min-h-screen selection:bg-accent-clay selection:text-surface-container-lowest antialiased">
+<div class="grain-overlay"></div>
+<!-- Navigation (Injected Component) -->
+<nav class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-4xl h-14 rounded-full px-6 flex items-center z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border border-outline-variant/30 shadow-2xl">
+<div class="flex justify-between items-center w-full">
+<div class="font-display-lg text-headline-md tracking-tighter text-on-surface">
+                Nâu Coffee
+            </div>
+<div class="hidden md:flex gap-8 font-label-caps text-label-caps uppercase tracking-widest">
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">ROASTERY</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">JOURNAL</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">HERITAGE</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">SHOP</a>
+</div>
+<button class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface hover:scale-105 transition-transform duration-300">
+                ORDER NOW
+            </button>
+</div>
+</nav>
+<main class="pt-32 pb-section-py-desktop px-gutter max-w-container-max mx-auto overflow-hidden">
+<!-- Page Header -->
+<header class="mb-24 fade-in-on-scroll">
+<h1 class="font-display-lg text-display-lg text-text-ivory mb-6 max-w-3xl leading-tight">Liên Hệ</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Chúng tôi luôn sẵn lòng lắng nghe.</p>
+</header>
+<!-- Contact Section -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-24 mb-32 fade-in-on-scroll">
+<!-- Left 45% (Contact Info) -->
+<div class="md:col-span-5 flex flex-col justify-center space-y-12">
+<div class="flex items-start space-x-6 group cursor-pointer">
+<span class="material-symbols-outlined text-custom-burnt text-3xl group-hover:scale-110 transition-transform" data-icon="location_on" data-weight="fill" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">Địa Chỉ</h3>
+<p class="font-body-lg text-body-lg text-text-ivory">123 Đường Cà Phê, Quận Trầm, TP.HCM</p>
+</div>
+</div>
+<div class="flex items-start space-x-6 group cursor-pointer">
+<span class="material-symbols-outlined text-custom-burnt text-3xl group-hover:scale-110 transition-transform" data-icon="phone" data-weight="fill" style="font-variation-settings: 'FILL' 1;">phone</span>
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">Điện Thoại</h3>
+<p class="font-body-lg text-body-lg text-text-ivory">0901 234 567</p>
+</div>
+</div>
+<div class="flex items-start space-x-6 group cursor-pointer">
+<span class="material-symbols-outlined text-custom-burnt text-3xl group-hover:scale-110 transition-transform" data-icon="mail" data-weight="fill" style="font-variation-settings: 'FILL' 1;">mail</span>
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">Email</h3>
+<p class="font-body-lg text-body-lg text-text-ivory">hello@naucoffee.vn</p>
+</div>
+</div>
+<div class="flex items-start space-x-6 group cursor-pointer">
+<span class="material-symbols-outlined text-custom-burnt text-3xl group-hover:scale-110 transition-transform" data-icon="schedule" data-weight="fill" style="font-variation-settings: 'FILL' 1;">schedule</span>
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">Giờ Mở Cửa</h3>
+<p class="font-body-lg text-body-lg text-text-ivory">07:00 - 22:00 mỗi ngày</p>
+</div>
+</div>
+</div>
+<!-- Right 55% (Form) -->
+<div class="md:col-span-7">
+<div class="bg-surface-slate rounded-2xl p-[1px] shadow-2xl relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-text-ivory/10 to-transparent opacity-20 pointer-events-none"></div>
+<div class="bg-surface-charcoal rounded-[15px] p-8 md:p-12 h-full relative z-10 border border-text-ivory/[0.04]">
+<form class="space-y-8 flex flex-col h-full">
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase block" for="name">Họ và tên</label>
+<input class="form-input w-full bg-surface-charcoal border-outline-variant/30 rounded-xl px-4 py-3 font-body-md text-body-md text-text-ivory focus:ring-0 transition-shadow duration-300" id="name" placeholder="Nguyễn Văn A" type="text"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase block" for="email">Email</label>
+<input class="form-input w-full bg-surface-charcoal border-outline-variant/30 rounded-xl px-4 py-3 font-body-md text-body-md text-text-ivory focus:ring-0 transition-shadow duration-300" id="email" placeholder="email@example.com" type="email"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase block" for="phone">Số điện thoại</label>
+<input class="form-input w-full bg-surface-charcoal border-outline-variant/30 rounded-xl px-4 py-3 font-body-md text-body-md text-text-ivory focus:ring-0 transition-shadow duration-300" id="phone" placeholder="090..." type="tel"/>
+</div>
+</div>
+<div class="space-y-2 flex-grow">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase block" for="message">Nội dung</label>
+<textarea class="form-input w-full bg-surface-charcoal border-outline-variant/30 rounded-xl px-4 py-3 font-body-md text-body-md text-text-ivory focus:ring-0 transition-shadow duration-300 resize-none" id="message" placeholder="Bạn muốn nhắn gửi điều gì?" rows="5"></textarea>
+</div>
+<div class="pt-4">
+<button class="w-full bg-custom-burnt text-primary-container font-label-caps text-label-caps uppercase tracking-widest py-4 rounded-full spring-hover hover:bg-accent-ember transition-colors duration-300 flex items-center justify-center gap-2" type="button">
+                                    Gửi Tin Nhắn
+                                    <span class="material-symbols-outlined text-lg" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</section>
+<!-- Map Section Placeholder -->
+<section class="w-full h-96 md:h-[500px] rounded-[2rem] overflow-hidden relative fade-in-on-scroll bg-surface-charcoal border border-outline-variant/20 flex items-center justify-center">
+<div class="absolute inset-0 bg-[url('https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/106.6297,10.8231,13,0,0/1200x600?access_token=pk.eyJ1IjoiZXhhbXBsZSIsImEiOiJjbGV4YW1wbGUifQ.example')] bg-cover bg-center opacity-40 mix-blend-luminosity" data-alt="A moody, high-contrast dark mode stylized map of Ho Chi Minh City, Vietnam. The map features a minimalist, atmospheric aesthetic with deep charcoal backgrounds, subtle grey street lines, and a warm, glowing burnt terracotta pin marking a specific location in District 1. The overall tone is sophisticated, mirroring a premium specialty coffee brand's visual identity." data-location="Ho Chi Minh City, Vietnam" style=""></div>
+<div class="relative z-10 bg-surface-charcoal/80 backdrop-blur-md p-6 rounded-2xl border border-outline-variant/30 shadow-2xl flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-custom-burnt/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-custom-burnt text-2xl" data-icon="location_on" data-weight="fill" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-1">Nâu Coffee Roastery</h4>
+<p class="font-body-md text-body-md text-text-ivory">123 Đường Cà Phê, Quận Trầm, TP.HCM</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Injected Component) -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest w-full py-section-py-mobile md:py-16 border-t border-outline-variant/20 fade-in-on-scroll">
+<div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="md:col-span-1">
+<div class="font-display-lg text-headline-md text-on-surface opacity-50 mb-6">Nâu Coffee</div>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant">© 2024 Nâu Coffee Roastery. Heritage in Every Drop.</p>
+</div>
+<div class="md:col-span-3 flex flex-col md:flex-row gap-8 md:justify-end items-start md:items-center">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-accent-ember transition-colors" href="#">Sourcing</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-accent-ember transition-colors" href="#">Brewing Guides</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-accent-ember transition-colors" href="#">Wholesale</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-accent-ember transition-colors" href="#">Privacy</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple Intersection Observer for scroll animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            document.querySelectorAll('.fade-in-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body></html>

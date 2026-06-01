@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nâu Coffee - Thực Đơn</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Outfit:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        /* Custom Font Mocks for Stigma */
+        @font-face {
+            font-family: 'Stigma';
+            src: local('Times New Roman'); /* Fallback for visual mock */
+        }
+        
+        /* Grain Overlay */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Hide scrollbar for category menu */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#e5e1e4",
+                        "primary-container": "#14110e",
+                        "primary-fixed": "#e9e1db",
+                        "surface-tint": "#cdc5c0",
+                        "on-secondary-fixed": "#321200",
+                        "inverse-primary": "#635d59",
+                        "on-tertiary-fixed": "#1b1b1d",
+                        "tertiary-fixed-dim": "#c8c6c8",
+                        "surface-dim": "#141313",
+                        "surface-container-high": "#2b2a29",
+                        "on-surface": "#e6e1e0",
+                        "outline-variant": "#4c4640",
+                        "status-error": "#c44d3d",
+                        "on-secondary-container": "#fb9f64",
+                        "accent-clay": "#9a5428",
+                        "on-background": "#e6e1e0",
+                        "surface-container-lowest": "#0f0e0e",
+                        "surface-container-low": "#1c1b1b",
+                        "on-tertiary": "#303032",
+                        "background": "#141313",
+                        "on-secondary": "#522300",
+                        "on-primary-fixed": "#1e1b18",
+                        "on-primary": "#34302c",
+                        "surface-container": "#201f1f",
+                        "on-surface-variant": "#cfc5bd",
+                        "error": "#ffb4ab",
+                        "primary": "#cdc5c0",
+                        "on-tertiary-container": "#7e7c7f",
+                        "on-error-container": "#ffdad6",
+                        "tertiary": "#c8c6c8",
+                        "on-tertiary-fixed-variant": "#474649",
+                        "surface-container-highest": "#363434",
+                        "primary-fixed-dim": "#cdc5c0",
+                        "on-primary-container": "#827c77",
+                        "secondary": "#ffb68b",
+                        "surface-charcoal": "#1c1916",
+                        "surface-variant": "#363434",
+                        "secondary-fixed-dim": "#ffb68b",
+                        "outline": "#988f88",
+                        "secondary-container": "#753400",
+                        "surface-slate": "#252220",
+                        "status-success": "#6b8c42",
+                        "text-ash": "#8a8278",
+                        "inverse-on-surface": "#313030",
+                        "tertiary-container": "#111113",
+                        "on-secondary-fixed-variant": "#753400",
+                        "on-error": "#690005",
+                        "on-primary-fixed-variant": "#4a4642",
+                        "inverse-surface": "#e6e1e0",
+                        "surface": "#141313",
+                        "text-ivory": "#e8e0d4",
+                        "secondary-fixed": "#ffdbc8",
+                        "surface-bright": "#3a3938",
+                        "accent-ember": "#d4845a",
+                        "error-container": "#93000a",
+                        "burnt-terracotta": "#c2703a" /* Fallback if accent-clay is different */
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-py-mobile": "3rem",
+                        "section-py-desktop": "clamp(7rem, 10vw, 10rem)",
+                        "gutter": "1.5rem",
+                        "container-max": "1152px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Outfit"],
+                        "headline-md": ["Stigma"],
+                        "mono-data": ["JetBrains Mono"],
+                        "display-lg": ["Stigma"],
+                        "body-md": ["Outfit"],
+                        "label-caps": ["Outfit"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["1.125rem", { "lineHeight": "1.7", "fontWeight": "300" }],
+                        "headline-md": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "mono-data": ["14px", { "lineHeight": "1", "fontWeight": "400" }],
+                        "display-lg": ["clamp(48px, 8vw, 80px)", { "lineHeight": "1.1", "fontWeight": "700" }],
+                        "body-md": ["1rem", { "lineHeight": "1.7", "fontWeight": "300" }],
+                        "label-caps": ["13px", { "lineHeight": "1", "letterSpacing": "0.12em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-primary-container text-text-ivory font-body-md antialiased selection:bg-accent-clay selection:text-white">
+<div class="grain-overlay"></div>
+<!-- Top Navigation (Shared Component Context) -->
+<nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 w-full rounded-full mt-4 max-w-[960px] h-[56px] mx-auto border border-white/5 bg-surface-container/60 backdrop-blur-xl shadow-2xl scale-95 transition-transform hidden md:flex">
+<a class="font-display-lg text-display-lg font-bold tracking-tighter text-on-surface" href="#">NÂU</a>
+<div class="flex items-center gap-8">
+<a class="font-label-caps text-label-caps text-text-ash font-medium hover:text-on-surface transition-all duration-300 ease-out" href="#">Trang Chủ</a>
+<a class="font-label-caps text-label-caps text-accent-clay font-bold border-b border-accent-clay pb-1 hover:text-on-surface transition-all duration-300 ease-out" href="#">Menu</a>
+<a class="font-label-caps text-label-caps text-text-ash font-medium hover:text-on-surface transition-all duration-300 ease-out" href="#">Giới Thiệu</a>
+<a class="font-label-caps text-label-caps text-text-ash font-medium hover:text-on-surface transition-all duration-300 ease-out" href="#">Không Gian</a>
+<a class="font-label-caps text-label-caps text-text-ash font-medium hover:text-on-surface transition-all duration-300 ease-out" href="#">Liên Hệ</a>
+</div>
+<button class="font-label-caps text-label-caps text-accent-clay hover:text-on-surface transition-all duration-300 ease-out">Đặt Món</button>
+</nav>
+<main class="min-h-screen pb-section-py-desktop">
+<!-- Page Header -->
+<header class="pt-section-py-desktop pb-12 px-gutter max-w-container-max mx-auto bg-primary-container">
+<h1 class="font-display-lg text-display-lg text-text-ivory mb-6">Thực Đơn</h1>
+<p class="font-body-lg text-body-lg text-text-ash max-w-2xl">Mỗi ly cà phê là một tác phẩm được chế tác tỉ mỉ.</p>
+</header>
+<!-- Sticky Category Bar -->
+<div class="sticky top-0 md:top-[80px] z-40 bg-primary-container/80 backdrop-blur-xl border-b border-surface-variant py-4 px-gutter mb-16">
+<div class="max-w-container-max mx-auto flex items-center gap-3 overflow-x-auto no-scrollbar">
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-accent-clay text-primary-container font-label-caps text-label-caps transition-all">Tất Cả</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full border border-outline text-text-ash hover:border-accent-clay hover:text-accent-clay font-label-caps text-label-caps transition-all">Cà Phê</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full border border-outline text-text-ash hover:border-accent-clay hover:text-accent-clay font-label-caps text-label-caps transition-all">Trà</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full border border-outline text-text-ash hover:border-accent-clay hover:text-accent-clay font-label-caps text-label-caps transition-all">Đá Xay</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full border border-outline text-text-ash hover:border-accent-clay hover:text-accent-clay font-label-caps text-label-caps transition-all">Bánh Ngọt</button>
+</div>
+</div>
+<!-- Menu Grid Container -->
+<div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Wide Card 1 (2-col layout logically, spans 8 cols in 12-col grid) -->
+<article class="col-span-1 md:col-span-8 bg-surface-slate p-[6px] rounded-xl border border-white/5 transition-transform hover:-translate-y-1 duration-500 group">
+<div class="bg-surface-charcoal rounded-lg h-full border border-white/5 overflow-hidden flex flex-col md:flex-row relative">
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none"></div>
+<div class="w-full md:w-1/2 aspect-square md:aspect-auto">
+<img alt="Cà Phê Muối" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uhYTBNHld8K7OrmNHYSoCm6rMvuwSo8wkogKJZhsRvfwto8n1Pj8tzMdCbeEh5_Y1HClbTDKr4ILgpwVLKxDT0xUi6G-efsfzwHm3hSdcvc7_2OmRSw7KzIojKQSZ6RPiRAD97_DTXVeRRcWVxYb2mmN3eka6vaj-WqiEeKbcvnEnilB3Y6YOQukF68zJVnJf2ZQL-fTNE_85mzYUkjjjp4PoJh4YguElRAmNFrgHILDSBSwx2V_9eiPlU"/>
+</div>
+<div class="w-full md:w-1/2 p-8 flex flex-col justify-center relative z-20">
+<div class="flex justify-between items-start mb-4">
+<h2 class="font-headline-md text-headline-md text-text-ivory">Cà Phê Muối</h2>
+<span class="font-mono-data text-mono-data text-accent-clay">65.000đ</span>
+</div>
+<p class="font-body-md text-body-md text-text-ash mb-8">Sự kết hợp hoàn hảo giữa vị đắng của cà phê nguyên chất, vị béo của kem và chút mặn mòi tinh tế của muối hồng Himalaya.</p>
+<button class="mt-auto self-start w-10 h-10 rounded-full border border-outline flex items-center justify-center text-text-ash group-hover:border-accent-clay group-hover:text-accent-clay transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Narrow Card 1 -->
+<article class="col-span-1 md:col-span-4 bg-surface-slate p-[6px] rounded-xl border border-white/5 transition-transform hover:-translate-y-1 duration-500 group">
+<div class="bg-surface-charcoal rounded-lg h-full border border-white/5 overflow-hidden flex flex-col relative">
+<div class="w-full aspect-[4/3] overflow-hidden">
+<img alt="Bạc Xỉu" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" src="https://lh3.googleusercontent.com/aida/ADBb0uj9W500ejUaqI85xY3VUiHNli_fkyM24xs43YD2WsshHGdgtYfh4lEfthwAcDW8d7Ss-myO92CDRKqwDtiGd-JyDicc_6j6K_1M57wwQcE_liax4V7YpK2ljmGF8dv88gsu5o69edJxN8oT3qJCVPq-a3mSqpOxylnjlLxyHWFa65MX56L--6qJAIrVHhc-IZeDOcLZx06mWvsSSvaGdzzlxBmEx8ssYVoCxQfI5WA6qAEA1KPs1MHE49E"/>
+</div>
+<div class="p-6 flex flex-col flex-grow relative z-20 bg-surface-charcoal">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-[24px] text-text-ivory leading-tight">Bạc Xỉu</h3>
+<span class="font-mono-data text-mono-data text-accent-clay">45.000đ</span>
+</div>
+<p class="font-body-md text-body-md text-text-ash mb-6 line-clamp-2">Hương vị truyền thống với lớp sữa đặc ngọt ngào hòa quyện cùng espresso đậm vị.</p>
+<button class="mt-auto w-full py-3 rounded-full border border-outline text-label-caps font-label-caps text-text-ash group-hover:bg-accent-clay group-hover:border-accent-clay group-hover:text-primary-container transition-all">THÊM VÀO GIỎ</button>
+</div>
+</div>
+</article>
+<!-- Narrow Card 2 -->
+<article class="col-span-1 md:col-span-4 bg-surface-slate p-[6px] rounded-xl border border-white/5 transition-transform hover:-translate-y-1 duration-500 group">
+<div class="bg-surface-charcoal rounded-lg h-full border border-white/5 overflow-hidden flex flex-col relative">
+<div class="w-full aspect-[4/3] overflow-hidden">
+<img alt="Cold Brew" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" src="https://lh3.googleusercontent.com/aida/ADBb0ui_dT8xYvlAnCZKgB6ZfsasHMiDVvSuzzsWxP0PNUc5QexYzA7U55VuA0W8XHRdWZy7C13KA2MbIg7ryMhpdXlOy-7bA1Bdi75Sb_T8YmFVxHq8T8YkjozU7mrOYBRqzU9vIZztEyhAwo17iEaTNJ0ebAVCu5AgU3Z0KRP61aEmgllEg9jMOn34eUFuiPhKFGU08iP27Klf4vpCPF4CSPHDHJd3hCBSqoXdBLg3WSSJtdhbJSWPjOlGu2I"/>
+</div>
+<div class="p-6 flex flex-col flex-grow relative z-20 bg-surface-charcoal">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-[24px] text-text-ivory leading-tight">Cold Brew</h3>
+<span class="font-mono-data text-mono-data text-accent-clay">55.000đ</span>
+</div>
+<p class="font-body-md text-body-md text-text-ash mb-6 line-clamp-2">Cà phê ủ lạnh 24h, mượt mà, ít chua, thoang thoảng hương trái cây nhiệt đới.</p>
+<button class="mt-auto w-full py-3 rounded-full border border-outline text-label-caps font-label-caps text-text-ash group-hover:bg-accent-clay group-hover:border-accent-clay group-hover:text-primary-container transition-all">THÊM VÀO GIỎ</button>
+</div>
+</div>
+</article>
+<!-- Wide Card 2 (spans 8 cols) -->
+<article class="col-span-1 md:col-span-8 bg-surface-slate p-[6px] rounded-xl border border-white/5 transition-transform hover:-translate-y-1 duration-500 group">
+<div class="bg-surface-charcoal rounded-lg h-full border border-white/5 overflow-hidden flex flex-col md:flex-row-reverse relative">
+<div class="w-full md:w-1/2 aspect-square md:aspect-auto">
+<img alt="Cà Phê Trứng" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uhgREk2lHObA1EODb-VEOHtLOwyQymVH17DoE33ocXQupp5J2ifFdzmAqKbT6QPhnU-6R9aTephVcNY5MT9i48-JnEuj71ENUiUgjcDLsxlj77yDsS7uFeHlVWGK71EzTzB8L9WvvYrkr4c_weE8k_TIZPhgG_TWH4FsQ2jgwmresT1tu9QV8YqO1-8TXSe8Kew7wXbiJpBUYAvv0JkOPuLXnsKS_X00qbpe_5rB0VXr3Pnaznqm0980Mk"/>
+</div>
+<div class="w-full md:w-1/2 p-8 flex flex-col justify-center relative z-20 bg-surface-charcoal">
+<div class="flex justify-between items-start mb-4">
+<h2 class="font-headline-md text-headline-md text-text-ivory">Cà Phê Trứng</h2>
+<span class="font-mono-data text-mono-data text-accent-clay">60.000đ</span>
+</div>
+<p class="font-body-md text-body-md text-text-ash mb-8">Đặc sản Hà Nội giữa lòng phố. Lớp kem trứng đánh bông mềm mịn, thơm lừng ôm trọn vị đắng gắt của robusta rang mộc.</p>
+<button class="mt-auto self-start w-10 h-10 rounded-full border border-outline flex items-center justify-center text-text-ash group-hover:border-accent-clay group-hover:text-accent-clay transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Narrow Card 3 -->
+<article class="col-span-1 md:col-span-6 bg-surface-slate p-[6px] rounded-xl border border-white/5 transition-transform hover:-translate-y-1 duration-500 group">
+<div class="bg-surface-charcoal rounded-lg h-full border border-white/5 overflow-hidden flex flex-col relative">
+<div class="w-full aspect-[16/9] overflow-hidden">
+<img alt="Trà Sen" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" src="https://lh3.googleusercontent.com/aida/ADBb0ujDRJbXlQ3Lw-BqfZP9uwnRHD_Jap3nSXpZBqBan_MlyzyJkBKBuhEQSsaC3sf8H8IJUqr-Fx2tDlk60PPzAHFcBpsfqaT9vviz5nU5oWTrSgjQDMpavi-CqlLzosv585S_Iu_8q-jwthdsHG7tZHdjg9OJFIpEltaIO9sd7bHKIY4j1PP0Kvg3fYcIyTLuVMiqfQ5yJy9viQEgWWz2kCe5fLdd-DTZGslWuGVgIJxvV0sjy95cm02SJw"/>
+</div>
+<div class="p-6 flex flex-col flex-grow relative z-20 bg-surface-charcoal">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-[24px] text-text-ivory leading-tight">Trà Sen</h3>
+<span class="font-mono-data text-mono-data text-accent-clay">50.000đ</span>
+</div>
+<p class="font-body-md text-body-md text-text-ash mb-6 line-clamp-2">Trà mạn ướp hương sen thanh tao, dịu nhẹ, mang lại cảm giác thư thái.</p>
+<button class="mt-auto w-full py-3 rounded-full border border-outline text-label-caps font-label-caps text-text-ash group-hover:bg-accent-clay group-hover:border-accent-clay group-hover:text-primary-container transition-all">THÊM VÀO GIỎ</button>
+</div>
+</div>
+</article>
+<!-- Narrow Card 4 -->
+<article class="col-span-1 md:col-span-6 bg-surface-slate p-[6px] rounded-xl border border-white/5 transition-transform hover:-translate-y-1 duration-500 group">
+<div class="bg-surface-charcoal rounded-lg h-full border border-white/5 overflow-hidden flex flex-col relative">
+<div class="w-full aspect-[16/9] overflow-hidden">
+<img alt="Matcha Latte" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" src="https://lh3.googleusercontent.com/aida/ADBb0uhHXNP3d_4Tw1WnKUpc8riY1djntKaiHxY4s4DsdBvL68eI_lDVaYV3DPq4C2v1UoogiUZ14al-RSTb3yQebgGUfO-ZNfSQ5JGR0T2T1URVLxx5UzFKNtsJ8rSbnTGi-O3He9fR9NWp0Xi-e3zswRYh3tqR6Eq5MWSdOP7x_brQ-iDYrsJkbkERnvTeB1ilLANMG9oTt-5XU4J9bKTUx8HHqGme3i7MRCnR_AUhA67nEXM9mSV5N2nrLMA"/>
+</div>
+<div class="p-6 flex flex-col flex-grow relative z-20 bg-surface-charcoal">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-[24px] text-text-ivory leading-tight">Matcha Latte</h3>
+<span class="font-mono-data text-mono-data text-accent-clay">65.000đ</span>
+</div>
+<p class="font-body-md text-body-md text-text-ash mb-6 line-clamp-2">Bột matcha thượng hạng từ Nhật Bản kết hợp cùng sữa tươi béo ngậy.</p>
+<button class="mt-auto w-full py-3 rounded-full border border-outline text-label-caps font-label-caps text-text-ash group-hover:bg-accent-clay group-hover:border-accent-clay group-hover:text-primary-container transition-all">THÊM VÀO GIỎ</button>
+</div>
+</div>
+</article>
+</div>
+</main>
+<!-- Footer Component -->
+<footer class="bg-background w-full py-20 px-gutter border-t border-surface-variant">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center w-full max-w-container-max mx-auto gap-8">
+<div class="font-display-lg text-headline-md font-bold text-on-surface">NÂU</div>
+<div class="flex items-center gap-6">
+<a class="font-label-caps text-label-caps text-text-ash hover:text-accent-ember transition-colors duration-300 opacity-80 hover:opacity-100" href="#">Instagram</a>
+<a class="font-label-caps text-label-caps text-text-ash hover:text-accent-ember transition-colors duration-300 opacity-80 hover:opacity-100" href="#">Facebook</a>
+<a class="font-label-caps text-label-caps text-text-ash hover:text-accent-ember transition-colors duration-300 opacity-80 hover:opacity-100" href="#">Vimeo</a>
+</div>
+<div class="font-mono-data text-mono-data text-text-ash">
+                © 2024 NÂU COFFEE. THE QUIET RITUAL.
+            </div>
+</div>
+</footer>
+<script>
+        // Simple JS for interaction demonstration
+        document.querySelectorAll('.sticky button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active classes
+                document.querySelectorAll('.sticky button').forEach(b => {
+                    b.classList.remove('bg-accent-clay', 'text-primary-container');
+                    b.classList.add('border', 'border-outline', 'text-text-ash');
+                });
+                // Add active to clicked
+                this.classList.remove('border', 'border-outline', 'text-text-ash');
+                this.classList.add('bg-accent-clay', 'text-primary-container');
+            });
+        });
+    </script>
+</body></html>

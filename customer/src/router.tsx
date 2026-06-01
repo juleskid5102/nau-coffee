@@ -21,8 +21,8 @@ const PageLoading = () => (
       style={{
         width: '40px',
         height: '40px',
-        border: '3px solid var(--color-warm-800)',
-        borderTopColor: 'var(--color-caramel)',
+        border: '3px solid #1c1916',
+        borderTopColor: '#c2703a',
         animation: 'spin 0.8s linear infinite',
       }}
     />

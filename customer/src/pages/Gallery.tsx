@@ -1,136 +1,126 @@
-import { Link } from 'react-router-dom';
-import { Reveal } from '../components/Reveal';
-
-const galleryItems = [
-  { id: 1, src: '/images/gallery/01-barista.jpg', alt: 'Barista at work', label: 'Quầy Pha Chế' },
-  { id: 2, src: '/images/gallery/02-roasting.jpg', alt: 'Roasting process', label: 'Xưởng Rang' },
-  { id: 3, src: '/images/gallery/03-beans.jpg', alt: 'Coffee beans', label: 'Hạt Cà Phê Mộc' },
-  { id: 4, src: '/images/gallery/04-pourover.jpg', alt: 'Pour over', label: 'Nghệ Thuật Pour Over' },
-  { id: 5, src: '/images/gallery/05-matcha.jpg', alt: 'Matcha', label: 'Góc Thưởng Thức' },
-  { id: 6, src: '/images/gallery/06-drip.jpg', alt: 'Coffee drip', label: 'Phin Truyền Thống' },
-  { id: 7, src: '/images/gallery/07-salt.jpg', alt: 'Salt coffee', label: 'Sáng Tạo Mới' },
-  { id: 8, src: '/images/gallery/08-highlands.jpg', alt: 'Highlands', label: 'Nguồn Gốc Cầu Đất' },
-  { id: 9, src: '/images/gallery/09-coldbrew.jpg', alt: 'Cold brew', label: 'Cold Brew' },
-  { id: 10, src: '/images/gallery/10-egg.jpg', alt: 'Egg coffee', label: 'Đặc Sản Hà Nội' },
-  { id: 11, src: '/images/gallery/11-minimalist.jpg', alt: 'Minimalist', label: 'Tinh Tế' },
-  { id: 12, src: '/images/gallery/12-lotus.jpg', alt: 'Lotus tea', label: 'Thanh Tao' },
+const galleryImages = [
+  {
+    src: 'https://lh3.googleusercontent.com/aida/ADBb0ui88_so5oDLwFdH6vjfQqWQN-MTmbqCZ_Zb6sTNuYAXzi9MidNTA6qwcZ5VvBtjbzhIdHcl-LYWxqj0vGUh6XLpGvhwDEDGDb__Y-9QCuFvxSjfsv90fq8aGk2SElfMcYDkJjxV-FIqGQVQ3AWs2VLhfBoyCO2M65_mXuX0nlXu4d8yJGhURKQg6KSCm5SGuvD_8_k_WXwi3_jVIbLyvGj8dPvrClKDLXHh3BwfF7gwtsDbIn_Et6Oh2CE',
+    alt: 'Barista pha chế pour-over',
+    tall: true,
+  },
+  {
+    src: 'https://lh3.googleusercontent.com/aida/ADBb0ujj8coCWp_TX1_gqvclGa6UKcNEzNScVAGC2On75vlVOxMS-v5_-ZjAdQsSidRHEFxZ2b33762mm-krAESh13aVrJFe-RsCIdxLHddcd-a1X4lH4pUm5cfZG1WKvue_93tgmEiDnFNMYqbp9BCn236zFlhVPIErpQ3_vg8xaJhIDGEBzkM_KawpvXR6fQlCpGFI14eSZWalPqGDMaqb8gNyKKTAfUpQRTVrtfh26pSehS63aNjEI9iLFA',
+    alt: 'Hạt cà phê đang rang',
+    tall: false,
+  },
+  {
+    src: 'https://lh3.googleusercontent.com/aida/ADBb0uhYTBNHld8K7OrmNHYSoCm6rMvuwSo8wkogKJZhsRvfwto8n1Pj8tzMdCbeEh5_Y1HClbTDKr4ILgpwVLKxDT0xUi6G-efsfzwHm3hSdcvc7_2OmRSw7KzIojKQSZ6RPiRAD97_DTXVeRRcWVxYb2mmN3eka6vaj-WqiEeKbcvnEnilB3Y6YOQukF68zJVnJf2ZQL-fTNE_85mzYUkjjjp4PoJh4YguElRAmNFrgHILDSBSwx2V_9eiPlU',
+    alt: 'Cà phê muối đặc sản',
+    tall: false,
+  },
+  {
+    src: 'https://lh3.googleusercontent.com/aida/ADBb0uj9W500ejUaqI85xY3VUiHNli_fkyM24xs43YD2WsshHGdgtYfh4lEfthwAcDW8d7Ss-myO92CDRKqwDtiGd-JyDicc_6j6K_1M57wwQcE_liax4V7YpK2ljmGF8dv88gsu5o69edJxN8oT3qJCVPq-a3mSqpOxylnjlLxyHWFa65MX56L--6qJAIrVHhc-IZeDOcLZx06mWvsSSvaGdzzlxBmEx8ssYVoCxQfI5WA6qAEA1KPs1MHE49E',
+    alt: 'Bạc Xỉu truyền thống',
+    tall: true,
+  },
+  {
+    src: 'https://lh3.googleusercontent.com/aida/ADBb0ui_dT8xYvlAnCZKgB6ZfsasHMiDVvSuzzsWxP0PNUc5QexYzA7U55VuA0W8XHRdWZy7C13KA2MbIg7ryMhpdXlOy-7bA1Bdi75Sb_T8YmFVxHq8T8YkjozU7mrOYBRqzU9vIZztEyhAwo17iEaTNJ0ebAVCu5AgU3Z0KRP61aEmgllEg9jMOn34eUFuiPhKFGU08iP27Klf4vpCPF4CSPHDHJd3hCBSqoXdBLg3WSSJtdhbJSWPjOlGu2I',
+    alt: 'Cold Brew trong không gian',
+    tall: false,
+  },
+  {
+    src: 'https://lh3.googleusercontent.com/aida/ADBb0ujDRJbXlQ3Lw-BqfZP9uwnRHD_Jap3nSXpZBqBan_MlyzyJkBKBuhEQSsaC3sf8H8IJUqr-Fx2tDlk60PPzAHFcBpsfqaT9vviz5nU5oWTrSgjQDMpavi-CqlLzosv585S_Iu_8q-jwthdsHG7tZHdjg9OJFIpEltaIO9sd7bHKIY4j1PP0Kvg3fYcIyTLuVMiqfQ5yJy9viQEgWWz2kCe5fLdd-DTZGslWuGVgIJxvV0sjy95cm02SJw',
+    alt: 'Trà sen thanh tao',
+    tall: false,
+  },
+  {
+    src: 'https://lh3.googleusercontent.com/aida/ADBb0uhgREk2lHObA1EODb-VEOHtLOwyQymVH17DoE33ocXQupp5J2ifFdzmAqKbT6QPhnU-6R9aTephVcNY5MT9i48-JnEuj71ENUiUgjcDLsxlj77yDsS7uFeHlVWGK71EzTzB8L9WvvYrkr4c_weE8k_TIZPhgG_TWH4FsQ2jgwmresT1tu9QV8YqO1-8TXSe8Kew7wXbiJpBUYAvv0JkOPuLXnsKS_X00qbpe_5rB0VXr3Pnaznqm0980Mk',
+    alt: 'Cà phê trứng Hà Nội',
+    tall: true,
+  },
+  {
+    src: 'https://lh3.googleusercontent.com/aida/ADBb0uhHXNP3d_4Tw1WnKUpc8riY1djntKaiHxY4s4DsdBvL68eI_lDVaYV3DPq4C2v1UoogiUZ14al-RSTb3yQebgGUfO-ZNfSQ5JGR0T2T1URVLxx5UzFKNtsJ8rSbnTGi-O3He9fR9NWp0Xi-e3zswRYh3tqR6Eq5MWSdOP7x_brQ-iDYrsJkbkERnvTeB1ilLANMG9oTt-5XU4J9bKTUx8HHqGme3i7MRCnR_AUhA67nEXM9mSV5N2nrLMA',
+    alt: 'Matcha Latte nghệ thuật',
+    tall: false,
+  },
 ];
 
 export default function Gallery() {
   return (
     <>
-      {/* Page Header — from Stitch */}
-      <header className="flex flex-col justify-center px-8 max-w-7xl mx-auto w-full pt-16"
-        style={{ height: '30vh', minHeight: '300px' }}
-      >
-        <h1 className="text-5xl md:text-7xl font-bold mb-4 tracking-tight" style={{ fontFamily: 'var(--font-heading)' }}>
-          Không Gian Nâu
-        </h1>
-        <p className="text-xl font-light max-w-2xl" style={{ color: 'var(--color-text-muted)' }}>
-          Nơi mỗi góc đều kể câu chuyện riêng.
+      {/* Page Header */}
+      <header className="container-narrow" style={{ paddingTop: '2rem', paddingBottom: '3rem' }}>
+        <h1 style={{ color: 'var(--color-ivory)', marginBottom: '1.5rem' }}>Không Gian Nâu</h1>
+        <p style={{ fontSize: '1.125rem', color: 'var(--color-ash)' }}>
+          Nơi tìm thấy sự tĩnh lặng giữa nhịp sống hối hả.
         </p>
       </header>
 
-      {/* Masonry Gallery Grid — from Stitch */}
-      <main className="px-8 max-w-7xl mx-auto w-full py-16">
+      {/* Masonry Gallery */}
+      <section className="container-narrow section-padding" style={{ paddingTop: 0 }}>
         <div className="masonry-grid">
-          {galleryItems.map((item, index) => (
-            <Reveal key={item.id} delay={index * 0.05}>
-              <div className="masonry-item relative group overflow-hidden rounded-2xl cursor-pointer">
-                <img
-                  alt={item.alt}
-                  className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out"
-                  src={item.src}
-                  loading="lazy"
-                />
+          {galleryImages.map((img, i) => (
+            <div key={i} className="masonry-item">
+              <div className="double-bezel spring-hover" style={{ borderRadius: '1.5rem' }}>
                 <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6"
-                  style={{ background: 'linear-gradient(to top, rgba(26,18,8,0.9) 0%, transparent 100%)' }}
+                  className="double-bezel-inner"
+                  style={{
+                    borderRadius: 'calc(1.5rem - 6px)',
+                    overflow: 'hidden',
+                  }}
                 >
-                  <span className="uppercase tracking-widest text-sm" style={{ color: '#F5ECD7' }}>
-                    {item.label}
-                  </span>
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    loading="lazy"
+                    style={{
+                      width: '100%',
+                      height: img.tall ? '400px' : '280px',
+                      objectFit: 'cover',
+                      display: 'block',
+                      transition: 'transform 0.7s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.target as HTMLElement).style.transform = 'scale(1.03)';
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.target as HTMLElement).style.transform = 'scale(1)';
+                    }}
+                  />
                 </div>
               </div>
-            </Reveal>
+            </div>
           ))}
         </div>
-      </main>
-
-      {/* Atmosphere Quote — from Stitch */}
-      <section className="relative flex items-center justify-center overflow-hidden" style={{ padding: '8rem 0' }}>
-        <div className="absolute inset-0 z-0">
-          <img
-            alt="Café interior"
-            className="w-full h-full object-cover opacity-30"
-            src="/images/gallery/01-barista.jpg"
-            style={{ filter: 'blur(4px) grayscale(50%) sepia(20%)' }}
-          />
-          <div className="absolute inset-0" style={{ background: 'rgba(26,18,8,0.8)', mixBlendMode: 'multiply' }} />
-        </div>
-        <Reveal>
-          <div className="relative z-10 px-8 max-w-4xl mx-auto text-center">
-            <h2
-              className="italic text-3xl md:text-5xl leading-tight font-normal"
-              style={{ fontFamily: 'var(--font-heading)', color: '#F5ECD7' }}
-            >
-              "Đến Nâu, bạn không chỉ uống cà phê —<br className="hidden md:block" />
-              bạn trải nghiệm một khoảng lặng."
-            </h2>
-          </div>
-        </Reveal>
       </section>
 
-      {/* Visit CTA — from Stitch */}
-      <section className="px-8 max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-16 items-center" style={{ padding: '6rem 2rem' }}>
-        <Reveal>
-          <div>
-            <h3 className="text-4xl mb-8 font-bold" style={{ fontFamily: 'var(--font-heading)', color: '#F5ECD7' }}>
-              Ghé Thăm Chúng Tôi
-            </h3>
-            <div className="space-y-6 mb-10 font-light" style={{ color: 'var(--color-text-muted)' }}>
-              <div className="flex items-start">
-                <span className="mr-4 mt-1" style={{ color: 'var(--color-caramel)' }}>📍</span>
-                <div>
-                  <p className="font-medium mb-1" style={{ color: '#F5ECD7' }}>Địa Chỉ</p>
-                  <p>123 Nguyễn Huệ, Quận 1, TP.HCM</p>
-                </div>
-              </div>
-              <div className="flex items-start">
-                <span className="mr-4 mt-1" style={{ color: 'var(--color-caramel)' }}>🕐</span>
-                <div>
-                  <p className="font-medium mb-1" style={{ color: '#F5ECD7' }}>Giờ Mở Cửa</p>
-                  <p>7:00 — 22:00 hàng ngày</p>
-                </div>
+      {/* Space Details — 45/55 split */}
+      <section className="section-padding container-narrow">
+        <div className="grid grid-cols-1 md:grid-cols-12 items-center" style={{ gap: '4rem' }}>
+          <div className="md:col-span-5 flex flex-col items-start" style={{ gap: '1.5rem' }}>
+            <h2 style={{ color: 'var(--color-ivory)' }}>Thiết Kế</h2>
+            <p style={{ fontSize: '1rem', color: 'var(--color-ash)', lineHeight: 1.8 }}>
+              Không gian Nâu được thiết kế theo triết lý tối giản — nơi ánh sáng tự nhiên hòa cùng gỗ tối và đá nguyên bản. Mỗi góc ngồi đều là một nơi ẩn náu riêng tư, mời gọi bạn chậm lại và thưởng thức khoảnh khắc.
+            </p>
+            <p style={{ fontSize: '1rem', color: 'var(--color-ash)', lineHeight: 1.8 }}>
+              Chúng tôi tin rằng không gian tác động sâu sắc đến trải nghiệm thưởng thức cà phê. Vì thế, mọi chi tiết — từ loại gỗ, ánh đèn đến âm nhạc — đều được chọn lựa cẩn thận.
+            </p>
+          </div>
+          <div className="md:col-span-7">
+            <div className="double-bezel" style={{ borderRadius: '2rem' }}>
+              <div
+                className="double-bezel-inner"
+                style={{
+                  borderRadius: 'calc(2rem - 6px)',
+                  height: 'clamp(300px, 50vh, 60vh)',
+                  position: 'relative',
+                }}
+              >
+                <img
+                  src="https://lh3.googleusercontent.com/aida/ADBb0uhd_ME5sNjEZK6Tnn54hdA0fzQxMyJ3vlORsk2y1b7-talYt_xPI-Il6OafLRtDM_bru5N8RcE521vndPBiTQlEwJW914sMj0SPTSCKdcmgZ1l8iz2AWUw12XmaMOHErfpJS7bkAmauaH_FS5Kc4zcK3rNMxD3mt0badKHgMDxlJnttc92gT3vSh3E10ycNDpn1HkDWEvu7mg8ENsgHfTquRPpub7G30X4yx_6f1orHDgWhGjUnucGnspo"
+                  alt="Chi tiết kiến trúc không gian"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
               </div>
             </div>
-            <Link
-              to="/lien-he"
-              className="inline-flex items-center justify-center px-8 py-4 rounded-lg font-semibold tracking-widest uppercase transition-all duration-300 hover:-translate-y-1"
-              style={{
-                background: 'var(--color-caramel)',
-                color: 'var(--color-espresso)',
-                boxShadow: '0 10px 25px -5px rgba(196,144,61,0.2)',
-              }}
-            >
-              CHỈ ĐƯỜNG
-            </Link>
           </div>
-        </Reveal>
-
-        <Reveal delay={0.2}>
-          <div className="relative h-96 rounded-2xl overflow-hidden" style={{ border: '1px solid var(--color-surface-card)', background: 'var(--color-surface-card)' }}>
-            <div
-              className="absolute inset-0 flex items-center justify-center flex-col gap-2"
-              style={{ background: 'rgba(45,36,24,0.5)' }}
-            >
-              <span className="text-4xl">📍</span>
-              <p style={{ fontFamily: 'var(--font-heading)', color: '#F5ECD7', fontSize: '1.25rem' }}>Nâu Coffee</p>
-              <p className="text-sm font-light" style={{ color: 'var(--color-text-muted)' }}>123 Nguyễn Huệ, Quận 1</p>
-            </div>
-            <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(26,18,8,0.8), transparent)' }} />
-          </div>
-        </Reveal>
+        </div>
       </section>
     </>
   );
