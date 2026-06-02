@@ -1,15 +1,40 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { api } from '../lib/api';
+import type { SiteSettings } from '../lib/api';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    api.getSiteSettings().then(setSettings).catch(console.error);
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Wire to Firebase
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+    setSubmitting(true);
+    setError('');
+
+    try {
+      await api.submitContact(formData);
+      setSubmitted(true);
+      setFormData({ name: '', email: '', phone: '', message: '' });
+    } catch (err: any) {
+      setError(err.message || 'Gửi tin nhắn thất bại. Vui lòng thử lại.');
+    } finally {
+      setSubmitting(false);
+    }
   };
+
+  const contactInfo = [
+    { icon: 'location_on', label: 'Địa Chỉ', value: settings?.address || '123 Đường Cà Phê, Quận Trầm, TP.HCM' },
+    { icon: 'phone', label: 'Điện Thoại', value: settings?.phone || '0901 234 567' },
+    { icon: 'mail', label: 'Email', value: settings?.email || 'hello@naucoffee.vn' },
+    { icon: 'schedule', label: 'Giờ Mở Cửa', value: settings?.hours || '07:00 - 22:00 mỗi ngày' },
+  ];
 
   return (
     <>
@@ -26,12 +51,7 @@ export default function Contact() {
         <div className="grid grid-cols-1 md:grid-cols-12" style={{ gap: 'clamp(2rem, 5vw, 4rem)' }}>
           {/* Left: Contact Info (5 cols) */}
           <div className="md:col-span-5 flex flex-col justify-center" style={{ gap: '3rem' }}>
-            {[
-              { icon: 'location_on', label: 'Địa Chỉ', value: '123 Đường Cà Phê, Quận Trầm, TP.HCM' },
-              { icon: 'phone', label: 'Điện Thoại', value: '0901 234 567' },
-              { icon: 'mail', label: 'Email', value: 'hello@naucoffee.vn' },
-              { icon: 'schedule', label: 'Giờ Mở Cửa', value: '07:00 - 22:00 mỗi ngày' },
-            ].map((item) => (
+            {contactInfo.map((item) => (
               <div key={item.label} className="flex items-start" style={{ gap: '1.5rem' }}>
                 <span
                   className="material-symbols-outlined"
@@ -58,79 +78,113 @@ export default function Contact() {
                 className="double-bezel-inner"
                 style={{ borderRadius: 'calc(1.5rem - 6px)', padding: 'clamp(1.5rem, 4vw, 3rem)' }}
               >
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-                  {/* Name */}
-                  <div>
-                    <label htmlFor="contact-name" className="form-label">Họ và tên</label>
-                    <input
-                      id="contact-name"
-                      type="text"
-                      className="form-input"
-                      placeholder="Nguyễn Văn A"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      required
-                    />
+                {submitted ? (
+                  <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
+                    <span
+                      className="material-symbols-outlined"
+                      style={{ fontSize: 64, color: 'var(--color-terracotta)', marginBottom: '1.5rem', display: 'block' }}
+                    >
+                      check_circle
+                    </span>
+                    <h3 style={{ color: 'var(--color-ivory)', fontSize: '1.5rem', marginBottom: '1rem' }}>
+                      Cảm ơn bạn!
+                    </h3>
+                    <p style={{ color: 'var(--color-ash)', marginBottom: '2rem' }}>
+                      Tin nhắn của bạn đã được gửi thành công. Chúng tôi sẽ phản hồi sớm nhất.
+                    </p>
+                    <button
+                      className="btn-ghost"
+                      onClick={() => setSubmitted(false)}
+                    >
+                      Gửi tin nhắn khác
+                    </button>
                   </div>
+                ) : (
+                  <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                    {error && (
+                      <div style={{
+                        padding: '1rem',
+                        borderRadius: '0.75rem',
+                        background: 'rgba(220, 38, 38, 0.1)',
+                        border: '1px solid rgba(220, 38, 38, 0.3)',
+                        color: '#fca5a5',
+                        fontSize: '0.875rem',
+                      }}>
+                        {error}
+                      </div>
+                    )}
 
-                  {/* Email + Phone row */}
-                  <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: '2rem' }}>
                     <div>
-                      <label htmlFor="contact-email" className="form-label">Email</label>
+                      <label htmlFor="contact-name" className="form-label">Họ và tên</label>
                       <input
-                        id="contact-email"
-                        type="email"
+                        id="contact-name"
+                        type="text"
                         className="form-input"
-                        placeholder="email@example.com"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        placeholder="Nguyễn Văn A"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         required
                       />
                     </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: '2rem' }}>
+                      <div>
+                        <label htmlFor="contact-email" className="form-label">Email</label>
+                        <input
+                          id="contact-email"
+                          type="email"
+                          className="form-input"
+                          placeholder="email@example.com"
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="contact-phone" className="form-label">Số điện thoại</label>
+                        <input
+                          id="contact-phone"
+                          type="tel"
+                          className="form-input"
+                          placeholder="090..."
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        />
+                      </div>
+                    </div>
+
                     <div>
-                      <label htmlFor="contact-phone" className="form-label">Số điện thoại</label>
-                      <input
-                        id="contact-phone"
-                        type="tel"
+                      <label htmlFor="contact-message" className="form-label">Nội dung</label>
+                      <textarea
+                        id="contact-message"
                         className="form-input"
-                        placeholder="090..."
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        placeholder="Bạn muốn nhắn gửi điều gì?"
+                        rows={5}
+                        style={{ resize: 'none' }}
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        required
                       />
                     </div>
-                  </div>
 
-                  {/* Message */}
-                  <div>
-                    <label htmlFor="contact-message" className="form-label">Nội dung</label>
-                    <textarea
-                      id="contact-message"
-                      className="form-input"
-                      placeholder="Bạn muốn nhắn gửi điều gì?"
-                      rows={5}
-                      style={{ resize: 'none' }}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      required
-                    />
-                  </div>
-
-                  {/* Submit */}
-                  <button
-                    type="submit"
-                    className="btn-primary"
-                    style={{
-                      width: '100%',
-                      justifyContent: 'center',
-                      padding: '1rem 2rem',
-                    }}
-                  >
-                    {submitted ? 'Đã gửi!' : 'Gửi Tin Nhắn'}
-                    {!submitted && (
-                      <span className="material-symbols-outlined" style={{ fontSize: 18 }}>arrow_forward</span>
-                    )}
-                  </button>
-                </form>
+                    <button
+                      type="submit"
+                      className="btn-primary"
+                      disabled={submitting}
+                      style={{
+                        width: '100%',
+                        justifyContent: 'center',
+                        padding: '1rem 2rem',
+                        opacity: submitting ? 0.7 : 1,
+                      }}
+                    >
+                      {submitting ? 'Đang gửi...' : 'Gửi Tin Nhắn'}
+                      {!submitting && (
+                        <span className="material-symbols-outlined" style={{ fontSize: 18 }}>arrow_forward</span>
+                      )}
+                    </button>
+                  </form>
+                )}
               </div>
             </div>
           </div>
@@ -139,10 +193,7 @@ export default function Contact() {
 
       {/* Map placeholder */}
       <section className="container-narrow" style={{ marginBottom: 'var(--spacing-section)' }}>
-        <div
-          className="double-bezel"
-          style={{ borderRadius: '2rem' }}
-        >
+        <div className="double-bezel" style={{ borderRadius: '2rem' }}>
           <div
             className="double-bezel-inner flex items-center justify-center"
             style={{
@@ -152,7 +203,6 @@ export default function Contact() {
               background: 'var(--color-charcoal)',
             }}
           >
-            {/* Map overlay card */}
             <div
               style={{
                 background: 'rgba(28, 25, 22, 0.8)',
@@ -190,7 +240,7 @@ export default function Contact() {
                   Nâu Coffee Roastery
                 </h4>
                 <p style={{ color: 'var(--color-ivory)', fontSize: '1rem' }}>
-                  123 Đường Cà Phê, Quận Trầm, TP.HCM
+                  {settings?.address || '123 Đường Cà Phê, Quận Trầm, TP.HCM'}
                 </p>
               </div>
             </div>

@@ -1,18 +1,43 @@
+import { useState, useEffect } from 'react';
+import { api } from '../lib/api';
+import type { TeamMember, BrandValue, SiteSettings } from '../lib/api';
+import { SkeletonBlock, SkeletonText } from '../components/Skeleton';
+
 export default function About() {
+  const [team, setTeam] = useState<TeamMember[]>([]);
+  const [values, setValues] = useState<BrandValue[]>([]);
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    Promise.all([
+      api.getAbout(),
+      api.getSiteSettings(),
+    ]).then(([about, s]) => {
+      setTeam(about.team);
+      setValues(about.values);
+      setSettings(s);
+      setLoading(false);
+    }).catch(err => {
+      console.error('About: Failed to load data', err);
+      setLoading(false);
+    });
+  }, []);
+
+  const founder = team[0];
+
   return (
     <>
       {/* Hero Section — 45/55 split */}
       <section className="section-padding container-narrow" style={{ paddingTop: '2rem' }}>
         <div className="grid grid-cols-1 md:grid-cols-12 items-center" style={{ gap: 'clamp(2rem, 4vw, 4rem)' }}>
-          {/* Left text */}
           <div className="md:col-span-5 flex flex-col items-start" style={{ gap: '2rem' }}>
             <h1 style={{ color: 'var(--color-ivory)' }}>Câu Chuyện Nâu</h1>
             <p style={{ fontSize: '1.125rem' }}>
-              Khởi nguồn từ niềm đam mê mãnh liệt với những hạt cà phê Việt, Nâu là hành trình tìm kiếm và lưu giữ những giá trị nguyên bản nhất. Mỗi mẻ rang tại đây không chỉ là cà phê, mà là một tác phẩm nghệ thuật, là câu chuyện về tâm huyết của những người thợ rang.
+              {settings?.story_text || 'Khởi nguồn từ niềm đam mê mãnh liệt với những hạt cà phê Việt, Nâu là hành trình tìm kiếm và lưu giữ những giá trị nguyên bản nhất.'}
             </p>
           </div>
 
-          {/* Right image */}
           <div className="md:col-span-7">
             <div className="double-bezel" style={{ borderRadius: '2rem' }}>
               <div
@@ -46,10 +71,10 @@ export default function About() {
               lineHeight: 1.15,
             }}
           >
-            "Mỗi mẻ rang là một<br />tác phẩm nghệ thuật."
+            "{settings?.philosophy_quote || 'Mỗi mẻ rang là một tác phẩm nghệ thuật.'}"
           </h2>
           <p style={{ fontSize: '1.125rem', color: 'var(--color-ash)', maxWidth: '40rem', margin: '0 auto', lineHeight: 1.8 }}>
-            Chúng tôi tin rằng sự hoàn hảo đến từ sự đơn giản và tôn trọng nguyên bản. Phương pháp rang mộc truyền thống kết hợp với nguồn hạt cà phê tuyển chọn gắt gao từ các nông trại bền vững tại Đà Lạt và Buôn Ma Thuột tạo nên một bản giao hưởng hương vị tinh tế, đậm đà bản sắc vùng cao nguyên đất đỏ.
+            {settings?.philosophy_text || ''}
           </p>
         </div>
       </section>
@@ -68,33 +93,41 @@ export default function About() {
           </div>
 
           <div className="md:col-span-4 flex flex-col" style={{ gap: '3rem' }}>
-            {[
-              { icon: 'eco', title: 'Nguyên Liệu', desc: 'Hạt cà phê được tuyển chọn từ các vùng cao nguyên trù phú nhất Việt Nam.' },
-              { icon: 'local_fire_department', title: 'Rang Mộc', desc: 'Phương pháp rang thủ công giữ trọn hương vị tự nhiên, không tẩm ướp.' },
-              { icon: 'water_drop', title: 'Pha Chế', desc: 'Đa dạng phương thức từ Pour Over, Cold Brew đến Espresso hiện đại.' },
-            ].map((v) => (
-              <div key={v.title} className="flex items-start" style={{ gap: '1.5rem' }}>
-                <div
-                  style={{
-                    width: 48,
-                    height: 48,
-                    borderRadius: '50%',
-                    background: 'var(--color-charcoal)',
-                    border: '1px solid rgba(76, 70, 64, 0.3)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                  }}
-                >
-                  <span className="material-symbols-outlined" style={{ color: 'var(--color-terracotta)' }}>{v.icon}</span>
+            {loading ? (
+              Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="flex items-start" style={{ gap: '1.5rem' }}>
+                  <SkeletonBlock style={{ width: 48, height: 48, borderRadius: '50%', flexShrink: 0 }} />
+                  <div style={{ flex: 1 }}>
+                    <SkeletonBlock style={{ height: '20px', width: '60%', marginBottom: '0.75rem', borderRadius: '6px' }} />
+                    <SkeletonText lines={2} />
+                  </div>
                 </div>
-                <div>
-                  <h3 style={{ fontSize: '1.25rem', color: 'var(--color-ivory)', marginBottom: '0.75rem' }}>{v.title}</h3>
-                  <p style={{ color: 'var(--color-ash)', fontSize: '1rem' }}>{v.desc}</p>
+              ))
+            ) : (
+              values.map((v) => (
+                <div key={v.id} className="flex items-start" style={{ gap: '1.5rem' }}>
+                  <div
+                    style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: '50%',
+                      background: 'var(--color-charcoal)',
+                      border: '1px solid rgba(76, 70, 64, 0.3)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <span className="material-symbols-outlined" style={{ color: 'var(--color-terracotta)' }}>{v.icon}</span>
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: '1.25rem', color: 'var(--color-ivory)', marginBottom: '0.75rem' }}>{v.title}</h3>
+                    <p style={{ color: 'var(--color-ash)', fontSize: '1rem' }}>{v.description}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -102,55 +135,61 @@ export default function About() {
       {/* Team Section */}
       <section className="section-padding container-narrow" style={{ textAlign: 'center' }}>
         <h2 style={{ color: 'var(--color-ivory)', marginBottom: 'clamp(3rem, 6vw, 6rem)' }}>Người Truyền Lửa</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: '2rem', maxWidth: '48rem', margin: '0 auto' }}>
-          {/* Founder card */}
-          <div className="double-bezel" style={{ borderRadius: '2rem' }}>
-            <div
-              className="double-bezel-inner flex flex-col items-center"
-              style={{
-                borderRadius: 'calc(2rem - 6px)',
-                padding: '2rem',
-                textAlign: 'center',
-              }}
-            >
+        {founder ? (
+          <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: '2rem', maxWidth: '48rem', margin: '0 auto' }}>
+            {/* Founder card */}
+            <div className="double-bezel" style={{ borderRadius: '2rem' }}>
               <div
+                className="double-bezel-inner flex flex-col items-center"
                 style={{
-                  width: 192,
-                  height: 192,
-                  borderRadius: '50%',
-                  overflow: 'hidden',
-                  marginBottom: '2rem',
-                  border: '4px solid var(--color-deep-roast)',
+                  borderRadius: 'calc(2rem - 6px)',
+                  padding: '2rem',
+                  textAlign: 'center',
                 }}
               >
-                <img
-                  src="/images/space-detail.jpg"
-                  alt="Minh Trí - Founder"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
+                <div
+                  style={{
+                    width: 192,
+                    height: 192,
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    marginBottom: '2rem',
+                    border: '4px solid var(--color-deep-roast)',
+                  }}
+                >
+                  <img
+                    src={founder.image}
+                    alt={`${founder.name} - ${founder.role}`}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                </div>
+                <h3 style={{ fontSize: '1.5rem', color: 'var(--color-ivory)', marginBottom: '0.5rem' }}>{founder.name}</h3>
+                <p className="label-caps" style={{ color: 'var(--color-terracotta)', fontSize: '13px' }}>{founder.role}</p>
               </div>
-              <h3 style={{ fontSize: '1.5rem', color: 'var(--color-ivory)', marginBottom: '0.5rem' }}>Minh Trí</h3>
-              <p className="label-caps" style={{ color: 'var(--color-terracotta)', fontSize: '13px' }}>Head Roaster / Founder</p>
             </div>
-          </div>
 
-          {/* Quote card */}
-          <div className="double-bezel" style={{ borderRadius: '2rem' }}>
-            <div
-              className="double-bezel-inner flex flex-col items-center justify-center"
-              style={{
-                borderRadius: 'calc(2rem - 6px)',
-                padding: '2rem',
-                textAlign: 'center',
-                height: '100%',
-              }}
-            >
-              <p style={{ fontStyle: 'italic', color: 'var(--color-ash)', fontSize: '1.125rem', lineHeight: 1.7, maxWidth: '20rem' }}>
-                "Cà phê không chỉ là thức uống, nó là sự kết nối giữa người trồng, người rang và người thưởng thức. Chúng tôi chỉ là người kể câu chuyện đó bằng hương vị."
-              </p>
+            {/* Quote card */}
+            <div className="double-bezel" style={{ borderRadius: '2rem' }}>
+              <div
+                className="double-bezel-inner flex flex-col items-center justify-center"
+                style={{
+                  borderRadius: 'calc(2rem - 6px)',
+                  padding: '2rem',
+                  textAlign: 'center',
+                  height: '100%',
+                }}
+              >
+                <p style={{ fontStyle: 'italic', color: 'var(--color-ash)', fontSize: '1.125rem', lineHeight: 1.7, maxWidth: '20rem' }}>
+                  "{founder.quote}"
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        ) : loading ? (
+          <div style={{ maxWidth: '48rem', margin: '0 auto' }}>
+            <SkeletonBlock style={{ height: '300px', borderRadius: '2rem' }} />
+          </div>
+        ) : null}
       </section>
 
       {/* CTA */}

@@ -1,9 +1,14 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { api } from '../lib/api';
+import type { SiteSettings, MenuItem, Testimonial } from '../lib/api';
+import { SkeletonBlock } from '../components/Skeleton';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const formatPrice = (price: number) => `${Math.round(price / 1000)}k`;
 
 export default function Home() {
   const heroRef = useRef<HTMLElement>(null);
@@ -12,7 +17,29 @@ export default function Home() {
   const quoteRef = useRef<HTMLElement>(null);
   const ctaRef = useRef<HTMLElement>(null);
 
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+  const [featured, setFeatured] = useState<MenuItem[]>([]);
+  const [testimonial, setTestimonial] = useState<Testimonial | null>(null);
+  const [loaded, setLoaded] = useState(false);
+
   useEffect(() => {
+    Promise.all([
+      api.getSiteSettings(),
+      api.getMenu(),
+      api.getTestimonials(),
+    ]).then(([s, menu, testimonials]) => {
+      setSettings(s);
+      setFeatured(menu.items.filter(i => i.featured).slice(0, 3));
+      setTestimonial(testimonials[0] || null);
+      setLoaded(true);
+    }).catch(err => {
+      console.error('Home: Failed to load data', err);
+      setLoaded(true);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!loaded) return;
     const reveals = [heroRef, menuRef, storyRef, quoteRef, ctaRef];
     reveals.forEach((ref) => {
       if (!ref.current) return;
@@ -39,7 +66,33 @@ export default function Home() {
     return () => {
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
-  }, []);
+  }, [loaded]);
+
+  // Loading state
+  if (!loaded) {
+    return (
+      <div className="container-narrow section-padding" style={{ paddingTop: '4rem' }}>
+        <div className="grid grid-cols-1 md:grid-cols-12 items-center" style={{ gap: '3rem' }}>
+          <div className="md:col-span-5">
+            <SkeletonBlock style={{ height: '180px', width: '80%', marginBottom: '1.5rem' }} />
+            <SkeletonBlock style={{ height: '24px', width: '90%', marginBottom: '0.75rem' }} />
+            <SkeletonBlock style={{ height: '52px', width: '180px', borderRadius: '999px', marginTop: '1.5rem' }} />
+          </div>
+          <div className="md:col-span-7">
+            <SkeletonBlock style={{ height: '60vh', borderRadius: '2rem' }} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const heroTitle = settings?.hero_title || 'Khoảnh khắc của sự tinh tế.';
+  const heroSub = settings?.hero_subtitle || '';
+  const heroCta = settings?.hero_cta || 'Khám Phá';
+  const storyTitle = settings?.story_title || 'Câu Chuyện Nâu';
+  const storyText = settings?.story_text || '';
+  const mainFeatured = featured[0];
+  const sideFeatured = featured.slice(1, 3);
 
   return (
     <>
@@ -49,20 +102,18 @@ export default function Home() {
           className="grid grid-cols-1 md:grid-cols-12 items-center"
           style={{ gap: 'clamp(2rem, 4vw, 4rem)' }}
         >
-          {/* Left Content (5 cols = ~42%) */}
           <div className="md:col-span-5 flex flex-col items-start" style={{ gap: '2rem' }}>
             <h1 className="reveal-item" style={{ color: 'var(--color-ivory)' }}>
-              Khoảnh khắc<br />của sự<br />tinh tế.
+              {heroTitle.split('.')[0]}.<br />{heroTitle.includes('.') ? '' : ''}
             </h1>
             <p className="reveal-item" style={{ fontSize: '1.125rem', maxWidth: '28rem' }}>
-              Cà phê nguyên bản, rang mộc mỗi ngày. Nơi mỗi giọt cà phê kể câu chuyện riêng.
+              {heroSub}
             </p>
             <Link to="/menu" className="btn-primary reveal-item" style={{ textDecoration: 'none' }}>
-              Khám Phá
+              {heroCta}
             </Link>
           </div>
 
-          {/* Right Image (7 cols = ~58%) */}
           <div className="md:col-span-7 reveal-item" style={{ position: 'relative' }}>
             <div className="double-bezel" style={{ borderRadius: '2rem' }}>
               <div
@@ -128,72 +179,65 @@ export default function Home() {
           style={{ gap: '2rem', minHeight: '500px' }}
         >
           {/* Large card — 7 cols */}
-          <div className="md:col-span-7 reveal-item">
-            <div className="double-bezel spring-hover" style={{ borderRadius: '1.5rem', height: '100%' }}>
-              <div
-                className="double-bezel-inner"
-                style={{
-                  borderRadius: 'calc(1.5rem - 6px)',
-                  position: 'relative',
-                  height: '100%',
-                  minHeight: '400px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'flex-end',
-                  padding: '2rem',
-                }}
-              >
-                <img
-                  src="/images/ca-phe-muoi.jpg"
-                  alt="Cà Phê Muối"
-                  loading="lazy"
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    opacity: 0.6,
-                    transition: 'transform 1s ease',
-                  }}
-                />
+          {mainFeatured && (
+            <div className="md:col-span-7 reveal-item">
+              <div className="double-bezel spring-hover" style={{ borderRadius: '1.5rem', height: '100%' }}>
                 <div
+                  className="double-bezel-inner"
                   style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: 'linear-gradient(to top, var(--color-deep-roast), rgba(20,17,14,0.5), transparent)',
+                    borderRadius: 'calc(1.5rem - 6px)',
+                    position: 'relative',
+                    height: '100%',
+                    minHeight: '400px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    padding: '2rem',
                   }}
-                />
-                <div style={{ position: 'relative', zIndex: 20 }}>
-                  <div className="flex justify-between items-end">
-                    <div>
-                      <h3 style={{ fontSize: '32px', marginBottom: '0.5rem' }}>Cà Phê Muối</h3>
-                      <p style={{ color: 'var(--color-on-surface-variant)', fontSize: '1rem' }}>
-                        Sự kết hợp hoàn hảo giữa vị đắng, ngọt và chút mặn mà đặc trưng.
-                      </p>
+                >
+                  <img
+                    src={mainFeatured.image}
+                    alt={mainFeatured.name}
+                    loading="lazy"
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      opacity: 0.6,
+                      transition: 'transform 1s ease',
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(to top, var(--color-deep-roast), rgba(20,17,14,0.5), transparent)',
+                    }}
+                  />
+                  <div style={{ position: 'relative', zIndex: 20 }}>
+                    <div className="flex justify-between items-end">
+                      <div>
+                        <h3 style={{ fontSize: '32px', marginBottom: '0.5rem' }}>{mainFeatured.name}</h3>
+                        <p style={{ color: 'var(--color-on-surface-variant)', fontSize: '1rem' }}>
+                          {mainFeatured.description.slice(0, 80)}...
+                        </p>
+                      </div>
+                      <span className="mono-data" style={{ color: 'var(--color-terracotta)', fontSize: '18px' }}>
+                        {formatPrice(mainFeatured.price)}
+                      </span>
                     </div>
-                    <span className="mono-data" style={{ color: 'var(--color-terracotta)', fontSize: '18px' }}>55k</span>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Right stacked — 5 cols */}
           <div className="md:col-span-5 flex flex-col" style={{ gap: '2rem' }}>
-            {[
-              {
-                name: 'Bạc Xỉu',
-                price: '45k',
-                img: '/images/bac-xiu.jpg',
-              },
-              {
-                name: 'Cold Brew',
-                price: '60k',
-                img: '/images/cold-brew.jpg',
-              },
-            ].map((item) => (
-              <div key={item.name} className="reveal-item" style={{ flex: 1 }}>
+            {sideFeatured.map((item) => (
+              <div key={item.id} className="reveal-item" style={{ flex: 1 }}>
                 <div className="double-bezel spring-hover" style={{ borderRadius: '1.5rem', height: '100%' }}>
                   <div
                     className="double-bezel-inner"
@@ -209,7 +253,7 @@ export default function Home() {
                     }}
                   >
                     <img
-                      src={item.img}
+                      src={item.image}
                       alt={item.name}
                       loading="lazy"
                       style={{
@@ -230,7 +274,7 @@ export default function Home() {
                     />
                     <div className="flex justify-between items-end" style={{ position: 'relative', zIndex: 20 }}>
                       <h3 style={{ fontSize: '24px' }}>{item.name}</h3>
-                      <span className="mono-data" style={{ color: 'var(--color-terracotta)' }}>{item.price}</span>
+                      <span className="mono-data" style={{ color: 'var(--color-terracotta)' }}>{formatPrice(item.price)}</span>
                     </div>
                   </div>
                 </div>
@@ -247,9 +291,9 @@ export default function Home() {
           style={{ gap: '4rem' }}
         >
           <div className="md:col-span-4 flex flex-col items-start" style={{ gap: '2rem' }}>
-            <h2 className="reveal-item">Câu Chuyện Nâu</h2>
+            <h2 className="reveal-item">{storyTitle}</h2>
             <p className="reveal-item" style={{ fontSize: '1rem' }}>
-              Bắt nguồn từ tình yêu với hạt cà phê nguyên bản, Nâu là một hành trình tìm về những giá trị cốt lõi. Chúng tôi không chỉ rang xay cà phê, chúng tôi gìn giữ hương vị của thời gian và sự tỉ mỉ trong từng công đoạn.
+              {storyText}
             </p>
             <Link to="/gioi-thieu" className="btn-ghost reveal-item" style={{ textDecoration: 'none' }}>
               Tìm Hiểu Thêm
@@ -284,68 +328,68 @@ export default function Home() {
       </section>
 
       {/* TESTIMONIAL — centered with ambient glow */}
-      <section
-        ref={quoteRef}
-        className="section-padding flex justify-center items-center"
-        style={{
-          position: 'relative',
-          overflow: 'hidden',
-          padding: 'clamp(4rem, 10vw, 8rem) var(--spacing-gutter)',
-        }}
-      >
-        {/* Ambient glow */}
-        <div
+      {testimonial && (
+        <section
+          ref={quoteRef}
+          className="section-padding flex justify-center items-center"
           style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 600,
-            height: 600,
-            background: 'rgba(194, 112, 58, 0.1)',
-            borderRadius: '50%',
-            filter: 'blur(120px)',
-            pointerEvents: 'none',
+            position: 'relative',
+            overflow: 'hidden',
+            padding: 'clamp(4rem, 10vw, 8rem) var(--spacing-gutter)',
           }}
-        />
-
-        <div style={{ maxWidth: '48rem', textAlign: 'center', position: 'relative', zIndex: 10 }}>
-          {/* Large typographic quote mark */}
-          <span
-            className="reveal-item"
+        >
+          <div
             style={{
-              fontFamily: 'var(--font-heading)',
-              fontSize: '120px',
-              color: 'var(--color-surface-variant)',
-              lineHeight: 1,
               position: 'absolute',
-              top: '-3rem',
+              top: '50%',
               left: '50%',
-              transform: 'translateX(-50%)',
-              opacity: 0.5,
+              transform: 'translate(-50%, -50%)',
+              width: 600,
+              height: 600,
+              background: 'rgba(194, 112, 58, 0.1)',
+              borderRadius: '50%',
+              filter: 'blur(120px)',
+              pointerEvents: 'none',
             }}
-          >
-            "
-          </span>
-          <p
-            className="reveal-item"
-            style={{
-              fontSize: 'clamp(20px, 3vw, 32px)',
-              color: 'var(--color-ivory)',
-              fontStyle: 'italic',
-              fontWeight: 300,
-              lineHeight: 1.5,
-              marginBottom: '2rem',
-              maxWidth: 'none',
-            }}
-          >
-            Không gian tĩnh lặng tuyệt đối. Tách cà phê Pour Over ở đây thực sự đưa tôi trở về với những nốt hương nguyên bản nhất.
-          </p>
-          <div className="label-caps reveal-item" style={{ color: 'var(--color-terracotta)' }}>
-            Nguyễn Minh <span style={{ color: 'var(--color-ash)', margin: '0 0.5rem' }}>|</span> Coffee Enthusiast
+          />
+
+          <div style={{ maxWidth: '48rem', textAlign: 'center', position: 'relative', zIndex: 10 }}>
+            <span
+              className="reveal-item"
+              style={{
+                fontFamily: 'var(--font-heading)',
+                fontSize: '120px',
+                color: 'var(--color-surface-variant)',
+                lineHeight: 1,
+                position: 'absolute',
+                top: '-3rem',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                opacity: 0.5,
+              }}
+            >
+              "
+            </span>
+            <p
+              className="reveal-item"
+              style={{
+                fontSize: 'clamp(20px, 3vw, 32px)',
+                color: 'var(--color-ivory)',
+                fontStyle: 'italic',
+                fontWeight: 300,
+                lineHeight: 1.5,
+                marginBottom: '2rem',
+                maxWidth: 'none',
+              }}
+            >
+              {testimonial.content}
+            </p>
+            <div className="label-caps reveal-item" style={{ color: 'var(--color-terracotta)' }}>
+              {testimonial.name} <span style={{ color: 'var(--color-ash)', margin: '0 0.5rem' }}>|</span> {testimonial.title}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* CTA SECTION */}
       <section ref={ctaRef} className="container-narrow" style={{ marginBottom: '5rem' }}>
@@ -358,7 +402,6 @@ export default function Home() {
               position: 'relative',
             }}
           >
-            {/* Terracotta tint */}
             <div
               style={{
                 position: 'absolute',
@@ -381,11 +424,11 @@ export default function Home() {
                 <div className="flex flex-col" style={{ gap: '1rem' }}>
                   <div className="flex items-center" style={{ gap: '1rem' }}>
                     <span className="material-symbols-outlined" style={{ color: 'var(--color-terracotta)' }}>location_on</span>
-                    <span style={{ color: 'var(--color-on-surface-variant)' }}>123 Đường Sách, Quận 1, TP. HCM</span>
+                    <span style={{ color: 'var(--color-on-surface-variant)' }}>{settings?.address || '123 Đường Sách, Quận 1, TP. HCM'}</span>
                   </div>
                   <div className="flex items-center" style={{ gap: '1rem' }}>
                     <span className="material-symbols-outlined" style={{ color: 'var(--color-terracotta)' }}>schedule</span>
-                    <span style={{ color: 'var(--color-on-surface-variant)' }}>07:00 - 22:00 Mỗi ngày</span>
+                    <span style={{ color: 'var(--color-on-surface-variant)' }}>{settings?.hours || '07:00 - 22:00 Mỗi ngày'}</span>
                   </div>
                 </div>
               </div>

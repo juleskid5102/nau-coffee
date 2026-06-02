@@ -1,6 +1,20 @@
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { api } from '../lib/api';
+import type { SiteSettings } from '../lib/api';
 
 export function Footer() {
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+
+  useEffect(() => {
+    api.getSiteSettings().then(setSettings).catch(console.error);
+  }, []);
+
+  const socialLinks = [
+    { name: 'Instagram', url: settings?.social_instagram || 'https://instagram.com' },
+    { name: 'Facebook', url: settings?.social_facebook || 'https://facebook.com' },
+  ];
+
   return (
     <footer
       style={{
@@ -25,55 +39,36 @@ export function Footer() {
 
           {/* Social Links */}
           <div className="flex items-center" style={{ gap: '1.5rem' }}>
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="label-caps"
-              style={{
-                color: 'var(--color-ash)',
-                textDecoration: 'none',
-                opacity: 0.8,
-                transition: 'all 0.3s',
-              }}
-              onMouseEnter={(e) => {
-                (e.target as HTMLElement).style.color = 'var(--color-ember)';
-                (e.target as HTMLElement).style.opacity = '1';
-              }}
-              onMouseLeave={(e) => {
-                (e.target as HTMLElement).style.color = 'var(--color-ash)';
-                (e.target as HTMLElement).style.opacity = '0.8';
-              }}
-            >
-              Instagram
-            </a>
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="label-caps"
-              style={{
-                color: 'var(--color-ash)',
-                textDecoration: 'none',
-                opacity: 0.8,
-                transition: 'all 0.3s',
-              }}
-              onMouseEnter={(e) => {
-                (e.target as HTMLElement).style.color = 'var(--color-ember)';
-                (e.target as HTMLElement).style.opacity = '1';
-              }}
-              onMouseLeave={(e) => {
-                (e.target as HTMLElement).style.color = 'var(--color-ash)';
-                (e.target as HTMLElement).style.opacity = '0.8';
-              }}
-            >
-              Facebook
-            </a>
+            {socialLinks.map(link => (
+              <a
+                key={link.name}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="label-caps"
+                style={{
+                  color: 'var(--color-ash)',
+                  textDecoration: 'none',
+                  opacity: 0.8,
+                  transition: 'all 0.3s',
+                }}
+                onMouseEnter={(e) => {
+                  (e.target as HTMLElement).style.color = 'var(--color-ember)';
+                  (e.target as HTMLElement).style.opacity = '1';
+                }}
+                onMouseLeave={(e) => {
+                  (e.target as HTMLElement).style.color = 'var(--color-ash)';
+                  (e.target as HTMLElement).style.opacity = '0.8';
+                }}
+              >
+                {link.name}
+              </a>
+            ))}
           </div>
 
           {/* Copyright */}
           <div className="mono-data" style={{ color: 'var(--color-ash)' }}>
-            © 2024 NÂU COFFEE. THE QUIET RITUAL.
+            © {new Date().getFullYear()} NÂU COFFEE. THE QUIET RITUAL.
           </div>
         </div>
       </div>

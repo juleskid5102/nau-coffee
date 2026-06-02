@@ -1,39 +1,41 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Reveal } from '../components/Reveal';
-
-interface OrderItem {
-  id: number;
-  name: string;
-  desc: string;
-  price: number;
-  image: string;
-  category: string;
-}
-
-const orderMenuItems: OrderItem[] = [
-  { id: 1, name: 'Cà Phê Muối', desc: 'Gourmet Vietnamese Salt Coffee', price: 55000, image: '/images/menu/ca-phe-muoi.jpg', category: 'Cà Phê' },
-  { id: 2, name: 'Bạc Xỉu', desc: 'Classic condensed milk layers', price: 45000, image: '/images/menu/bac-xiu.jpg', category: 'Cà Phê' },
-  { id: 3, name: 'Cold Brew', desc: 'Minimalist clear ice texture', price: 65000, image: '/images/menu/cold-brew.jpg', category: 'Cà Phê' },
-  { id: 4, name: 'Cà Phê Trứng', desc: 'Traditional egg foam top', price: 60000, image: '/images/menu/ca-phe-trung.jpg', category: 'Cà Phê' },
-  { id: 5, name: 'Trà Sen', desc: 'Premium Lotus Tea glass', price: 50000, image: '/images/menu/tra-sen.jpg', category: 'Trà' },
-  { id: 6, name: 'Matcha Latte', desc: 'Latte art dark ceramic', price: 55000, image: '/images/menu/matcha-latte.jpg', category: 'Trà' },
-  { id: 7, name: 'Bánh Croissant', desc: 'Freshly baked pastry', price: 35000, image: '/images/gallery/03-beans.jpg', category: 'Bánh Ngọt' },
-];
-
-const categories = ['Cà Phê', 'Trà', 'Đá Xay', 'Bánh Ngọt'];
+import { api } from '../lib/api';
+import type { MenuItem } from '../lib/api';
+import { SkeletonCard } from '../components/Skeleton';
 
 const formatPrice = (price: number) => new Intl.NumberFormat('vi-VN').format(price) + 'đ';
 
 export default function OrderForm() {
-  const [cart, setCart] = useState<Record<number, number>>({});
-  const [activeCategory, setActiveCategory] = useState('Cà Phê');
-  const [customerInfo, setCustomerInfo] = useState({ name: '', phone: '', notes: '' });
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [categories, setCategoriesLocal] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const addToCart = useCallback((id: number) => {
+  const [cart, setCart] = useState<Record<string, number>>({});
+  const [activeCategory, setActiveCategory] = useState('');
+  const [customerInfo, setCustomerInfo] = useState({ name: '', phone: '', notes: '' });
+  const [submitting, setSubmitting] = useState(false);
+  const [orderSuccess, setOrderSuccess] = useState<string | null>(null);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    api.getMenu().then(({ categories: cats, items }) => {
+      setMenuItems(items);
+      const catNames = [...new Set(cats.map(c => c.name))];
+      setCategoriesLocal(catNames);
+      if (catNames.length > 0) setActiveCategory(catNames[0]);
+      setLoading(false);
+    }).catch(err => {
+      console.error('OrderForm: Failed to load menu', err);
+      setLoading(false);
+    });
+  }, []);
+
+  const addToCart = useCallback((id: string) => {
     setCart(prev => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
   }, []);
 
-  const removeFromCart = useCallback((id: number) => {
+  const removeFromCart = useCallback((id: string) => {
     setCart(prev => {
       const newCart = { ...prev };
       if (newCart[id] > 1) newCart[id]--;
@@ -42,15 +44,87 @@ export default function OrderForm() {
     });
   }, []);
 
-  const cartItems = orderMenuItems.filter(item => cart[item.id]);
+  const cartItems = menuItems.filter(item => cart[item.id]);
   const total = cartItems.reduce((sum, item) => sum + item.price * (cart[item.id] || 0), 0);
 
-  const filteredItems = orderMenuItems.filter(item => item.category === activeCategory);
+
+  // Better filter using category_id mapping
+  const getCategoryName = (categoryId: string) => {
+    // Map from seed data
+    const map: Record<string, string> = {
+      'ca-phe': 'Cà Phê',
+      'tra': 'Trà',
+      'da-xay': 'Đá Xay',
+      'banh-ngot': 'Bánh Ngọt',
+    };
+    return map[categoryId] || categoryId;
+  };
+
+  const filtered = menuItems.filter(item => getCategoryName(item.category_id) === activeCategory);
+
+  const handleSubmit = async () => {
+    if (total === 0 || !customerInfo.name || !customerInfo.phone) return;
+    setSubmitting(true);
+    setError('');
+
+    try {
+      const orderItems = cartItems.map(item => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        qty: cart[item.id] || 0,
+      }));
+
+      const result = await api.submitOrder({
+        items: orderItems,
+        customer_name: customerInfo.name,
+        customer_phone: customerInfo.phone,
+        notes: customerInfo.notes,
+        total,
+      });
+
+      setOrderSuccess(result.order_id);
+      setCart({});
+      setCustomerInfo({ name: '', phone: '', notes: '' });
+    } catch (err: any) {
+      setError(err.message || 'Đặt hàng thất bại.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (orderSuccess) {
+    return (
+      <main className="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
+        <div style={{ textAlign: 'center', padding: '4rem 1rem' }}>
+          <span
+            className="material-symbols-outlined"
+            style={{ fontSize: 80, color: 'var(--color-terracotta)', marginBottom: '2rem', display: 'block' }}
+          >
+            check_circle
+          </span>
+          <h2 style={{ fontFamily: 'var(--font-heading)', color: '#F5ECD7', fontSize: '2.5rem', marginBottom: '1rem' }}>
+            Đặt Hàng Thành Công!
+          </h2>
+          <p style={{ color: 'var(--color-text-muted)', fontSize: '1.125rem', marginBottom: '2rem' }}>
+            Đơn hàng của bạn đã được ghi nhận. Chúng tôi sẽ chuẩn bị ngay.
+          </p>
+          <button
+            className="btn-primary"
+            onClick={() => setOrderSuccess(null)}
+            style={{ margin: '0 auto' }}
+          >
+            Đặt thêm
+          </button>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
       <div className="flex flex-col lg:flex-row gap-12 relative items-start">
-        {/* Left Panel: Menu (60%) — from Stitch */}
+        {/* Left Panel: Menu (60%) */}
         <div className="w-full lg:w-3/5 pb-12 lg:pb-0">
           <Reveal>
             <header className="mb-10">
@@ -83,55 +157,59 @@ export default function OrderForm() {
 
           {/* Item Cards */}
           <div className="grid grid-cols-1 gap-4">
-            {filteredItems.map(item => {
-              const qty = cart[item.id] || 0;
-              const isInCart = qty > 0;
+            {loading ? (
+              Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
+            ) : (
+              filtered.map(item => {
+                const qty = cart[item.id] || 0;
+                const isInCart = qty > 0;
 
-              return (
-                <Reveal key={item.id}>
-                  <div
-                    className="group rounded-2xl p-3 flex items-center gap-5 transition-all duration-300 hover:-translate-y-1 relative overflow-hidden"
-                    style={{
-                      background: 'var(--color-surface-card)',
-                      border: `1px solid ${isInCart ? 'rgba(196,144,61,0.3)' : 'rgba(45,36,24,0.5)'}`,
-                    }}
-                  >
-                    {isInCart && (
-                      <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(196,144,61,0.05), transparent)' }} />
-                    )}
-                    <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0" style={{ background: 'var(--color-espresso)' }}>
-                      <img alt={item.name} className="w-full h-full object-cover" src={item.image} loading="lazy" />
-                    </div>
-                    <div className="flex-grow min-w-0 py-1">
-                      <h3 className="font-medium text-lg truncate mb-1" style={{ color: '#F5ECD7' }}>{item.name}</h3>
-                      <p className="text-sm font-light truncate" style={{ color: 'var(--color-text-muted)' }}>{item.desc}</p>
-                      <p className="font-semibold mt-1" style={{ color: 'var(--color-caramel)' }}>{formatPrice(item.price)}</p>
-                    </div>
-                    <div className="shrink-0 pr-2">
-                      {isInCart ? (
-                        <div className="flex items-center rounded-lg h-10" style={{ background: 'var(--color-espresso)', border: '1px solid rgba(196,144,61,0.3)' }}>
-                          <button onClick={() => removeFromCart(item.id)} className="w-8 h-full flex items-center justify-center transition-colors" style={{ color: 'var(--color-text-muted)' }}>−</button>
-                          <span className="w-6 text-center font-medium text-sm">{qty}</span>
-                          <button onClick={() => addToCart(item.id)} className="w-8 h-full flex items-center justify-center transition-colors" style={{ color: 'var(--color-text-muted)' }}>+</button>
-                        </div>
-                      ) : (
-                        <button
-                          onClick={() => addToCart(item.id)}
-                          className="w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 text-lg"
-                          style={{ background: 'var(--color-espresso)', color: 'var(--color-caramel)', border: '1px solid rgba(196,144,61,0.2)' }}
-                        >
-                          +
-                        </button>
+                return (
+                  <Reveal key={item.id}>
+                    <div
+                      className="group rounded-2xl p-3 flex items-center gap-5 transition-all duration-300 hover:-translate-y-1 relative overflow-hidden"
+                      style={{
+                        background: 'var(--color-surface-card)',
+                        border: `1px solid ${isInCart ? 'rgba(196,144,61,0.3)' : 'rgba(45,36,24,0.5)'}`,
+                      }}
+                    >
+                      {isInCart && (
+                        <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(196,144,61,0.05), transparent)' }} />
                       )}
+                      <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0" style={{ background: 'var(--color-espresso)' }}>
+                        <img alt={item.name} className="w-full h-full object-cover" src={item.image} loading="lazy" />
+                      </div>
+                      <div className="flex-grow min-w-0 py-1">
+                        <h3 className="font-medium text-lg truncate mb-1" style={{ color: '#F5ECD7' }}>{item.name}</h3>
+                        <p className="text-sm font-light truncate" style={{ color: 'var(--color-text-muted)' }}>{item.description}</p>
+                        <p className="font-semibold mt-1" style={{ color: 'var(--color-caramel)' }}>{formatPrice(item.price)}</p>
+                      </div>
+                      <div className="shrink-0 pr-2">
+                        {isInCart ? (
+                          <div className="flex items-center rounded-lg h-10" style={{ background: 'var(--color-espresso)', border: '1px solid rgba(196,144,61,0.3)' }}>
+                            <button onClick={() => removeFromCart(item.id)} className="w-8 h-full flex items-center justify-center transition-colors" style={{ color: 'var(--color-text-muted)' }}>−</button>
+                            <span className="w-6 text-center font-medium text-sm">{qty}</span>
+                            <button onClick={() => addToCart(item.id)} className="w-8 h-full flex items-center justify-center transition-colors" style={{ color: 'var(--color-text-muted)' }}>+</button>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => addToCart(item.id)}
+                            className="w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 text-lg"
+                            style={{ background: 'var(--color-espresso)', color: 'var(--color-caramel)', border: '1px solid rgba(196,144,61,0.2)' }}
+                          >
+                            +
+                          </button>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </Reveal>
-              );
-            })}
+                  </Reveal>
+                );
+              })
+            )}
           </div>
         </div>
 
-        {/* Right Panel: Sticky Cart (40%) — from Stitch */}
+        {/* Right Panel: Sticky Cart (40%) */}
         <div className="w-full lg:w-2/5 lg:sticky" style={{ top: '96px', zIndex: 10 }}>
           <div
             className="rounded-3xl overflow-hidden flex flex-col"
@@ -146,7 +224,6 @@ export default function OrderForm() {
               <h2 className="text-3xl" style={{ fontFamily: 'var(--font-heading)', color: '#F5ECD7' }}>Đơn Hàng Của Bạn</h2>
             </div>
 
-            {/* Order Items */}
             <div className="p-6 md:p-8 overflow-y-auto flex-grow" style={{ scrollbarWidth: 'thin' }}>
               {cartItems.length === 0 ? (
                 <p className="text-center font-light" style={{ color: 'var(--color-text-muted)' }}>Chưa có món nào</p>
@@ -174,7 +251,6 @@ export default function OrderForm() {
               )}
             </div>
 
-            {/* Checkout Form & Total */}
             <div className="p-6 md:p-8 flex-shrink-0" style={{ background: '#251D14', borderTop: '1px solid var(--color-espresso)' }}>
               <div className="flex justify-between items-end mb-6">
                 <span className="font-light" style={{ color: 'var(--color-text-muted)' }}>Tạm tính</span>
@@ -182,6 +258,21 @@ export default function OrderForm() {
                   {formatPrice(total)}
                 </span>
               </div>
+
+              {error && (
+                <div style={{
+                  padding: '0.75rem',
+                  borderRadius: '0.5rem',
+                  background: 'rgba(220, 38, 38, 0.1)',
+                  border: '1px solid rgba(220, 38, 38, 0.3)',
+                  color: '#fca5a5',
+                  fontSize: '0.8rem',
+                  marginBottom: '1rem',
+                }}>
+                  {error}
+                </div>
+              )}
+
               <form className="space-y-4 mb-6">
                 <input
                   className="w-full rounded-lg px-4 py-3 font-light transition-colors focus:outline-none"
@@ -204,16 +295,18 @@ export default function OrderForm() {
               </form>
               <button
                 type="button"
+                onClick={handleSubmit}
+                disabled={total === 0 || submitting}
                 className="w-full py-4 rounded-lg font-semibold uppercase tracking-widest transition-all duration-300 hover:-translate-y-0.5"
                 style={{
                   background: total > 0 ? 'var(--color-caramel)' : 'rgba(196,144,61,0.3)',
                   color: 'var(--color-espresso)',
                   boxShadow: total > 0 ? '0 10px 25px -5px rgba(196,144,61,0.3)' : 'none',
-                  cursor: total > 0 ? 'pointer' : 'not-allowed',
+                  cursor: total > 0 && !submitting ? 'pointer' : 'not-allowed',
+                  opacity: submitting ? 0.7 : 1,
                 }}
-                disabled={total === 0}
               >
-                Xác Nhận Đơn
+                {submitting ? 'Đang xử lý...' : 'Xác Nhận Đơn'}
               </button>
             </div>
           </div>
