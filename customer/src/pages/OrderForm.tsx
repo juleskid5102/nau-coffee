@@ -1,14 +1,13 @@
 import { useState, useCallback, useEffect } from 'react';
-import { Reveal } from '../components/Reveal';
 import { api } from '../lib/api';
-import type { MenuItem } from '../lib/api';
+import type { MenuItem, Category } from '../lib/api';
 import { SkeletonCard } from '../components/Skeleton';
 
 const formatPrice = (price: number) => new Intl.NumberFormat('vi-VN').format(price) + 'đ';
 
 export default function OrderForm() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
-  const [categories, setCategoriesLocal] = useState<string[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
 
   const [cart, setCart] = useState<Record<string, number>>({});
@@ -21,9 +20,8 @@ export default function OrderForm() {
   useEffect(() => {
     api.getMenu().then(({ categories: cats, items }) => {
       setMenuItems(items);
-      const catNames = [...new Set(cats.map(c => c.name))];
-      setCategoriesLocal(catNames);
-      if (catNames.length > 0) setActiveCategory(catNames[0]);
+      setCategories(cats);
+      if (cats.length > 0) setActiveCategory(cats[0].id);
       setLoading(false);
     }).catch(err => {
       console.error('OrderForm: Failed to load menu', err);
@@ -44,23 +42,20 @@ export default function OrderForm() {
     });
   }, []);
 
+  const clearItem = useCallback((id: string) => {
+    setCart(prev => {
+      const newCart = { ...prev };
+      delete newCart[id];
+      return newCart;
+    });
+  }, []);
+
   const cartItems = menuItems.filter(item => cart[item.id]);
+  const totalItems = Object.values(cart).reduce((a, b) => a + b, 0);
   const total = cartItems.reduce((sum, item) => sum + item.price * (cart[item.id] || 0), 0);
 
-
-  // Better filter using category_id mapping
-  const getCategoryName = (categoryId: string) => {
-    // Map from seed data
-    const map: Record<string, string> = {
-      'ca-phe': 'Cà Phê',
-      'tra': 'Trà',
-      'da-xay': 'Đá Xay',
-      'banh-ngot': 'Bánh Ngọt',
-    };
-    return map[categoryId] || categoryId;
-  };
-
-  const filtered = menuItems.filter(item => getCategoryName(item.category_id) === activeCategory);
+  // Filter by category_id directly (no hardcoded mapping needed)
+  const filtered = menuItems.filter(item => item.category_id === activeCategory);
 
   const handleSubmit = async () => {
     if (total === 0 || !customerInfo.name || !customerInfo.phone) return;
@@ -86,8 +81,9 @@ export default function OrderForm() {
       setOrderSuccess(result.order_id);
       setCart({});
       setCustomerInfo({ name: '', phone: '', notes: '' });
-    } catch (err: any) {
-      setError(err.message || 'Đặt hàng thất bại.');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Đặt hàng thất bại.';
+      setError(message);
     } finally {
       setSubmitting(false);
     }
@@ -95,223 +91,461 @@ export default function OrderForm() {
 
   if (orderSuccess) {
     return (
-      <main className="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
-        <div style={{ textAlign: 'center', padding: '4rem 1rem' }}>
-          <span
-            className="material-symbols-outlined"
-            style={{ fontSize: 80, color: 'var(--color-terracotta)', marginBottom: '2rem', display: 'block' }}
-          >
-            check_circle
-          </span>
-          <h2 style={{ fontFamily: 'var(--font-heading)', color: '#F5ECD7', fontSize: '2.5rem', marginBottom: '1rem' }}>
-            Đặt Hàng Thành Công!
-          </h2>
-          <p style={{ color: 'var(--color-text-muted)', fontSize: '1.125rem', marginBottom: '2rem' }}>
-            Đơn hàng của bạn đã được ghi nhận. Chúng tôi sẽ chuẩn bị ngay.
-          </p>
-          <button
-            className="btn-primary"
-            onClick={() => setOrderSuccess(null)}
-            style={{ margin: '0 auto' }}
-          >
-            Đặt thêm
-          </button>
+      <section className="container-narrow section-padding" style={{ textAlign: 'center', paddingTop: '4rem' }}>
+        <div
+          className="double-bezel"
+          style={{ borderRadius: '2rem', maxWidth: '32rem', margin: '0 auto' }}
+        >
+          <div className="double-bezel-inner" style={{ borderRadius: 'calc(2rem - 6px)', padding: 'clamp(2rem, 5vw, 4rem)' }}>
+            <span
+              className="material-symbols-outlined"
+              style={{ fontSize: 80, color: 'var(--color-terracotta)', marginBottom: '1.5rem', display: 'block' }}
+            >
+              check_circle
+            </span>
+            <h2 style={{ color: 'var(--color-ivory)', marginBottom: '1rem' }}>Đặt Hàng Thành Công!</h2>
+            <p style={{ color: 'var(--color-ash)', fontSize: '1.125rem', marginBottom: '0.5rem' }}>
+              Đơn hàng của bạn đã được ghi nhận.
+            </p>
+            <p className="mono-data" style={{ color: 'var(--color-terracotta)', marginBottom: '2rem' }}>
+              Mã đơn: {orderSuccess}
+            </p>
+            <button className="btn-primary" onClick={() => setOrderSuccess(null)}>
+              Đặt thêm
+            </button>
+          </div>
         </div>
-      </main>
+      </section>
     );
   }
 
   return (
-    <main className="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
-      <div className="flex flex-col lg:flex-row gap-12 relative items-start">
-        {/* Left Panel: Menu (60%) */}
-        <div className="w-full lg:w-3/5 pb-12 lg:pb-0">
-          <Reveal>
-            <header className="mb-10">
-              <h1 className="text-5xl md:text-6xl mb-4 tracking-tight" style={{ fontFamily: 'var(--font-heading)', color: '#F5ECD7' }}>
-                Đặt Món
-              </h1>
-              <p className="text-lg font-light max-w-xl" style={{ color: 'var(--color-text-muted)' }}>
-                Chọn món yêu thích và chúng tôi sẽ chuẩn bị cho bạn.
-              </p>
-            </header>
-          </Reveal>
+    <>
+      {/* Page Header */}
+      <header className="container-narrow" style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
+        <h1 style={{ color: 'var(--color-ivory)', marginBottom: '1rem' }}>Đặt Món</h1>
+        <p style={{ fontSize: '1.125rem', color: 'var(--color-ash)' }}>
+          Chọn món yêu thích và chúng tôi sẽ chuẩn bị cho bạn.
+        </p>
+      </header>
 
-          {/* Category Tabs */}
-          <div className="flex overflow-x-auto gap-2 mb-10 pb-2" style={{ scrollbarWidth: 'none' }}>
-            {categories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className="whitespace-nowrap px-6 py-2.5 rounded-full font-medium text-sm tracking-wide transition-all duration-300"
-                style={{
-                  background: activeCategory === cat ? 'var(--color-surface-card)' : 'transparent',
-                  color: activeCategory === cat ? '#F5ECD7' : 'var(--color-text-muted)',
-                  border: activeCategory === cat ? '1px solid var(--color-caramel)' : '1px solid transparent',
-                }}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+      {/* Main Layout */}
+      <div className="container-narrow" style={{ paddingBottom: '6rem' }}>
+        <div
+          className="grid grid-cols-1 lg:grid-cols-12"
+          style={{ gap: 'clamp(2rem, 4vw, 3rem)', alignItems: 'start' }}
+        >
+          {/* Left: Menu Items (7 cols) */}
+          <div className="lg:col-span-7">
+            {/* Category Tabs */}
+            <div
+              className="no-scrollbar"
+              style={{
+                display: 'flex',
+                gap: '0.5rem',
+                overflowX: 'auto',
+                marginBottom: '2rem',
+                paddingBottom: '0.5rem',
+                scrollbarWidth: 'none',
+              }}
+            >
+              {categories.map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`category-pill ${activeCategory === cat.id ? 'active' : ''}`}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </div>
 
-          {/* Item Cards */}
-          <div className="grid grid-cols-1 gap-4">
-            {loading ? (
-              Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
-            ) : (
-              filtered.map(item => {
-                const qty = cart[item.id] || 0;
-                const isInCart = qty > 0;
+            {/* Item Cards */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {loading ? (
+                Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
+              ) : filtered.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--color-ash)' }}>
+                  Chưa có sản phẩm trong danh mục này.
+                </div>
+              ) : (
+                filtered.map(item => {
+                  const qty = cart[item.id] || 0;
+                  const isInCart = qty > 0;
 
-                return (
-                  <Reveal key={item.id}>
+                  return (
                     <div
-                      className="group rounded-2xl p-3 flex items-center gap-5 transition-all duration-300 hover:-translate-y-1 relative overflow-hidden"
+                      key={item.id}
+                      className="double-bezel spring-hover"
                       style={{
-                        background: 'var(--color-surface-card)',
-                        border: `1px solid ${isInCart ? 'rgba(196,144,61,0.3)' : 'rgba(45,36,24,0.5)'}`,
+                        borderRadius: '1rem',
+                        transition: 'all 0.3s ease',
+                        ...(isInCart ? { boxShadow: '0 0 0 1px rgba(194, 112, 58, 0.3)' } : {}),
                       }}
                     >
-                      {isInCart && (
-                        <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(196,144,61,0.05), transparent)' }} />
-                      )}
-                      <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0" style={{ background: 'var(--color-espresso)' }}>
-                        <img alt={item.name} className="w-full h-full object-cover" src={item.image} loading="lazy" />
-                      </div>
-                      <div className="flex-grow min-w-0 py-1">
-                        <h3 className="font-medium text-lg truncate mb-1" style={{ color: '#F5ECD7' }}>{item.name}</h3>
-                        <p className="text-sm font-light truncate" style={{ color: 'var(--color-text-muted)' }}>{item.description}</p>
-                        <p className="font-semibold mt-1" style={{ color: 'var(--color-caramel)' }}>{formatPrice(item.price)}</p>
-                      </div>
-                      <div className="shrink-0 pr-2">
-                        {isInCart ? (
-                          <div className="flex items-center rounded-lg h-10" style={{ background: 'var(--color-espresso)', border: '1px solid rgba(196,144,61,0.3)' }}>
-                            <button onClick={() => removeFromCart(item.id)} className="w-8 h-full flex items-center justify-center transition-colors" style={{ color: 'var(--color-text-muted)' }}>−</button>
-                            <span className="w-6 text-center font-medium text-sm">{qty}</span>
-                            <button onClick={() => addToCart(item.id)} className="w-8 h-full flex items-center justify-center transition-colors" style={{ color: 'var(--color-text-muted)' }}>+</button>
-                          </div>
-                        ) : (
-                          <button
-                            onClick={() => addToCart(item.id)}
-                            className="w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 text-lg"
-                            style={{ background: 'var(--color-espresso)', color: 'var(--color-caramel)', border: '1px solid rgba(196,144,61,0.2)' }}
-                          >
-                            +
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  </Reveal>
-                );
-              })
-            )}
-          </div>
-        </div>
-
-        {/* Right Panel: Sticky Cart (40%) */}
-        <div className="w-full lg:w-2/5 lg:sticky" style={{ top: '96px', zIndex: 10 }}>
-          <div
-            className="rounded-3xl overflow-hidden flex flex-col"
-            style={{
-              background: 'var(--color-surface-card)',
-              border: '1px solid rgba(45,36,24,0.5)',
-              boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
-              maxHeight: 'calc(100vh - 120px)',
-            }}
-          >
-            <div className="p-6 md:p-8 flex-shrink-0" style={{ borderBottom: '1px solid var(--color-espresso)' }}>
-              <h2 className="text-3xl" style={{ fontFamily: 'var(--font-heading)', color: '#F5ECD7' }}>Đơn Hàng Của Bạn</h2>
-            </div>
-
-            <div className="p-6 md:p-8 overflow-y-auto flex-grow" style={{ scrollbarWidth: 'thin' }}>
-              {cartItems.length === 0 ? (
-                <p className="text-center font-light" style={{ color: 'var(--color-text-muted)' }}>Chưa có món nào</p>
-              ) : (
-                <div className="space-y-4">
-                  {cartItems.map(item => (
-                    <div key={item.id} className="flex justify-between items-start group">
-                      <div className="flex-1 pr-4">
-                        <h4 className="font-medium" style={{ color: '#F5ECD7' }}>{item.name}</h4>
-                        <div className="text-sm mt-1 font-light" style={{ color: 'var(--color-text-muted)' }}>x{cart[item.id]}</div>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-medium" style={{ color: 'var(--color-caramel)' }}>{formatPrice(item.price * (cart[item.id] || 0))}</div>
-                        <button
-                          onClick={() => setCart(prev => { const n = { ...prev }; delete n[item.id]; return n; })}
-                          className="text-xs mt-1 underline opacity-0 group-hover:opacity-100 transition-opacity"
-                          style={{ color: 'var(--color-text-muted)' }}
+                      <div
+                        className="double-bezel-inner"
+                        style={{
+                          borderRadius: 'calc(1rem - 6px)',
+                          padding: '1rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '1.25rem',
+                        }}
+                      >
+                        {/* Thumbnail */}
+                        <div
+                          style={{
+                            width: '80px',
+                            height: '80px',
+                            borderRadius: '12px',
+                            overflow: 'hidden',
+                            flexShrink: 0,
+                          }}
                         >
-                          Xóa
-                        </button>
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            loading="lazy"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          />
+                        </div>
+
+                        {/* Info */}
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <h3 style={{ fontSize: '1.125rem', color: 'var(--color-ivory)', marginBottom: '0.25rem' }}>
+                            {item.name}
+                          </h3>
+                          <p
+                            style={{
+                              fontSize: '0.875rem',
+                              color: 'var(--color-ash)',
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                            }}
+                          >
+                            {item.description}
+                          </p>
+                          <span className="mono-data" style={{ color: 'var(--color-terracotta)', fontSize: '1rem' }}>
+                            {formatPrice(item.price)}
+                          </span>
+                        </div>
+
+                        {/* Quantity Control */}
+                        <div style={{ flexShrink: 0 }}>
+                          {isInCart ? (
+                            <div
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 0,
+                                borderRadius: '10px',
+                                border: '1px solid rgba(194, 112, 58, 0.3)',
+                                overflow: 'hidden',
+                                background: 'var(--color-charcoal)',
+                              }}
+                            >
+                              <button
+                                onClick={() => removeFromCart(item.id)}
+                                style={{
+                                  width: '36px',
+                                  height: '36px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  background: 'transparent',
+                                  border: 'none',
+                                  color: 'var(--color-terracotta)',
+                                  cursor: 'pointer',
+                                  fontSize: '1.25rem',
+                                  fontWeight: 600,
+                                }}
+                              >
+                                −
+                              </button>
+                              <span
+                                style={{
+                                  width: '32px',
+                                  textAlign: 'center',
+                                  color: 'var(--color-ivory)',
+                                  fontWeight: 600,
+                                  fontSize: '1rem',
+                                }}
+                              >
+                                {qty}
+                              </span>
+                              <button
+                                onClick={() => addToCart(item.id)}
+                                style={{
+                                  width: '36px',
+                                  height: '36px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  background: 'transparent',
+                                  border: 'none',
+                                  color: 'var(--color-terracotta)',
+                                  cursor: 'pointer',
+                                  fontSize: '1.25rem',
+                                  fontWeight: 600,
+                                }}
+                              >
+                                +
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => addToCart(item.id)}
+                              style={{
+                                width: '40px',
+                                height: '40px',
+                                borderRadius: '12px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                background: 'var(--color-charcoal)',
+                                border: '1px solid var(--color-surface-variant)',
+                                color: 'var(--color-terracotta)',
+                                cursor: 'pointer',
+                                fontSize: '1.5rem',
+                                transition: 'all 0.2s ease',
+                              }}
+                              onMouseEnter={(e) => {
+                                (e.currentTarget as HTMLElement).style.borderColor = 'var(--color-terracotta)';
+                                (e.currentTarget as HTMLElement).style.background = 'rgba(194, 112, 58, 0.1)';
+                              }}
+                              onMouseLeave={(e) => {
+                                (e.currentTarget as HTMLElement).style.borderColor = 'var(--color-surface-variant)';
+                                (e.currentTarget as HTMLElement).style.background = 'var(--color-charcoal)';
+                              }}
+                            >
+                              +
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  ))}
-                </div>
+                  );
+                })
               )}
             </div>
+          </div>
 
-            <div className="p-6 md:p-8 flex-shrink-0" style={{ background: '#251D14', borderTop: '1px solid var(--color-espresso)' }}>
-              <div className="flex justify-between items-end mb-6">
-                <span className="font-light" style={{ color: 'var(--color-text-muted)' }}>Tạm tính</span>
-                <span className="text-3xl" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-caramel)' }}>
-                  {formatPrice(total)}
-                </span>
-              </div>
-
-              {error && (
-                <div style={{
-                  padding: '0.75rem',
-                  borderRadius: '0.5rem',
-                  background: 'rgba(220, 38, 38, 0.1)',
-                  border: '1px solid rgba(220, 38, 38, 0.3)',
-                  color: '#fca5a5',
-                  fontSize: '0.8rem',
-                  marginBottom: '1rem',
-                }}>
-                  {error}
-                </div>
-              )}
-
-              <form className="space-y-4 mb-6">
-                <input
-                  className="w-full rounded-lg px-4 py-3 font-light transition-colors focus:outline-none"
-                  style={{ background: 'var(--color-surface-card)', border: '1px solid rgba(138,126,110,0.3)', color: '#F5ECD7' }}
-                  placeholder="Họ tên" type="text" name="name"
-                  value={customerInfo.name} onChange={(e) => setCustomerInfo(prev => ({ ...prev, name: e.target.value }))}
-                />
-                <input
-                  className="w-full rounded-lg px-4 py-3 font-light transition-colors focus:outline-none"
-                  style={{ background: 'var(--color-surface-card)', border: '1px solid rgba(138,126,110,0.3)', color: '#F5ECD7' }}
-                  placeholder="Số điện thoại" type="tel" name="phone"
-                  value={customerInfo.phone} onChange={(e) => setCustomerInfo(prev => ({ ...prev, phone: e.target.value }))}
-                />
-                <textarea
-                  className="w-full rounded-lg px-4 py-3 font-light transition-colors focus:outline-none resize-none"
-                  style={{ background: 'var(--color-surface-card)', border: '1px solid rgba(138,126,110,0.3)', color: '#F5ECD7' }}
-                  placeholder="Ghi chú (Tùy chọn)" rows={2} name="notes"
-                  value={customerInfo.notes} onChange={(e) => setCustomerInfo(prev => ({ ...prev, notes: e.target.value }))}
-                />
-              </form>
-              <button
-                type="button"
-                onClick={handleSubmit}
-                disabled={total === 0 || submitting}
-                className="w-full py-4 rounded-lg font-semibold uppercase tracking-widest transition-all duration-300 hover:-translate-y-0.5"
+          {/* Right: Cart Panel (5 cols, sticky) */}
+          <div className="lg:col-span-5" style={{ position: 'sticky', top: '96px' }}>
+            <div
+              className="double-bezel"
+              style={{ borderRadius: '1.5rem' }}
+            >
+              <div
+                className="double-bezel-inner"
                 style={{
-                  background: total > 0 ? 'var(--color-caramel)' : 'rgba(196,144,61,0.3)',
-                  color: 'var(--color-espresso)',
-                  boxShadow: total > 0 ? '0 10px 25px -5px rgba(196,144,61,0.3)' : 'none',
-                  cursor: total > 0 && !submitting ? 'pointer' : 'not-allowed',
-                  opacity: submitting ? 0.7 : 1,
+                  borderRadius: 'calc(1.5rem - 6px)',
+                  overflow: 'hidden',
+                  maxHeight: 'calc(100vh - 120px)',
+                  display: 'flex',
+                  flexDirection: 'column',
                 }}
               >
-                {submitting ? 'Đang xử lý...' : 'Xác Nhận Đơn'}
-              </button>
+                {/* Cart Header */}
+                <div
+                  style={{
+                    padding: '1.5rem 2rem',
+                    borderBottom: '1px solid var(--color-surface-variant)',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <h2 style={{ fontSize: '1.5rem', color: 'var(--color-ivory)' }}>Đơn Hàng</h2>
+                  {totalItems > 0 && (
+                    <span
+                      style={{
+                        background: 'var(--color-terracotta)',
+                        color: '#fff',
+                        borderRadius: '999px',
+                        padding: '0.125rem 0.625rem',
+                        fontSize: '0.8125rem',
+                        fontWeight: 600,
+                      }}
+                    >
+                      {totalItems}
+                    </span>
+                  )}
+                </div>
+
+                {/* Cart Items */}
+                <div
+                  style={{
+                    padding: '1.5rem 2rem',
+                    flex: 1,
+                    overflowY: 'auto',
+                    scrollbarWidth: 'thin',
+                  }}
+                >
+                  {cartItems.length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: '2rem 0' }}>
+                      <span
+                        className="material-symbols-outlined"
+                        style={{ fontSize: 48, color: 'var(--color-surface-variant)', marginBottom: '1rem', display: 'block' }}
+                      >
+                        shopping_bag
+                      </span>
+                      <p style={{ color: 'var(--color-ash)', fontSize: '0.9375rem' }}>
+                        Chưa có món nào. Hãy chọn từ danh sách bên trái.
+                      </p>
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                      {cartItems.map(item => (
+                        <div
+                          key={item.id}
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            padding: '0.75rem',
+                            borderRadius: '10px',
+                            background: 'rgba(45, 36, 24, 0.3)',
+                          }}
+                        >
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <h4 style={{ color: 'var(--color-ivory)', fontSize: '0.9375rem', marginBottom: '0.25rem' }}>
+                              {item.name}
+                            </h4>
+                            <span style={{ color: 'var(--color-ash)', fontSize: '0.8125rem' }}>
+                              ×{cart[item.id]} · {formatPrice(item.price * (cart[item.id] || 0))}
+                            </span>
+                          </div>
+                          <button
+                            onClick={() => clearItem(item.id)}
+                            style={{
+                              width: '28px',
+                              height: '28px',
+                              borderRadius: '6px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              background: 'transparent',
+                              border: '1px solid rgba(194, 112, 58, 0.2)',
+                              color: 'var(--color-ash)',
+                              cursor: 'pointer',
+                              fontSize: '0.75rem',
+                              transition: 'all 0.2s ease',
+                            }}
+                            onMouseEnter={(e) => {
+                              (e.currentTarget as HTMLElement).style.borderColor = '#ef4444';
+                              (e.currentTarget as HTMLElement).style.color = '#ef4444';
+                            }}
+                            onMouseLeave={(e) => {
+                              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(194, 112, 58, 0.2)';
+                              (e.currentTarget as HTMLElement).style.color = 'var(--color-ash)';
+                            }}
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Cart Footer — Total + Form + Submit */}
+                <div
+                  style={{
+                    padding: '1.5rem 2rem',
+                    borderTop: '1px solid var(--color-surface-variant)',
+                    background: 'rgba(20, 17, 14, 0.5)',
+                  }}
+                >
+                  {/* Total */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'baseline',
+                      marginBottom: '1.5rem',
+                    }}
+                  >
+                    <span style={{ color: 'var(--color-ash)' }}>Tạm tính</span>
+                    <span
+                      className="mono-data"
+                      style={{
+                        color: 'var(--color-terracotta)',
+                        fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                      }}
+                    >
+                      {formatPrice(total)}
+                    </span>
+                  </div>
+
+                  {error && (
+                    <div style={{
+                      padding: '0.75rem 1rem',
+                      borderRadius: '10px',
+                      background: 'rgba(220, 38, 38, 0.1)',
+                      border: '1px solid rgba(220, 38, 38, 0.3)',
+                      color: '#fca5a5',
+                      fontSize: '0.8125rem',
+                      marginBottom: '1rem',
+                    }}>
+                      {error}
+                    </div>
+                  )}
+
+                  {/* Customer Form */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1rem' }}>
+                    <input
+                      className="form-input"
+                      placeholder="Họ tên *"
+                      type="text"
+                      value={customerInfo.name}
+                      onChange={(e) => setCustomerInfo(prev => ({ ...prev, name: e.target.value }))}
+                      style={{ padding: '0.75rem 1rem', fontSize: '0.9375rem' }}
+                    />
+                    <input
+                      className="form-input"
+                      placeholder="Số điện thoại *"
+                      type="tel"
+                      value={customerInfo.phone}
+                      onChange={(e) => setCustomerInfo(prev => ({ ...prev, phone: e.target.value }))}
+                      style={{ padding: '0.75rem 1rem', fontSize: '0.9375rem' }}
+                    />
+                    <textarea
+                      className="form-input"
+                      placeholder="Ghi chú (Tùy chọn)"
+                      rows={2}
+                      value={customerInfo.notes}
+                      onChange={(e) => setCustomerInfo(prev => ({ ...prev, notes: e.target.value }))}
+                      style={{ padding: '0.75rem 1rem', fontSize: '0.9375rem', resize: 'none' }}
+                    />
+                  </div>
+
+                  {/* Submit */}
+                  <button
+                    onClick={handleSubmit}
+                    disabled={total === 0 || submitting || !customerInfo.name || !customerInfo.phone}
+                    className="btn-primary"
+                    style={{
+                      width: '100%',
+                      justifyContent: 'center',
+                      padding: '1rem 2rem',
+                      opacity: (total === 0 || !customerInfo.name || !customerInfo.phone) ? 0.5 : 1,
+                      cursor: (total === 0 || submitting) ? 'not-allowed' : 'pointer',
+                    }}
+                  >
+                    {submitting ? 'Đang xử lý...' : 'Xác Nhận Đơn Hàng'}
+                    {!submitting && (
+                      <span className="material-symbols-outlined" style={{ fontSize: 18, marginLeft: '0.5rem' }}>arrow_forward</span>
+                    )}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </main>
+    </>
   );
 }
