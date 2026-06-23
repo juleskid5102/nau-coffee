@@ -28,9 +28,18 @@ const app = new Hono<AppContext>();
 
 // ─── CORS ─────────────────────────────────────────────
 app.use('*', async (c, next) => {
-  const corsOrigin = c.env.CORS_ORIGIN || 'https://naucoffee.pages.dev';
   const corsMiddleware = cors({
-    origin: [corsOrigin, 'http://localhost:5173', 'http://localhost:4173'],
+    origin: (origin) => {
+      // Allow main domain + all preview deploy subdomains
+      if (!origin) return 'https://naucoffee.pages.dev';
+      if (origin === 'https://naucoffee.pages.dev') return origin;
+      if (origin.endsWith('.naucoffee.pages.dev') && origin.startsWith('https://')) return origin;
+      if (origin === 'http://localhost:5173' || origin === 'http://localhost:4173') return origin;
+      // Custom domain from env
+      const custom = c.env.CORS_ORIGIN;
+      if (custom && origin === custom) return origin;
+      return 'https://naucoffee.pages.dev';
+    },
     allowMethods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Content-Type', 'Authorization'],
     maxAge: 86400,
